@@ -1,7 +1,8 @@
 """The Annotated ML Handbook, Chapter 14: Matplotlib and Seaborn: from first plot to publication figure
 
-Companion script by Mahir Absar Khan. Cells are marked with "# %%" so you can run them one
-at a time in VS Code, PyCharm or Spyder, or run the whole file: python 14-viz-matplotlib.py
+By Mahir Absar Khan. The code of the chapter only; the full text with line-by-line
+explanations is in notebooks/part-4-visualization/14-viz-matplotlib.ipynb.
+Cells are marked "# %%" so you can run them one at a time in VS Code, PyCharm or Spyder.
 """
 
 # %%
@@ -51,12 +52,6 @@ except ImportError:
     pass
 
 
-# %% [markdown]
-# ## 14.1 The anatomy of a figure · *Beginner*
-#
-# **The object-oriented interface (recommended)**
-
-
 # %%
 import numpy as np
 import pandas as pd
@@ -75,12 +70,6 @@ ax.legend(loc="lower left")
 ax.annotate("peak", xy=(np.pi / 2, 1), xytext=(2.3, 0.8),
             arrowprops=dict(arrowstyle="->"))
 plt.show()
-
-
-# %% [markdown]
-# ## 14.2 The essential chart types · *Beginner*
-#
-# **Six workhorse plots in a grid**
 
 
 # %%
@@ -117,14 +106,6 @@ fig.tight_layout()
 plt.show()
 
 
-# %% [markdown]
-# ### 14.2.1 Which chart for which question?
-#
-# ## 14.3 Subplots, shared axes and layouts · *Intermediate*
-#
-# **Shared axes and uneven layouts**
-
-
 # %%
 fig, axd = plt.subplot_mosaic([["top", "top"], ["left", "right"]],
                               figsize=(9, 5.5), layout="constrained")
@@ -137,12 +118,6 @@ axd["right"].hist(rng.normal(1, 1.5, 500), bins=25, color="#e0245e")
 axd["right"].sharey(axd["left"])
 axd["right"].set_title("Right (same y-scale)")
 plt.show()
-
-
-# %% [markdown]
-# ## 14.4 Seaborn: statistical plots in one line · *Beginner*
-#
-# **Distribution and relationship by group**
 
 
 # %%
@@ -161,10 +136,6 @@ plt.tight_layout()
 plt.show()
 
 
-# %% [markdown]
-# **Comparing groups**
-
-
 # %%
 fig, axes = plt.subplots(1, 2, figsize=(11, 4))
 sns.boxplot(data=ins, x="region", y="charges", hue="smoker", ax=axes[0])
@@ -176,10 +147,6 @@ sns.stripplot(data=ins, x="children", y="bmi", size=2, alpha=0.4, color="k", ax=
 axes[1].set_title("BMI by number of children")
 plt.tight_layout()
 plt.show()
-
-
-# %% [markdown]
-# **Correlation heatmap**
 
 
 # %%
@@ -194,19 +161,11 @@ ax.grid(False)
 plt.show()
 
 
-# %% [markdown]
-# **Pair plot: every pair of variables at once**
-
-
 # %%
 g = sns.pairplot(ins.sample(300, random_state=0), vars=["age", "bmi", "charges"],
                  hue="smoker", corner=True, plot_kws={"s": 12, "alpha": 0.6}, height=2.3)
 g.figure.suptitle("Pair plot", y=1.02)
 plt.show()
-
-
-# %% [markdown]
-# **Trend lines with uncertainty**
 
 
 # %%
@@ -220,12 +179,6 @@ ax.set_title("Charges rise with age in both groups")
 plt.show()
 
 
-# %% [markdown]
-# ## 14.5 Plotting directly from pandas · *Beginner*
-#
-# **DataFrame.plot for quick looks**
-
-
 # %%
 fig, axes = plt.subplots(1, 2, figsize=(10, 3.6))
 ins.groupby("region")["charges"].median().sort_values().plot.barh(ax=axes[0], color="#0091b3")
@@ -234,12 +187,6 @@ ins["bmi"].plot.kde(ax=axes[1])
 axes[1].set(title="BMI density", xlabel="BMI")
 plt.tight_layout()
 plt.show()
-
-
-# %% [markdown]
-# ## 14.6 Styles, colours and publication-quality export · *Intermediate*
-#
-# **A reusable publication style**
 
 
 # %%
@@ -267,13 +214,3 @@ fig.savefig("figure1.png", dpi=300)
 fig.savefig("figure1.svg")
 plt.show()
 plt.rcdefaults()
-
-
-# %% [markdown]
-# ## Try it yourself
-#
-# 1. Plot the histogram of `charges` and of `np.log(charges)` side by side. Which looks closer to normal?
-# 2. Recreate the pair plot with `hue="region"`. Does region matter?
-# 3. Make a bar chart of mean charges by number of children with error bars (`sns.barplot` shows a 95% CI by default).
-#
-# Worked solutions: [solutions-parts-1-4.ipynb](../../solutions/solutions-parts-1-4.ipynb), section *Chapter 14*.

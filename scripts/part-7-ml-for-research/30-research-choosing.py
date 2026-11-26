@@ -1,7 +1,8 @@
 """The Annotated ML Handbook, Chapter 30: Choosing models and metrics, and comparing them rigorously
 
-Companion script by Mahir Absar Khan. Cells are marked with "# %%" so you can run them one
-at a time in VS Code, PyCharm or Spyder, or run the whole file: python 30-research-choosing.py
+By Mahir Absar Khan. The code of the chapter only; the full text with line-by-line
+explanations is in notebooks/part-7-ml-for-research/30-research-choosing.ipynb.
+Cells are marked "# %%" so you can run them one at a time in VS Code, PyCharm or Spyder.
 """
 
 # %%
@@ -51,10 +52,6 @@ except ImportError:
     pass
 
 
-# %% [markdown]
-# ## 30.1 A model-selection map · *Beginner*
-
-
 # %%
 import matplotlib.pyplot as plt
 from matplotlib.patches import FancyBboxPatch
@@ -87,18 +84,6 @@ ax.text(0.2, 6.35, "Always start with: DummyClassifier/DummyRegressor + one simp
 plt.show()
 
 
-# %% [markdown]
-# ### 30.1.1 Rules of thumb · *Beginner*
-#
-# ## 30.2 Choosing the metric · *Beginner*
-#
-# ## 30.3 Is model A really better than model B? · *Intermediate*
-#
-# ### 30.3.1 1. Corrected resampled t-test on CV scores · *Advanced*
-#
-# **Comparing two models on identical repeated-CV splits**
-
-
 # %%
 import numpy as np
 from scipy import stats
@@ -129,12 +114,6 @@ print(f"mean AUC: LogReg={a.mean():.4f}  RF={b.mean():.4f}  difference={diff:+.4
 print(f"corrected t={t:.2f}, p={p:.4f}   |   naive paired t-test p={naive_p:.2e} (overconfident)")
 
 
-# %% [markdown]
-# ### 30.3.2 2. McNemar's test on a single test set · *Intermediate*
-#
-# **Exact McNemar test**
-
-
 # %%
 from sklearn.model_selection import train_test_split
 from sklearn.svm import SVC
@@ -146,12 +125,6 @@ a_wrong_b_right = int(((pa != y_te) & (pb == y_te)).sum())
 res = stats.binomtest(a_right_b_wrong, a_right_b_wrong + a_wrong_b_right, p=0.5)
 print(f"LogReg acc={np.mean(pa == y_te):.3f}  SVC acc={np.mean(pb == y_te):.3f}")
 print(f"discordant: LogReg-only correct={a_right_b_wrong}, SVC-only correct={a_wrong_b_right}, exact McNemar p={res.pvalue:.3f}")
-
-
-# %% [markdown]
-# ### 30.3.3 3. Paired bootstrap for any metric · *Intermediate*
-#
-# **95% CI for the difference in test AUC**
 
 
 # %%
@@ -170,24 +143,8 @@ print(f"AUC difference (LogReg - RF) = {roc_auc_score(y_te, prob_a) - roc_auc_sc
 print("CI includes 0 -> no evidence of a difference" if lo < 0 < hi else "CI excludes 0 -> evidence of a difference")
 
 
-# %% [markdown]
-# ## 30.4 How much data do I need? · *Intermediate*
-#
-# **Precision of an accuracy estimate vs test-set size**
-
-
 # %%
 for n_test in [50, 100, 200, 500, 1000, 5000]:
     p_hat = 0.85
     half_width = 1.96 * np.sqrt(p_hat * (1 - p_hat) / n_test)
     print(f"n_test={n_test:>5}: accuracy 0.85 ± {half_width:.3f}")
-
-
-# %% [markdown]
-# ## Try it yourself
-#
-# 1. Use the corrected t-test to compare `SVC` and `LogisticRegression` on the wine dataset.
-# 2. Run the paired bootstrap with `average_precision_score` instead of ROC AUC.
-# 3. Simulate: draw two models with identical true accuracy and count how often the naive t-test on CV scores declares p < 0.05.
-#
-# Worked solutions: [solutions-parts-5-8.ipynb](../../solutions/solutions-parts-5-8.ipynb), section *Chapter 30*.

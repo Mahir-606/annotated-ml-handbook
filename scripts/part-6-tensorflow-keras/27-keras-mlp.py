@@ -1,7 +1,8 @@
 """The Annotated ML Handbook, Chapter 27: Neural networks with Keras
 
-Companion script by Mahir Absar Khan. Cells are marked with "# %%" so you can run them one
-at a time in VS Code, PyCharm or Spyder, or run the whole file: python 27-keras-mlp.py
+By Mahir Absar Khan. The code of the chapter only; the full text with line-by-line
+explanations is in notebooks/part-6-tensorflow-keras/27-keras-mlp.ipynb.
+Cells are marked "# %%" so you can run them one at a time in VS Code, PyCharm or Spyder.
 """
 
 # %%
@@ -51,12 +52,6 @@ except ImportError:
     pass
 
 
-# %% [markdown]
-# ## 27.1 The Keras workflow in five steps · *Beginner*
-#
-# **1–2: data and model definition**
-
-
 # %%
 import os
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "2"
@@ -87,10 +82,6 @@ model = keras.Sequential([
 model.summary()
 
 
-# %% [markdown]
-# **3–5: compile, fit, evaluate**
-
-
 # %%
 model.compile(optimizer=keras.optimizers.Adam(learning_rate=1e-3),
               loss="binary_crossentropy",
@@ -104,10 +95,6 @@ proba = model.predict(X_te[:5], verbose=0).ravel()
 print("probabilities:", proba.round(3), "-> labels:", (proba >= 0.5).astype(int))
 
 
-# %% [markdown]
-# **Plot the training history**
-
-
 # %%
 h = pd.DataFrame(history.history)
 fig, axes = plt.subplots(1, 2, figsize=(11, 3.8))
@@ -117,14 +104,6 @@ for ax in axes: ax.set_xlabel("epoch")
 plt.tight_layout()
 plt.show()
 print("epoch with lowest val_loss:", int(h["val_loss"].idxmin()) + 1)
-
-
-# %% [markdown]
-# ## 27.2 Choosing the output layer and loss · *Beginner*
-#
-# ## 27.3 Callbacks: early stopping, checkpoints, learning-rate schedules · *Intermediate*
-#
-# **Stop when validation loss stops improving**
 
 
 # %%
@@ -153,12 +132,6 @@ print("stopped after", len(hist.history["loss"]), "epochs")
 print("test accuracy:", round(m.evaluate(X_te, y_te, verbose=0)[1], 4))
 
 
-# %% [markdown]
-# ### 27.3.1 Regularisation compared · *Intermediate*
-#
-# **Dropout and L2 reduce the train–validation gap**
-
-
 # %%
 fig, ax = plt.subplots(figsize=(8, 3.8))
 for label, kw in [("no regularisation", {}), ("dropout 0.4", {"dropout": 0.4}), ("L2 1e-2", {"l2": 1e-2})]:
@@ -168,12 +141,6 @@ for label, kw in [("no regularisation", {}), ("dropout 0.4", {"dropout": 0.4}), 
 ax.set(xlabel="epoch", ylabel="validation loss", title="Effect of regularisation", ylim=(0, 0.4))
 ax.legend()
 plt.show()
-
-
-# %% [markdown]
-# ## 27.4 Multiclass classification · *Intermediate*
-#
-# **Wine cultivars with softmax**
 
 
 # %%
@@ -192,12 +159,6 @@ mc.fit(Xw_tr, yw_tr, epochs=80, batch_size=16, validation_split=0.2, verbose=0)
 probs = mc.predict(Xw_te, verbose=0)
 print(probs[:3].round(3), probs[:3].sum(axis=1))
 print("test accuracy:", round(float(np.mean(probs.argmax(axis=1) == yw_te)), 4))
-
-
-# %% [markdown]
-# ## 27.5 Regression · *Intermediate*
-#
-# **Predicting insurance charges with an MLP**
 
 
 # %%
@@ -220,12 +181,6 @@ mse, mae = reg.evaluate(Xi_te, yi_te, verbose=0)
 print(f"test RMSE = {np.sqrt(mse) * 1000:,.0f}   MAE = {mae * 1000:,.0f}  (charges)")
 
 
-# %% [markdown]
-# ## 27.6 The Functional API · *Advanced*
-#
-# **Two inputs, one output, with a skip connection**
-
-
 # %%
 num_in = keras.Input(shape=(5,), name="numeric")
 cat_in = keras.Input(shape=(1,), name="category", dtype="int32")
@@ -241,24 +196,8 @@ fm.fit({"numeric": rng.normal(size=(64, 5)).astype("float32"), "category": rng.i
 print([t.name for t in fm.inputs], fm.output_shape, fm.count_params())
 
 
-# %% [markdown]
-# ## 27.7 Saving and loading · *Beginner*
-#
-# **The native .keras format**
-
-
 # %%
 m.save("cancer_mlp.keras")
 restored = keras.models.load_model("cancer_mlp.keras")
 print(np.allclose(restored.predict(X_te, verbose=0), m.predict(X_te, verbose=0)))
 m.save_weights("cancer_mlp.weights.h5")
-
-
-# %% [markdown]
-# ## Try it yourself
-#
-# 1. Replace the two hidden layers with one layer of 8 units. Does test accuracy change? What about 256 units?
-# 2. Add `layers.BatchNormalization()` after each Dense layer and compare the training curves.
-# 3. Wrap `build_model` in a loop over five seeds and report test accuracy as mean ± SD.
-#
-# Worked solutions: [solutions-parts-5-8.ipynb](../../solutions/solutions-parts-5-8.ipynb), section *Chapter 27*.

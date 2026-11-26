@@ -1,7 +1,8 @@
 """The Annotated ML Handbook, Chapter 24: Unsupervised learning: clustering and dimensionality reduction
 
-Companion script by Mahir Absar Khan. Cells are marked with "# %%" so you can run them one
-at a time in VS Code, PyCharm or Spyder, or run the whole file: python 24-sklearn-unsupervised.py
+By Mahir Absar Khan. The code of the chapter only; the full text with line-by-line
+explanations is in notebooks/part-5-scikit-learn/24-sklearn-unsupervised.ipynb.
+Cells are marked "# %%" so you can run them one at a time in VS Code, PyCharm or Spyder.
 """
 
 # %%
@@ -51,12 +52,6 @@ except ImportError:
     pass
 
 
-# %% [markdown]
-# ## 24.1 k-means clustering · *Beginner*
-#
-# **Clustering synthetic blobs**
-
-
 # %%
 import numpy as np
 import pandas as pd
@@ -78,12 +73,6 @@ ax.set(title="k-means with k = 4", xlabel="feature 1 (scaled)", ylabel="feature 
 plt.show()
 
 
-# %% [markdown]
-# ### 24.1.1 Choosing k: elbow and silhouette · *Intermediate*
-#
-# **Two diagnostics side by side**
-
-
 # %%
 from sklearn.metrics import silhouette_score
 
@@ -99,12 +88,6 @@ axes[1].plot(ks, sils, marker="o", color="#e0245e"); axes[1].set(title="Silhouet
 plt.tight_layout()
 plt.show()
 print("best k by silhouette:", list(ks)[int(np.argmax(sils))])
-
-
-# %% [markdown]
-# ## 24.2 Other clustering algorithms · *Intermediate*
-#
-# **When k-means fails: non-spherical shapes**
 
 
 # %%
@@ -130,23 +113,11 @@ plt.tight_layout()
 plt.show()
 
 
-# %% [markdown]
-# ### 24.2.1 Evaluating clusters when labels exist · *Intermediate*
-#
-# **External and internal validation**
-
-
 # %%
 from sklearn.metrics import adjusted_rand_score, normalized_mutual_info_score
 print("ARI:", round(adjusted_rand_score(y_true, labels), 3))
 print("NMI:", round(normalized_mutual_info_score(y_true, labels), 3))
 print("silhouette:", round(silhouette_score(Xs, labels), 3))
-
-
-# %% [markdown]
-# ## 24.3 Principal component analysis (PCA) · *Intermediate*
-#
-# **PCA on the breast-cancer features**
 
 
 # %%
@@ -173,17 +144,9 @@ plt.tight_layout()
 plt.show()
 
 
-# %% [markdown]
-# **What does each component mean? (loadings)**
-
-
 # %%
 loadings = pd.DataFrame(pca.components_[:2].T, index=bc.feature_names, columns=["PC1", "PC2"])
 print(loadings["PC1"].abs().sort_values(ascending=False).head(5).round(3))
-
-
-# %% [markdown]
-# **PCA as a preprocessing step**
 
 
 # %%
@@ -191,12 +154,6 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import cross_val_score
 pipe = make_pipeline(StandardScaler(), PCA(n_components=0.95), LogisticRegression(max_iter=1000))
 print("CV accuracy with PCA:", cross_val_score(pipe, bc.data, bc.target, cv=5).mean().round(4))
-
-
-# %% [markdown]
-# ## 24.4 t-SNE and UMAP for visualisation · *Advanced*
-#
-# **t-SNE on 8x8 handwritten digits**
 
 
 # %%
@@ -216,12 +173,6 @@ ax.grid(False)
 plt.show()
 
 
-# %% [markdown]
-# ## 24.5 Anomaly detection · *Intermediate*
-#
-# **Isolation Forest flags unusual samples**
-
-
 # %%
 from sklearn.ensemble import IsolationForest
 rng = np.random.default_rng(0)
@@ -231,13 +182,3 @@ Xa = np.vstack([normal, odd])
 iso = IsolationForest(contamination=0.05, random_state=0).fit(Xa)
 flag = iso.predict(Xa)
 print("flagged:", (flag == -1).sum(), "| of the true anomalies caught:", (flag[-15:] == -1).sum(), "/ 15")
-
-
-# %% [markdown]
-# ## Try it yourself
-#
-# 1. Cluster the insurance customers (scaled `age`, `bmi`, `charges`) with k-means and profile each cluster with `groupby(labels).mean()`.
-# 2. Run PCA on the wine dataset and plot the first two components coloured by cultivar.
-# 3. Compare t-SNE maps of the digits with perplexity 5, 30 and 100.
-#
-# Worked solutions: [solutions-parts-5-8.ipynb](../../solutions/solutions-parts-5-8.ipynb), section *Chapter 24*.

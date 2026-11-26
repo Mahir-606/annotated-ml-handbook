@@ -1,7 +1,8 @@
 """The Annotated ML Handbook, Chapter 13: Grouping, reshaping, joining and time series
 
-Companion script by Mahir Absar Khan. Cells are marked with "# %%" so you can run them one
-at a time in VS Code, PyCharm or Spyder, or run the whole file: python 13-pandas-transform.py
+By Mahir Absar Khan. The code of the chapter only; the full text with line-by-line
+explanations is in notebooks/part-3-pandas/13-pandas-transform.ipynb.
+Cells are marked "# %%" so you can run them one at a time in VS Code, PyCharm or Spyder.
 """
 
 # %%
@@ -51,12 +52,6 @@ except ImportError:
     pass
 
 
-# %% [markdown]
-# ## 13.1 groupby: split, apply, combine · *Beginner*
-#
-# **Group summaries**
-
-
 # %%
 import numpy as np
 import pandas as pd
@@ -65,12 +60,6 @@ ins = pd.read_csv("insurance.csv")
 print(ins.groupby("smoker")["charges"].mean().round(0))
 print(ins.groupby(["region", "smoker"])["charges"].median().round(0).head(6))
 print(ins.groupby("region").size())
-
-
-# %% [markdown]
-# ### 13.1.1 Several statistics at once with agg · *Beginner*
-#
-# **Named aggregation**
 
 
 # %%
@@ -85,12 +74,6 @@ print(summary)
 print(ins.groupby("sex")[["age", "bmi"]].agg(["mean", "min", "max"]).round(1))
 
 
-# %% [markdown]
-# ### 13.1.2 transform and filter · *Intermediate*
-#
-# **Group-wise features**
-
-
 # %%
 ins["region_mean"] = ins.groupby("region")["charges"].transform("mean")
 ins["vs_region"] = ins["charges"] / ins["region_mean"]
@@ -101,24 +84,12 @@ big = ins.groupby("children").filter(lambda g: len(g) > 100)
 print(sorted(big["children"].unique()))
 
 
-# %% [markdown]
-# ## 13.2 Pivot tables and crosstabs · *Beginner*
-#
-# **Two-way summaries**
-
-
 # %%
 pt = ins.pivot_table(values="charges", index="region", columns="smoker",
                      aggfunc="mean", margins=True).round(0)
 print(pt)
 print(pd.crosstab(ins["region"], ins["smoker"]))
 print(pd.crosstab(ins["sex"], ins["smoker"], normalize="index").round(3))
-
-
-# %% [markdown]
-# ## 13.3 Reshaping: wide ↔ long · *Intermediate*
-#
-# **melt and pivot**
 
 
 # %%
@@ -131,25 +102,11 @@ print(back)
 print(back.stack().head(3))
 
 
-# %% [markdown]
-# ## 13.4 Combining tables · *Beginner*
-#
-# ### 13.4.1 concat: stack tables · *Beginner*
-#
-# **Stacking rows or columns**
-
-
 # %%
 a = pd.DataFrame({"id": [1, 2], "x": [10, 20]})
 b = pd.DataFrame({"id": [3], "x": [30]})
 print(pd.concat([a, b], ignore_index=True))
 print(pd.concat([a, pd.DataFrame({"y": [7, 8]})], axis=1))
-
-
-# %% [markdown]
-# ### 13.4.2 merge: database-style joins · *Beginner*
-#
-# **Joining on a key**
 
 
 # %%
@@ -160,19 +117,9 @@ print(pd.merge(patients, visits, on="pid", how="left"))
 print(pd.merge(patients, visits, on="pid", how="outer", indicator=True))
 
 
-# %% [markdown]
-# **Guarding against silent row explosions**
-
-
 # %%
 check = pd.merge(patients, visits, on="pid", how="left", validate="one_to_many")
 print(len(patients), "->", len(check), "rows after merge")
-
-
-# %% [markdown]
-# ## 13.5 Time series · *Intermediate*
-#
-# **Dates as the index**
 
 
 # %%
@@ -184,10 +131,6 @@ print(sales.head(3))
 print(sales.loc["2025-02"].shape)
 monthly = sales.resample("ME").agg(["mean", "sum"]).round(1)
 print(monthly)
-
-
-# %% [markdown]
-# **Rolling windows, lags and differences**
 
 
 # %%
@@ -203,12 +146,6 @@ ax.set_ylabel("units")
 plt.show()
 
 
-# %% [markdown]
-# ## 13.6 Method chaining: a full mini-analysis · *Intermediate*
-#
-# **From raw file to report table in one readable chain**
-
-
 # %%
 report = (pd.read_csv("insurance.csv")
           .dropna(subset=["bmi"])
@@ -220,13 +157,3 @@ report = (pd.read_csv("insurance.csv")
           .round(2)
           .reset_index())
 print(report)
-
-
-# %% [markdown]
-# ## Try it yourself
-#
-# 1. For each region, find the share of customers who are smokers and the median charge for smokers vs non-smokers in one table.
-# 2. Make a long-format table of `age`, `bmi` and `charges` with `melt`, then compute each variable's mean with `groupby`.
-# 3. Resample `sales` to weekly sums and plot them.
-#
-# Worked solutions: [solutions-parts-1-4.ipynb](../../solutions/solutions-parts-1-4.ipynb), section *Chapter 13*.

@@ -1,7 +1,8 @@
 """The Annotated ML Handbook, Chapter 10: Machine learning from scratch with NumPy
 
-Companion script by Mahir Absar Khan. Cells are marked with "# %%" so you can run them one
-at a time in VS Code, PyCharm or Spyder, or run the whole file: python 10-numpy-ml-scratch.py
+By Mahir Absar Khan. The code of the chapter only; the full text with line-by-line
+explanations is in notebooks/part-2-numpy/10-numpy-ml-scratch.ipynb.
+Cells are marked "# %%" so you can run them one at a time in VS Code, PyCharm or Spyder.
 """
 
 # %%
@@ -51,14 +52,6 @@ except ImportError:
     pass
 
 
-# %% [markdown]
-# ## 10.1 The core idea of supervised learning · *Beginner*
-#
-# ## 10.2 Making a dataset and splitting it · *Beginner*
-#
-# **Synthetic data with a known answer**
-
-
 # %%
 import numpy as np
 import matplotlib.pyplot as plt
@@ -77,12 +70,6 @@ y_train, y_test = y[train_idx], y[test_idx]
 print(X_train.shape, X_test.shape, y_train.shape)
 
 
-# %% [markdown]
-# ## 10.3 Linear regression, the closed-form way · *Intermediate*
-#
-# **Least squares in three lines**
-
-
 # %%
 def add_bias(X):
     return np.column_stack([np.ones(len(X)), X])
@@ -95,12 +82,6 @@ y_pred = add_bias(X_test) @ w
 mse = np.mean((y_test - y_pred) ** 2)
 r2 = 1 - np.sum((y_test - y_pred) ** 2) / np.sum((y_test - y_test.mean()) ** 2)
 print(f"test MSE={mse:.3f}  RMSE={np.sqrt(mse):.3f}  R2={r2:.3f}")
-
-
-# %% [markdown]
-# ## 10.4 Linear regression by gradient descent · *Intermediate*
-#
-# **Gradient descent, step by step**
 
 
 # %%
@@ -120,10 +101,6 @@ w_gd, hist = gradient_descent(X_train, y_train, lr=0.02, epochs=2000)
 print(f"GD intercept={w_gd[0]:.3f} slope={w_gd[1]:.3f} final loss={hist[-1]:.3f}")
 
 
-# %% [markdown]
-# **Visualise the fit and the learning curve**
-
-
 # %%
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(10, 3.8))
 ax1.scatter(X_train, y_train, s=14, alpha=0.6, label="train")
@@ -138,12 +115,6 @@ plt.tight_layout()
 plt.show()
 
 
-# %% [markdown]
-# ### 10.4.1 The learning rate matters · *Intermediate*
-#
-# **Too small, just right, too large**
-
-
 # %%
 fig, ax = plt.subplots(figsize=(7, 3.6))
 for lr in [0.001, 0.02, 0.0405]:
@@ -155,12 +126,6 @@ ax.legend()
 plt.show()
 
 
-# %% [markdown]
-# ## 10.5 Why feature scaling matters · *Intermediate*
-#
-# **Standardisation, fitted on training data only**
-
-
 # %%
 X2 = np.column_stack([rng.uniform(0, 1, n), rng.uniform(0, 1000, n)])
 mu = X2[train_idx].mean(axis=0)
@@ -169,12 +134,6 @@ X2_train = (X2[train_idx] - mu) / sd
 X2_test = (X2[test_idx] - mu) / sd
 print(X2_train.mean(axis=0).round(3), X2_train.std(axis=0).round(3))
 print(X2_test.mean(axis=0).round(3))
-
-
-# %% [markdown]
-# ## 10.6 Logistic regression from scratch · *Advanced*
-#
-# **A classifier trained by gradient descent**
 
 
 # %%
@@ -199,10 +158,6 @@ acc = np.mean((p >= 0.5) == yc)
 print(f"weights={w.round(3)}  log-loss={loss:.3f}  accuracy={acc:.3f}")
 
 
-# %% [markdown]
-# **Plot the decision boundary**
-
-
 # %%
 xx, yy = np.meshgrid(np.linspace(-5, 5, 200), np.linspace(-5, 5, 200))
 grid = np.column_stack([xx.ravel(), yy.ravel()])
@@ -215,12 +170,6 @@ fig.colorbar(cs, label="P(class 1)")
 ax.set(title="Logistic regression decision boundary", xlabel="feature 1", ylabel="feature 2")
 ax.grid(False)
 plt.show()
-
-
-# %% [markdown]
-# ## 10.7 Softmax and one-hot encoding · *Advanced*
-#
-# **Numerically stable softmax and one-hot labels**
 
 
 # %%
@@ -238,12 +187,6 @@ print(one_hot)
 print(one_hot.argmax(axis=1))
 
 
-# %% [markdown]
-# ## 10.8 k-nearest neighbours in five lines · *Advanced*
-#
-# **kNN classifier using broadcasting**
-
-
 # %%
 def knn_predict(X_train, y_train, X_new, k=5):
     d = np.sqrt(((X_new[:, None, :] - X_train[None, :, :]) ** 2).sum(-1))
@@ -255,13 +198,3 @@ perm = rng.permutation(m)
 tr, te = perm[:240], perm[240:]
 pred = knn_predict(Xc[tr], yc[tr], Xc[te], k=7)
 print("kNN test accuracy:", np.mean(pred == yc[te]))
-
-
-# %% [markdown]
-# ## Try it yourself
-#
-# 1. Add L2 regularisation to `gradient_descent`: add `2 * alpha * w` to the gradient (excluding the intercept) and watch the slope shrink as `alpha` grows.
-# 2. Change the logistic regression's class centres to (−0.5, −0.5) and (0.5, 0.5). What happens to accuracy, and why?
-# 3. Make `knn_predict` work for more than two classes using `np.bincount` per row.
-#
-# Worked solutions: [solutions-parts-1-4.ipynb](../../solutions/solutions-parts-1-4.ipynb), section *Chapter 10*.

@@ -1,7 +1,8 @@
 """The Annotated ML Handbook, Chapter 17: Interactive charts with Plotly
 
-Companion script by Mahir Absar Khan. Cells are marked with "# %%" so you can run them one
-at a time in VS Code, PyCharm or Spyder, or run the whole file: python 17-viz-plotly.py
+By Mahir Absar Khan. The code of the chapter only; the full text with line-by-line
+explanations is in notebooks/part-4-visualization/17-viz-plotly.ipynb.
+Cells are marked "# %%" so you can run them one at a time in VS Code, PyCharm or Spyder.
 """
 
 # %%
@@ -51,12 +52,6 @@ except ImportError:
     pass
 
 
-# %% [markdown]
-# ## 17.1 Set-up · *Beginner*
-#
-# **Imports and built-in datasets**
-
-
 # %%
 import numpy as np
 import pandas as pd
@@ -70,12 +65,6 @@ print(gap.shape, iris.shape, tips.shape)
 print(gap.head(3))
 
 
-# %% [markdown]
-# ## 17.2 Scatter and bubble charts · *Beginner*
-#
-# **Hover, colour, size and log axis**
-
-
 # %%
 df07 = gap[gap["year"] == 2007]
 fig = px.scatter(df07, x="gdpPercap", y="lifeExp", size="pop", color="continent",
@@ -83,12 +72,6 @@ fig = px.scatter(df07, x="gdpPercap", y="lifeExp", size="pop", color="continent"
                  labels={"gdpPercap": "GDP per capita (US$)", "lifeExp": "Life expectancy (years)"},
                  title="Wealth and health of nations, 2007", width=820, height=460)
 fig.show()
-
-
-# %% [markdown]
-# ### 17.2.1 Animated scatter
-#
-# **Animation over time**
 
 
 # %%
@@ -99,12 +82,6 @@ fig = px.scatter(gap, x="gdpPercap", y="lifeExp", size="pop", color="continent",
 fig.show()
 
 
-# %% [markdown]
-# ## 17.3 Line and area charts · *Beginner*
-#
-# **Time series with a range slider**
-
-
 # %%
 sel = gap[gap["country"].isin(["Bangladesh", "India", "China", "Brazil", "Japan"])]
 fig = px.line(sel, x="year", y="lifeExp", color="country", markers=True,
@@ -113,21 +90,11 @@ fig.update_xaxes(rangeslider_visible=True)
 fig.show()
 
 
-# %% [markdown]
-# **Stacked area**
-
-
 # %%
 pop = gap.groupby(["year", "continent"], as_index=False)["pop"].sum()
 fig = px.area(pop, x="year", y="pop", color="continent",
               title="Population by continent", width=820, height=420)
 fig.show()
-
-
-# %% [markdown]
-# ## 17.4 Bar charts · *Beginner*
-#
-# **Grouped bars with values**
 
 
 # %%
@@ -138,21 +105,11 @@ fig = px.bar(avg, x="day", y="tip", color="sex", barmode="group", text_auto=".2f
 fig.show()
 
 
-# %% [markdown]
-# ## 17.5 Distributions · *Beginner*
-#
-# **Histogram with marginal box plot**
-
-
 # %%
 fig = px.histogram(tips, x="total_bill", color="time", nbins=30, marginal="box",
                    opacity=0.75, barmode="overlay",
                    title="Total bill distribution", width=820, height=440)
 fig.show()
-
-
-# %% [markdown]
-# **Box and violin side by side**
 
 
 # %%
@@ -165,12 +122,6 @@ fig.update_layout(title="Total bill by day", width=820, height=440)
 fig.show()
 
 
-# %% [markdown]
-# ## 17.6 Relationships among many variables · *Intermediate*
-#
-# **Scatter-plot matrix**
-
-
 # %%
 fig = px.scatter_matrix(iris, dimensions=["sepal_length", "sepal_width", "petal_length", "petal_width"],
                         color="species", title="Iris scatter matrix", width=820, height=700)
@@ -178,21 +129,11 @@ fig.update_traces(diagonal_visible=False, marker=dict(size=4))
 fig.show()
 
 
-# %% [markdown]
-# **Parallel coordinates**
-
-
 # %%
 fig = px.parallel_coordinates(iris, dimensions=["sepal_length", "sepal_width", "petal_length", "petal_width"],
                               color="species_id", color_continuous_scale=px.colors.qualitative.Bold[:3],
                               title="Iris in parallel coordinates", width=820, height=440)
 fig.show()
-
-
-# %% [markdown]
-# ## 17.7 Density and heatmaps · *Intermediate*
-#
-# **2-D density heatmap and contours**
 
 
 # %%
@@ -205,21 +146,11 @@ fig.update_layout(title="Bill vs tip density", width=820, height=420, coloraxis_
 fig.show()
 
 
-# %% [markdown]
-# **Annotated heatmap with imshow**
-
-
 # %%
 corr = iris[["sepal_length", "sepal_width", "petal_length", "petal_width"]].corr().round(2)
 fig = px.imshow(corr, text_auto=True, color_continuous_scale="RdBu_r", zmin=-1, zmax=1,
                 title="Correlation heatmap", width=620, height=520)
 fig.show()
-
-
-# %% [markdown]
-# ## 17.8 Parts of a whole · *Beginner*
-#
-# **Pie, sunburst and treemap**
 
 
 # %%
@@ -236,12 +167,6 @@ fig.update_layout(width=900, height=420, showlegend=False)
 fig.show()
 
 
-# %% [markdown]
-# ## 17.9 Flows: the Sankey diagram · *Intermediate*
-#
-# **Where did the data go?**
-
-
 # %%
 labels = ["Raw data", "Duplicates removed", "Missing target", "Clean", "Train", "Test", "Correct", "Errors"]
 source = [0, 0, 0, 3, 3, 5, 5]
@@ -252,12 +177,6 @@ fig = go.Figure(go.Sankey(node=dict(label=labels, pad=18, thickness=16,
                           link=dict(source=source, target=target, value=value)))
 fig.update_layout(title="Records through an ML pipeline", width=820, height=420)
 fig.show()
-
-
-# %% [markdown]
-# ## 17.10 3-D charts · *Intermediate*
-#
-# **Rotatable 3-D scatter and surface**
 
 
 # %%
@@ -274,25 +193,6 @@ fig.update_layout(width=900, height=460, showlegend=False)
 fig.show()
 
 
-# %% [markdown]
-# ## 17.11 Maps · *Intermediate*
-#
-# **A choropleth world map (needs internet when displayed)**
-#
-# *Shown for reference, not run automatically (it waits for input, needs your own files, or would change your system). Copy it into a cell to try it.*
-#
-# ```python
-# fig = px.choropleth(df07, locations="iso_alpha", color="lifeExp",
-#                     hover_name="country", color_continuous_scale="Viridis",
-#                     title="Life expectancy, 2007")
-# fig.show()
-# ```
-#
-# ## 17.12 Customising and exporting Plotly charts · *Beginner*
-#
-# **Templates, fonts, annotations and export**
-
-
 # %%
 fig = px.scatter(df07, x="gdpPercap", y="lifeExp", color="continent", log_x=True,
                  template="simple_white", width=700, height=420)
@@ -306,13 +206,3 @@ fig.write_image("lifeexp.svg")
 fig.write_html("lifeexp.html", include_plotlyjs="cdn")
 from pathlib import Path
 print({f: f"{Path(f).stat().st_size // 1024} KB" for f in ["lifeexp.png", "lifeexp.pdf", "lifeexp.svg", "lifeexp.html"]})
-
-
-# %% [markdown]
-# ## Try it yourself
-#
-# 1. Make an animated bar chart of the five most populous countries' life expectancy over time (`animation_frame="year"`).
-# 2. Draw a sunburst of `tips` by `day`, then `time`, then `sex`, with `values="tip"`.
-# 3. Export one chart as a 300-dpi-equivalent PNG for a 7-inch-wide figure (hint: `width=700, scale=3`).
-#
-# Worked solutions: [solutions-parts-1-4.ipynb](../../solutions/solutions-parts-1-4.ipynb), section *Chapter 17*.

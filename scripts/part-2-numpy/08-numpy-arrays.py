@@ -1,7 +1,8 @@
 """The Annotated ML Handbook, Chapter 8: NumPy arrays: shape, dtype and indexing
 
-Companion script by Mahir Absar Khan. Cells are marked with "# %%" so you can run them one
-at a time in VS Code, PyCharm or Spyder, or run the whole file: python 08-numpy-arrays.py
+By Mahir Absar Khan. The code of the chapter only; the full text with line-by-line
+explanations is in notebooks/part-2-numpy/08-numpy-arrays.ipynb.
+Cells are marked "# %%" so you can run them one at a time in VS Code, PyCharm or Spyder.
 """
 
 # %%
@@ -51,12 +52,6 @@ except ImportError:
     pass
 
 
-# %% [markdown]
-# ## 8.1 Why arrays instead of lists? · *Beginner*
-#
-# **The same computation, list vs array**
-
-
 # %%
 import numpy as np
 import time
@@ -73,12 +68,6 @@ print(f"list: {(t1 - t0) * 1000:.1f} ms | array: {(t2 - t1) * 1000:.1f} ms | spe
 print(squared_list[:5], squared_arr[:5])
 
 
-# %% [markdown]
-# ## 8.2 Creating arrays · *Beginner*
-#
-# **The array factory functions**
-
-
 # %%
 a = np.array([1, 2, 3])
 M = np.array([[1, 2, 3], [4, 5, 6]])
@@ -91,12 +80,6 @@ print(np.linspace(0, 1, 5))
 print(np.empty(3).shape)
 
 
-# %% [markdown]
-# ## 8.3 The three attributes you must always know · *Beginner*
-#
-# **shape, ndim, dtype, size**
-
-
 # %%
 X = np.array([[1.5, 2.0, 3.1],
               [4.0, 5.2, 6.3]])
@@ -105,12 +88,6 @@ print("ndim :", X.ndim)
 print("size :", X.size)
 print("dtype:", X.dtype)
 print(np.array([1, 2]).dtype, np.array([True, False]).dtype, np.array(["a", "bc"]).dtype)
-
-
-# %% [markdown]
-# ### 8.3.1 dtypes and casting · *Intermediate*
-#
-# **Choosing and converting element types**
 
 
 # %%
@@ -122,12 +99,6 @@ mixed = np.array([1, 2.5, "3"])
 print(mixed, mixed.dtype)
 small = np.array([250, 251], dtype=np.uint8)
 print(small + 10)
-
-
-# %% [markdown]
-# ## 8.4 Reshaping · *Beginner*
-#
-# **reshape, flatten, transpose, new axes**
 
 
 # %%
@@ -142,12 +113,6 @@ print(v.shape, v[:, np.newaxis].shape, v[np.newaxis, :].shape)
 print(v.reshape(-1, 1).shape)
 
 
-# %% [markdown]
-# **Sizes must match**
-#
-# ⚠️ *This cell raises an error **on purpose**, so you can see the real message. The book explains the cause and the fix.*
-
-
 # %%
 # This example raises an error ON PURPOSE (the book explains the cause and the fix).
 # It runs inside exec() so the script prints the error and carries on.
@@ -160,12 +125,6 @@ except Exception as _e:
     print(f"[expected error] {type(_e).__name__}: {_e}")
 
 
-# %% [markdown]
-# ## 8.5 Indexing and slicing · *Beginner*
-#
-# **Indexing 1-D and 2-D arrays**
-
-
 # %%
 A = np.arange(1, 13).reshape(3, 4)
 print(A)
@@ -175,12 +134,6 @@ print(A[:, 1])
 print(A[0:2, 1:3])
 print(A[-1, ::-1])
 print(A[:, [0, 3]])
-
-
-# %% [markdown]
-# ### 8.5.1 Boolean masks: the most useful trick in NumPy · *Beginner*
-#
-# **Filtering with boolean masks**
 
 
 # %%
@@ -196,12 +149,6 @@ print(np.where(temps > 25, "hot", "ok"))
 print(np.flatnonzero(temps > 25))
 
 
-# %% [markdown]
-# ## 8.6 Views vs copies · *Intermediate*
-#
-# **When does modifying a slice change the original?**
-
-
 # %%
 a = np.arange(6)
 s = a[1:4]
@@ -215,12 +162,6 @@ f[0] = 999
 print(a[0], np.shares_memory(a, s), np.shares_memory(a, f))
 
 
-# %% [markdown]
-# ## 8.7 Combining and splitting arrays · *Intermediate*
-#
-# **Stacking and splitting**
-
-
 # %%
 x = np.array([[1, 2], [3, 4]])
 y = np.array([[5, 6]])
@@ -231,12 +172,6 @@ print(np.column_stack([[1, 2, 3], [4, 5, 6]]))
 print(np.stack([x, x]).shape)
 top, bottom = np.split(np.arange(8), 2)
 print(top, bottom)
-
-
-# %% [markdown]
-# ## 8.8 Understanding axes · *Beginner*
-#
-# **Aggregating along an axis**
 
 
 # %%
@@ -274,13 +209,3 @@ for ax, axis, title, col in [(axes[0], 0, "scores.mean(axis=0)", "#7b3ff2"), (ax
             ax.add_patch(plt.Rectangle((3.0, 2 - i - 0.38), 1.0, 0.76, color=col))
             ax.text(3.5, 2 - i, f"{means[i]:.1f}", ha="center", va="center", color="white", fontweight="bold")
 plt.tight_layout(); plt.show()
-
-
-# %% [markdown]
-# ## Try it yourself
-#
-# 1. Create a 5x5 array of the numbers 1–25 and extract its centre 3x3 block.
-# 2. From `x = np.random.default_rng(0).normal(size=1000)`, compute the fraction of values more than 2 standard deviations from the mean (expect about 0.05).
-# 3. Reshape `np.arange(24)` into shape `(2, 3, 4)` and compute the sum along each axis. Predict each result's shape first.
-#
-# Worked solutions: [solutions-parts-1-4.ipynb](../../solutions/solutions-parts-1-4.ipynb), section *Chapter 8*.

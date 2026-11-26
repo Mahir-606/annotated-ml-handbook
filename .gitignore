@@ -14,3 +14,7 @@ venv/
 .idea/
 .DS_Store
 Thumbs.db
+# Book build output (book-source/)
+book-source/out/
+book-source/run*/
+book-source/build.log

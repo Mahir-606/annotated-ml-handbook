@@ -1,7 +1,8 @@
 """The Annotated ML Handbook, Chapter 15: The Matplotlib chart gallery
 
-Companion script by Mahir Absar Khan. Cells are marked with "# %%" so you can run them one
-at a time in VS Code, PyCharm or Spyder, or run the whole file: python 15-viz-mpl-gallery.py
+By Mahir Absar Khan. The code of the chapter only; the full text with line-by-line
+explanations is in notebooks/part-4-visualization/15-viz-mpl-gallery.ipynb.
+Cells are marked "# %%" so you can run them one at a time in VS Code, PyCharm or Spyder.
 """
 
 # %%
@@ -51,12 +52,6 @@ except ImportError:
     pass
 
 
-# %% [markdown]
-# ## 15.1 Set-up for the gallery · *Beginner*
-#
-# **Shared imports and example data**
-
-
 # %%
 import numpy as np
 import pandas as pd
@@ -66,14 +61,6 @@ months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun"]
 sales_a = np.array([12, 15, 14, 18, 21, 24])
 sales_b = np.array([8, 9, 13, 12, 15, 19])
 print(len(months), sales_a.sum(), sales_b.sum())
-
-
-# %% [markdown]
-# ## 15.2 Charts for change over time · *Beginner*
-#
-# ### 15.2.1 Line plot
-#
-# **Line plot with markers and a highlighted point**
 
 
 # %%
@@ -87,12 +74,6 @@ ax.legend()
 plt.show()
 
 
-# %% [markdown]
-# ### 15.2.2 Step plot
-#
-# **A learning-rate schedule as a step plot**
-
-
 # %%
 epochs = np.arange(0, 41)
 lr = 0.1 * 0.5 ** (epochs // 10)
@@ -100,12 +81,6 @@ fig, ax = plt.subplots(figsize=(7, 3.2))
 ax.step(epochs, lr, where="post", lw=2)
 ax.set(title="Step decay schedule", xlabel="epoch", ylabel="learning rate")
 plt.show()
-
-
-# %% [markdown]
-# ### 15.2.3 Area chart and confidence band
-#
-# **Mean with a ± 1 SD band**
 
 
 # %%
@@ -120,24 +95,12 @@ ax.legend()
 plt.show()
 
 
-# %% [markdown]
-# ### 15.2.4 Stacked area chart
-#
-# **Composition over time with stackplot**
-
-
 # %%
 fig, ax = plt.subplots(figsize=(7, 3.4))
 ax.stackplot(months, sales_a, sales_b, labels=["A", "B"], alpha=0.85)
 ax.set(title="Total sales by product", xlabel="month", ylabel="units")
 ax.legend(loc="upper left")
 plt.show()
-
-
-# %% [markdown]
-# ### 15.2.5 Two y-axes (twin axes)
-#
-# **Rainfall (bars) and temperature (line)**
 
 
 # %%
@@ -154,12 +117,6 @@ ax1.set_title("Climate summary")
 plt.show()
 
 
-# %% [markdown]
-# ### 15.2.6 Logarithmic axes
-#
-# **The same data on linear and log axes**
-
-
 # %%
 days = np.arange(1, 31)
 cases = 5 * 1.25 ** days
@@ -168,14 +125,6 @@ ax1.plot(days, cases); ax1.set(title="Linear y-axis", xlabel="day", ylabel="coun
 ax2.plot(days, cases); ax2.set(title="Log y-axis", xlabel="day", ylabel="count (log scale)", yscale="log")
 plt.tight_layout()
 plt.show()
-
-
-# %% [markdown]
-# ## 15.3 Charts for relationships · *Beginner*
-#
-# ### 15.3.1 Scatter and bubble plot
-#
-# **Scatter with colour and size encoding**
 
 
 # %%
@@ -190,12 +139,6 @@ ax.set(title="Income vs life expectancy", xlabel="income (thousand $)", ylabel="
 handles, labels = sc.legend_elements()
 ax.legend(handles, ["North", "Centre", "South"], title="region", loc="lower right")
 plt.show()
-
-
-# %% [markdown]
-# ### 15.3.2 2-D histogram and hexbin
-#
-# **Density of 20,000 points**
 
 
 # %%
@@ -213,12 +156,6 @@ plt.tight_layout()
 plt.show()
 
 
-# %% [markdown]
-# ### 15.3.3 Contour and filled contour
-#
-# **A loss surface with contours**
-
-
 # %%
 w1, w2 = np.meshgrid(np.linspace(-3, 3, 200), np.linspace(-3, 3, 200))
 loss = (w1 - 1) ** 2 + 2 * (w2 + 0.5) ** 2 + 0.5 * w1 * w2
@@ -230,14 +167,6 @@ fig.colorbar(cf, label="loss")
 ax.set(title="Loss surface", xlabel="w1", ylabel="w2")
 ax.grid(False)
 plt.show()
-
-
-# %% [markdown]
-# ## 15.4 Charts for comparing categories · *Beginner*
-#
-# ### 15.4.1 Bar and horizontal bar chart
-#
-# **Vertical and sorted horizontal bars**
 
 
 # %%
@@ -253,12 +182,6 @@ ax2.set(title="Horizontal bars, sorted", xlabel="% of respondents")
 ax2.grid(axis="y", visible=False)
 plt.tight_layout()
 plt.show()
-
-
-# %% [markdown]
-# ### 15.4.2 Grouped and stacked bar charts
-#
-# **Grouped vs stacked**
 
 
 # %%
@@ -277,23 +200,11 @@ plt.tight_layout()
 plt.show()
 
 
-# %% [markdown]
-# ### 15.4.3 Lollipop chart
-#
-# **A lollipop chart with stem()**
-
-
 # %%
 fig, ax = plt.subplots(figsize=(7, 3.4))
 ax.stem(months, sales_a, basefmt=" ")
 ax.set(title="Sales of product A", ylabel="units", ylim=(0, 27))
 plt.show()
-
-
-# %% [markdown]
-# ### 15.4.4 Pie and donut chart
-#
-# **Pie and donut**
 
 
 # %%
@@ -308,14 +219,6 @@ ax2.set_title("Donut")
 plt.show()
 
 
-# %% [markdown]
-# ## 15.5 Charts for distributions · *Beginner*
-#
-# ### 15.5.1 Histogram
-#
-# **Bins change the story**
-
-
 # %%
 data = np.r_[rng.normal(0, 1, 300), rng.normal(4, 0.8, 200)]
 fig, axes = plt.subplots(1, 3, figsize=(12, 3.2), sharey=False)
@@ -324,12 +227,6 @@ for ax, bins in zip(axes, [5, 20, 60]):
     ax.set_title(f"{bins} bins")
 plt.tight_layout()
 plt.show()
-
-
-# %% [markdown]
-# ### 15.5.2 ECDF (empirical cumulative distribution)
-#
-# **Comparing two groups with ECDFs**
 
 
 # %%
@@ -343,12 +240,6 @@ ax.legend()
 plt.show()
 
 
-# %% [markdown]
-# ### 15.5.3 Box plot
-#
-# **Annotated box plot**
-
-
 # %%
 groups = [rng.normal(10, 2, 80), rng.normal(13, 3, 80), np.r_[rng.normal(11, 1.5, 76), [20, 21, 3, 2]]]
 fig, ax = plt.subplots(figsize=(7, 3.8))
@@ -358,26 +249,12 @@ ax.set(title="Response by treatment", ylabel="response")
 plt.show()
 
 
-# %% [markdown]
-# ### 15.5.4 Violin plot
-#
-# **Violins reveal hidden structure**
-
-
 # %%
 vio = [rng.normal(0, 1, 300), np.r_[rng.normal(-2, 0.6, 150), rng.normal(2, 0.6, 150)], rng.normal(1, 0.5, 300)]
 fig, ax = plt.subplots(figsize=(7, 3.8))
 parts = ax.violinplot(vio, showmedians=True)
 ax.set(xticks=[1, 2, 3], xticklabels=["group 1", "group 2", "group 3"], title="Violin plot", ylabel="value")
 plt.show()
-
-
-# %% [markdown]
-# ## 15.6 Charts for uncertainty · *Intermediate*
-#
-# ### 15.6.1 Error bars
-#
-# **Means with 95% confidence intervals**
 
 
 # %%
@@ -389,14 +266,6 @@ fig, ax = plt.subplots(figsize=(7, 3.6))
 ax.errorbar(models, means, yerr=ci, fmt="o", capsize=6, ms=8, lw=2)
 ax.set(title="Model accuracy (mean ± 95% CI)", ylabel="accuracy")
 plt.show()
-
-
-# %% [markdown]
-# ## 15.7 Charts for matrices and grids · *Intermediate*
-#
-# ### 15.7.1 Heatmap
-#
-# **Annotated heatmap with imshow**
 
 
 # %%
@@ -415,12 +284,6 @@ ax.grid(False)
 plt.show()
 
 
-# %% [markdown]
-# ### 15.7.2 3-D surface and 3-D scatter
-#
-# **Surface and scatter in 3-D**
-
-
 # %%
 fig = plt.figure(figsize=(11, 4.4))
 ax1 = fig.add_subplot(1, 2, 1, projection="3d")
@@ -437,14 +300,6 @@ plt.tight_layout()
 plt.show()
 
 
-# %% [markdown]
-# ## 15.8 Charts for direction, cycles and schedules · *Advanced*
-#
-# ### 15.8.1 Quiver and streamplot
-#
-# **A vector field two ways**
-
-
 # %%
 gx, gy = np.meshgrid(np.linspace(-2, 2, 15), np.linspace(-2, 2, 15))
 u, v = -gy, gx
@@ -457,12 +312,6 @@ ax2.streamplot(fx, fy, fu, fv, color=np.hypot(fu, fv), cmap="magma", density=1.2
 ax2.set(title="streamplot", aspect="equal")
 plt.tight_layout()
 plt.show()
-
-
-# %% [markdown]
-# ### 15.8.2 Polar plot and radar chart
-#
-# **Polar bars and a radar chart**
 
 
 # %%
@@ -488,12 +337,6 @@ plt.tight_layout()
 plt.show()
 
 
-# %% [markdown]
-# ### 15.8.3 Gantt chart (timeline) and event plot
-#
-# **A research project timeline and an event raster**
-
-
 # %%
 tasks = [("Literature review", 0, 3), ("Data collection", 2, 5), ("Modelling", 6, 4), ("Writing", 9, 4)]
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(11, 3.4))
@@ -506,12 +349,6 @@ ax2.eventplot(events, colors="#ff6a00", lineoffsets=range(5), linelengths=0.7)
 ax2.set(xlabel="time (s)", ylabel="sensor", title="Event plot")
 plt.tight_layout()
 plt.show()
-
-
-# %% [markdown]
-# ## 15.9 Combining charts: layouts, insets and annotations · *Intermediate*
-#
-# **A dashboard-style figure**
 
 
 # %%
@@ -530,12 +367,6 @@ axd["side"].set(title="value distribution", xlabel="count")
 plt.show()
 
 
-# %% [markdown]
-# ## 15.10 Getting the figure out: PNG, PDF and SVG · *Beginner*
-#
-# **Save one figure in three formats**
-
-
 # %%
 fig, ax = plt.subplots(figsize=(3.5, 2.6))
 ax.plot(months, sales_a, marker="o")
@@ -547,13 +378,3 @@ plt.close(fig)
 from pathlib import Path
 for f in ["sales.png", "sales.pdf", "sales.svg"]:
     print(f, Path(f).stat().st_size // 1024, "KB")
-
-
-# %% [markdown]
-# ## Try it yourself
-#
-# 1. Draw a grouped bar chart of mean `charges` by `region` for smokers and non-smokers, using `insurance.csv`.
-# 2. Make an ECDF of `bmi` for each sex on one axes. Which group has the higher median?
-# 3. Save any chart from this chapter as a 600-dpi PNG and as a PDF, and compare the file sizes.
-#
-# Worked solutions: [solutions-parts-1-4.ipynb](../../solutions/solutions-parts-1-4.ipynb), section *Chapter 15*.

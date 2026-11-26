@@ -1,7 +1,8 @@
 """The Annotated ML Handbook, Chapter 34: When the code runs but the model is wrong
 
-Companion script by Mahir Absar Khan. Cells are marked with "# %%" so you can run them one
-at a time in VS Code, PyCharm or Spyder, or run the whole file: python 34-debug-models.py
+By Mahir Absar Khan. The code of the chapter only; the full text with line-by-line
+explanations is in notebooks/part-8-debugging/34-debug-models.ipynb.
+Cells are marked "# %%" so you can run them one at a time in VS Code, PyCharm or Spyder.
 """
 
 # %%
@@ -51,10 +52,6 @@ except ImportError:
     pass
 
 
-# %% [markdown]
-# ## 34.1 Reading training curves · *Beginner*
-
-
 # %%
 import numpy as np
 import matplotlib.pyplot as plt
@@ -73,16 +70,6 @@ axes[0].set_ylabel("loss"); axes[0].legend(fontsize=8)
 plt.tight_layout(); plt.show()
 
 
-# %% [markdown]
-# ## 34.2 Symptom → likely cause → what to try · *Beginner*
-#
-# ## 34.3 Sanity checks that catch silent bugs · *Intermediate*
-#
-# ### 34.3.1 1. Can the model overfit a tiny subset?
-#
-# **Overfit 32 samples on purpose**
-
-
 # %%
 import os
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
@@ -97,12 +84,6 @@ net = keras.Sequential([keras.Input(shape=(64,)), layers.Dense(128, activation="
 net.compile(optimizer=keras.optimizers.Adam(1e-2), loss="sparse_categorical_crossentropy", metrics=["accuracy"])
 h = net.fit(X_small, y_small, epochs=150, verbose=0)
 print(f"final training accuracy on 32 samples: {h.history['accuracy'][-1]:.3f} (should be ~1.0)")
-
-
-# %% [markdown]
-# ### 34.3.2 2. Are features and labels still aligned?
-#
-# **Shuffling rows separately destroys the relationship**
 
 
 # %%
@@ -121,12 +102,6 @@ bad = cross_val_score(pipe, X, y_misaligned, cv=3).mean()
 print(f"aligned: {good:.3f} | misaligned labels: {bad:.3f} (chance = 0.10)")
 
 
-# %% [markdown]
-# ### 34.3.3 3. What is the model actually predicting?
-#
-# **Look at the distribution of predictions**
-
-
 # %%
 import numpy as np
 from sklearn.datasets import make_classification
@@ -139,12 +114,6 @@ print("true class counts      [0, 1]:", np.bincount(yte, minlength=2))
 print("accuracy:", round(np.mean(pred == yte), 3), "<- looks fine, yet the model never predicts class 1")
 
 
-# %% [markdown]
-# ### 34.3.4 4. Does the pipeline see what you think it sees?
-#
-# **Print the transformed feature matrix once**
-
-
 # %%
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OneHotEncoder
@@ -155,15 +124,3 @@ pre = ColumnTransformer([("num", SimpleImputer(strategy="median"), ["age", "bmi"
 Xt = pre.fit_transform(ins)
 print(pd.DataFrame(Xt, columns=pre.get_feature_names_out()).head(3).to_string())
 print("any NaN left:", bool(np.isnan(Xt).any()), "| shape:", Xt.shape)
-
-
-# %% [markdown]
-# ## 34.4 A pre-submission checklist · *Beginner*
-#
-# ## Try it yourself
-#
-# 1. Break the "overfit 32 samples" check on purpose (learning rate 1e-6, or the wrong loss) and watch it fail.
-# 2. Introduce a leak into the insurance pipeline (add a feature equal to `charges` plus noise) and see how the permutation importance and test score react.
-# 3. Apply the pre-submission checklist to your own current project.
-#
-# Worked solutions: [solutions-parts-5-8.ipynb](../../solutions/solutions-parts-5-8.ipynb), section *Chapter 34*.

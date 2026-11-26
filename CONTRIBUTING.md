@@ -14,6 +14,12 @@ Thank you for helping improve the companion code for *The Annotated ML Handbook*
 Small numeric differences (the fourth decimal of a score, a slightly different training curve)
 are normal across machines and library versions, especially for neural networks.
 
+## Fixing the text
+
+The chapters are Markdown files in `book-source/chapters/`. To fix a typo, edit the file on GitHub and open a
+pull request. The notebooks are generated from these files, so please change the chapter source rather
+than the notebook.
+
 ## Pull requests
 
 1. Fork the repository and create a branch.

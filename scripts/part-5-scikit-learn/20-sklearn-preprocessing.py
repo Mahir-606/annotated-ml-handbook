@@ -1,7 +1,8 @@
 """The Annotated ML Handbook, Chapter 20: Preprocessing, feature engineering and pipelines
 
-Companion script by Mahir Absar Khan. Cells are marked with "# %%" so you can run them one
-at a time in VS Code, PyCharm or Spyder, or run the whole file: python 20-sklearn-preprocessing.py
+By Mahir Absar Khan. The code of the chapter only; the full text with line-by-line
+explanations is in notebooks/part-5-scikit-learn/20-sklearn-preprocessing.ipynb.
+Cells are marked "# %%" so you can run them one at a time in VS Code, PyCharm or Spyder.
 """
 
 # %%
@@ -51,12 +52,6 @@ except ImportError:
     pass
 
 
-# %% [markdown]
-# ## 20.1 Scaling numeric features · *Beginner*
-#
-# **StandardScaler, MinMaxScaler, RobustScaler**
-
-
 # %%
 import numpy as np
 import pandas as pd
@@ -69,12 +64,6 @@ for scaler in [StandardScaler(), MinMaxScaler(), RobustScaler()]:
 sc = StandardScaler().fit(X)
 print("learned mean_:", sc.mean_, " scale_:", sc.scale_.round(1))
 print(sc.inverse_transform(sc.transform(X))[0])
-
-
-# %% [markdown]
-# ## 20.2 Encoding categorical features · *Beginner*
-#
-# **One-hot and ordinal encoding**
 
 
 # %%
@@ -90,12 +79,6 @@ ord_enc = OrdinalEncoder(categories=[["S", "M", "L"]])
 print(ord_enc.fit_transform(df[["size"]]).ravel())
 
 
-# %% [markdown]
-# ## 20.3 Imputing missing values · *Beginner*
-#
-# **SimpleImputer and KNNImputer**
-
-
 # %%
 from sklearn.impute import SimpleImputer, KNNImputer
 
@@ -104,12 +87,6 @@ print(SimpleImputer(strategy="median").fit_transform(Xm))
 print(SimpleImputer(strategy="mean", add_indicator=True).fit_transform(Xm))
 print(KNNImputer(n_neighbors=2).fit_transform(Xm).round(2))
 print(SimpleImputer(strategy="most_frequent").fit_transform(np.array([["a"], ["b"], ["a"], [np.nan]], dtype=object)).ravel())
-
-
-# %% [markdown]
-# ## 20.4 Pipelines: preprocessing + model as one object · *Beginner*
-#
-# **A simple pipeline**
 
 
 # %%
@@ -131,12 +108,6 @@ print("test accuracy:", round(pipe.score(X_te, y_te), 4))
 print(pipe.named_steps["scale"].mean_[:3].round(2))
 quick = make_pipeline(StandardScaler(), LogisticRegression(max_iter=1000))
 print([name for name, _ in quick.steps])
-
-
-# %% [markdown]
-# ## 20.5 ColumnTransformer: different processing per column · *Intermediate*
-#
-# **The standard tabular preprocessing recipe**
 
 
 # %%
@@ -162,10 +133,6 @@ print(Xt.shape)
 print(pre.get_feature_names_out())
 
 
-# %% [markdown]
-# **Plugging it into a model**
-
-
 # %%
 from sklearn.linear_model import Ridge
 X_tr, X_te, y_tr, y_te = train_test_split(X, y, test_size=0.2, random_state=0)
@@ -175,12 +142,6 @@ print("test R2:", round(model.score(X_te, y_te), 4))
 new_customer = pd.DataFrame([{"age": 45, "sex": "female", "bmi": np.nan, "children": 2,
                               "smoker": "no", "region": "southwest"}])
 print("predicted charges:", model.predict(new_customer).round(0))
-
-
-# %% [markdown]
-# ## 20.6 Seeing leakage with your own eyes · *Intermediate*
-#
-# **Feature selection outside vs inside the pipeline**
 
 
 # %%
@@ -200,12 +161,6 @@ print(f"selection outside CV: {wrong:.2f}   <- looks impressive, entirely fake")
 print(f"selection inside CV : {right:.2f}   <- honest: no signal")
 
 
-# %% [markdown]
-# ## 20.7 Feature engineering · *Intermediate*
-#
-# **Creating features inside a pipeline**
-
-
 # %%
 from sklearn.preprocessing import FunctionTransformer, PolynomialFeatures, KBinsDiscretizer, SplineTransformer
 
@@ -217,10 +172,6 @@ bins = KBinsDiscretizer(n_bins=3, encode="ordinal", strategy="quantile", quantil
 print(bins.fit_transform(np.array([[1], [2], [3], [10], [20], [30]])).ravel())
 spl = SplineTransformer(n_knots=4, degree=3)
 print(spl.fit_transform(np.linspace(0, 1, 5).reshape(-1, 1)).shape)
-
-
-# %% [markdown]
-# **A custom transformer class**
 
 
 # %%
@@ -240,25 +191,9 @@ class RatioFeatures(BaseEstimator, TransformerMixin):
 print(RatioFeatures().fit_transform(ins[["age", "bmi"]].head(3)).round(3))
 
 
-# %% [markdown]
-# ## 20.8 Inspecting and displaying pipelines · *Intermediate*
-#
-# **get_params, set_params and the step__param syntax**
-
-
 # %%
 pipe = make_pipeline(StandardScaler(), LogisticRegression(max_iter=1000))
 print(list(pipe.get_params().keys())[-6:])
 pipe.set_params(logisticregression__C=0.1)
 print(pipe.named_steps["logisticregression"].C)
 print(pipe)
-
-
-# %% [markdown]
-# ## Try it yourself
-#
-# 1. Build a pipeline for the insurance data that log-transforms `charges` as the target with `TransformedTargetRegressor(regressor=..., func=np.log1p, inverse_func=np.expm1)`. Does test R² improve?
-# 2. Add `PolynomialFeatures(2)` to the numeric branch. What happens to the number of features?
-# 3. Repeat the leakage experiment with `k=5` and `k=200`. How does the fake score change?
-#
-# Worked solutions: [solutions-parts-5-8.ipynb](../../solutions/solutions-parts-5-8.ipynb), section *Chapter 20*.

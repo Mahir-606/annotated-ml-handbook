@@ -1,7 +1,8 @@
 """The Annotated ML Handbook, Chapter 22: Classification: predicting categories
 
-Companion script by Mahir Absar Khan. Cells are marked with "# %%" so you can run them one
-at a time in VS Code, PyCharm or Spyder, or run the whole file: python 22-sklearn-classification.py
+By Mahir Absar Khan. The code of the chapter only; the full text with line-by-line
+explanations is in notebooks/part-5-scikit-learn/22-sklearn-classification.ipynb.
+Cells are marked "# %%" so you can run them one at a time in VS Code, PyCharm or Spyder.
 """
 
 # %%
@@ -51,12 +52,6 @@ except ImportError:
     pass
 
 
-# %% [markdown]
-# ## 22.1 The data and a first model · *Beginner*
-#
-# **Load, split, fit**
-
-
 # %%
 import numpy as np
 import pandas as pd
@@ -81,12 +76,6 @@ print("accuracy:", round(clf.score(X_te, y_te), 4))
 print("first five probabilities:", y_prob[:5].round(3))
 
 
-# %% [markdown]
-# ## 22.2 The confusion matrix and the metrics built from it · *Beginner*
-#
-# **Compute them all**
-
-
 # %%
 from sklearn.metrics import (confusion_matrix, classification_report, precision_score, recall_score,
                              f1_score, roc_auc_score, average_precision_score, balanced_accuracy_score,
@@ -99,12 +88,6 @@ print(f"precision={precision_score(y_te, y_pred):.3f}  recall={recall_score(y_te
 print(f"ROC AUC={roc_auc_score(y_te, y_prob):.4f}  PR AUC={average_precision_score(y_te, y_prob):.4f}")
 print(f"balanced acc={balanced_accuracy_score(y_te, y_pred):.3f}  MCC={matthews_corrcoef(y_te, y_pred):.3f}")
 print(classification_report(y_te, y_pred, target_names=["benign", "malignant"], digits=3))
-
-
-# %% [markdown]
-# ## 22.3 Visual evaluation: confusion matrix, ROC and PR curves · *Intermediate*
-#
-# **The three standard plots**
 
 
 # %%
@@ -122,12 +105,6 @@ plt.tight_layout()
 plt.show()
 
 
-# %% [markdown]
-# ## 22.4 Choosing the decision threshold · *Intermediate*
-#
-# **Precision and recall at different thresholds**
-
-
 # %%
 from sklearn.metrics import precision_recall_curve
 prec, rec, thr = precision_recall_curve(y_te, y_prob)
@@ -143,10 +120,6 @@ for t in [0.5, 0.3, 0.1]:
     print(f"threshold {t}: recall={recall_score(y_te, p):.3f} precision={precision_score(y_te, p):.3f} FN={((p == 0) & (y_te == 1)).sum()}")
 
 
-# %% [markdown]
-# **Let cross-validation choose the threshold**
-
-
 # %%
 from sklearn.model_selection import TunedThresholdClassifierCV
 
@@ -154,12 +127,6 @@ tuned = TunedThresholdClassifierCV(clf, scoring="balanced_accuracy", cv=5)
 tuned.fit(X_tr, y_tr)
 print("chosen threshold:", round(tuned.best_threshold_, 3))
 print("test balanced accuracy:", round(balanced_accuracy_score(y_te, tuned.predict(X_te)), 3))
-
-
-# %% [markdown]
-# ## 22.5 Comparing classifiers · *Intermediate*
-#
-# **Eight classifiers under the same protocol**
 
 
 # %%
@@ -192,12 +159,6 @@ for name, model in candidates.items():
 print(pd.DataFrame(rows).sort_values("ROC_AUC", ascending=False).round(3).to_string(index=False))
 
 
-# %% [markdown]
-# ## 22.6 Class imbalance · *Intermediate*
-#
-# **An imbalanced problem: accuracy lies, other metrics don't**
-
-
 # %%
 from sklearn.datasets import make_classification
 
@@ -212,12 +173,6 @@ for name, m in [("dummy", DummyClassifier(strategy="most_frequent")),
     p = m.predict(Xi_te)
     print(f"{name:<16} acc={m.score(Xi_te, yi_te):.3f}  recall={recall_score(yi_te, p):.3f}  "
           f"precision={precision_score(yi_te, p, zero_division=0):.3f}  bal_acc={balanced_accuracy_score(yi_te, p):.3f}")
-
-
-# %% [markdown]
-# ## 22.7 Probability calibration · *Advanced*
-#
-# **Reliability diagram**
 
 
 # %%
@@ -236,12 +191,6 @@ ax.set_title("Calibration curves")
 plt.show()
 
 
-# %% [markdown]
-# ## 22.8 Multiclass problems · *Intermediate*
-#
-# **Three wine cultivars**
-
-
 # %%
 from sklearn.datasets import load_wine
 Xw, yw = load_wine(return_X_y=True)
@@ -252,13 +201,3 @@ print(confusion_matrix(yw_te, pw))
 print("macro F1:", round(f1_score(yw_te, pw, average="macro"), 3),
       "| weighted F1:", round(f1_score(yw_te, pw, average="weighted"), 3))
 print("one-vs-rest ROC AUC:", round(roc_auc_score(yw_te, mc.predict_proba(Xw_te), multi_class="ovr"), 4))
-
-
-# %% [markdown]
-# ## Try it yourself
-#
-# 1. Find the threshold that gives at least 98% recall on the training data via cross-validated probabilities (`cross_val_predict(..., method="predict_proba")`) and report test precision at that threshold.
-# 2. Repeat the imbalance experiment with `HistGradientBoostingClassifier(class_weight="balanced")`.
-# 3. Plot ROC curves of three models on one axes by passing the same `ax` to each `RocCurveDisplay`.
-#
-# Worked solutions: [solutions-parts-5-8.ipynb](../../solutions/solutions-parts-5-8.ipynb), section *Chapter 22*.

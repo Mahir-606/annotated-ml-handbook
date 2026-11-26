@@ -1,7 +1,8 @@
 """The Annotated ML Handbook, Chapter 1: Values, variables and types
 
-Companion script by Mahir Absar Khan. Cells are marked with "# %%" so you can run them one
-at a time in VS Code, PyCharm or Spyder, or run the whole file: python 01-python-basics.py
+By Mahir Absar Khan. The code of the chapter only; the full text with line-by-line
+explanations is in notebooks/part-1-python/01-python-basics.ipynb.
+Cells are marked "# %%" so you can run them one at a time in VS Code, PyCharm or Spyder.
 """
 
 # %%
@@ -51,12 +52,6 @@ except ImportError:
     pass
 
 
-# %% [markdown]
-# ## 1.1 Variables: names for values · *Beginner*
-#
-# **Creating and reusing variables**
-
-
 # %%
 age = 29
 height_m = 1.74
@@ -65,12 +60,6 @@ is_student = True
 age = age + 1
 print(name, age, height_m, is_student)
 print(type(age), type(height_m), type(name), type(is_student))
-
-
-# %% [markdown]
-# ## 1.2 Numbers and arithmetic · *Beginner*
-#
-# **Arithmetic operators**
 
 
 # %%
@@ -84,12 +73,6 @@ print(-7 // 2, -7 % 2)
 print(round(3.14159, 2), abs(-4), max(3, 9, 2), min(3, 9, 2))
 
 
-# %% [markdown]
-# ### 1.2.1 Floating-point surprises · *Intermediate*
-#
-# **Never compare floats with ==**
-
-
 # %%
 import math
 x = 0.1 + 0.2
@@ -98,12 +81,6 @@ print(x == 0.3)
 print(math.isclose(x, 0.3))
 print(math.sqrt(16), math.log(math.e), math.pi)
 print(float("inf") > 1e308, math.isnan(float("nan")))
-
-
-# %% [markdown]
-# ## 1.3 Strings: working with text · *Beginner*
-#
-# **Indexing, slicing and common methods**
 
 
 # %%
@@ -119,12 +96,6 @@ print("  padded  ".strip() + "|")
 print("Learn" in s, s.startswith("Mach"), s.find("L"), len(s))
 
 
-# %% [markdown]
-# ### 1.3.1 f-strings: the modern way to format · *Beginner*
-#
-# **Formatting numbers for reports**
-
-
 # %%
 model, acc, n = "RandomForest", 0.934567, 12500
 print(f"{model} accuracy: {acc}")
@@ -134,12 +105,6 @@ print(f"Samples: {n:,}")
 print(f"|{model:<14}|{acc:>8.3f}|")
 print(f"{acc=}")
 print(f"{1e-5:.2e}")
-
-
-# %% [markdown]
-# ## 1.4 Booleans, comparisons and logic · *Beginner*
-#
-# **Comparisons and logical operators**
 
 
 # %%
@@ -153,24 +118,12 @@ print(bool(0), bool(""), bool([]), bool(None))
 print(bool(42), bool("hi"), bool([0]))
 
 
-# %% [markdown]
-# ## 1.5 Converting between types · *Beginner*
-#
-# **Casting and the errors it can raise**
-
-
 # %%
 print(int("42") + 1)
 print(float("3.5") * 2)
 print(str(3.5) + " kg")
 print(int(3.99))
 print(int(float("3.7")))
-
-
-# %% [markdown]
-# **Mixing text and numbers**
-#
-# ⚠️ *This cell raises an error **on purpose**, so you can see the real message. The book explains the cause and the fix.*
 
 
 # %%
@@ -186,38 +139,8 @@ except Exception as _e:
     print(f"[expected error] {type(_e).__name__}: {_e}")
 
 
-# %% [markdown]
-# ## 1.6 `None`: the value for "nothing" · *Beginner*
-#
-# **Checking for None**
-
-
 # %%
 result = None
 if result is None:
     print("No result yet")
 print(type(None))
-
-
-# %% [markdown]
-# ## 1.7 Comments, input and getting help · *Beginner*
-#
-# **Comments, reading input, built-in help**
-#
-# *Shown for reference, not run automatically (it waits for input, needs your own files, or would change your system). Copy it into a cell to try it.*
-#
-# ```python
-# # A comment starts with # and runs to the end of the line.
-# name = input("Your name: ")
-# age = int(input("Your age: "))
-# help(len)
-# dir("text")
-# ```
-#
-# ## Try it yourself
-#
-# 1. Store the radius `r = 2.5` and print the circle's area to 3 decimal places using `math.pi` and an f-string.
-# 2. Given `email = "  Ada.Lovelace@Example.COM "`, produce `"ada.lovelace@example.com"` in one line.
-# 3. Predict, then check: `7 // -2`, `bool("False")`, `"3" * 3`.
-#
-# Worked solutions: [solutions-parts-1-4.ipynb](../../solutions/solutions-parts-1-4.ipynb), section *Chapter 1*.

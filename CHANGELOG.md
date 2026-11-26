@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.1.0 (2026-11-26)
+
+The complete book is now in the repository, free to read.
+
+- Chapter notebooks now contain the full text: explanations, definitions, tips, pitfalls,
+  research advice, and a "What each line does" table after every code cell.
+- Solutions notebooks include the full worked explanations.
+- New `book/` folder: contents page, preface, acknowledgements, how to use the book,
+  quick-reference sheets, glossary and index of definitions.
+- Web edition and PDF in `docs/`, served by GitHub Pages.
+- The book's source (Markdown chapters and build system) in `book-source/`.
+
 ## 1.0.0 (2026-11-26)
 
 First release, matching the first edition of the book.

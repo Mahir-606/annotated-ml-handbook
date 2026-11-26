@@ -1,4 +1,4 @@
-"""The Annotated ML Handbook: Solutions: Parts I–IV. Companion script by Mahir Absar Khan."""
+"""The Annotated ML Handbook: Solutions: Parts I–IV. By Mahir Absar Khan."""
 
 # %%
 # Repository setup (not part of the book's examples): run this cell first.
@@ -47,12 +47,6 @@ except ImportError:
     pass
 
 
-# %% [markdown]
-# ## Chapter 1: Values, variables and types
-#
-# **Exercise 1: area of a circle**
-
-
 # %%
 import math
 r = 2.5
@@ -60,17 +54,9 @@ area = math.pi * r ** 2
 print(f"area = {area:.3f}")
 
 
-# %% [markdown]
-# **Exercise 2: normalise an e-mail address**
-
-
 # %%
 email = "  Ada.Lovelace@Example.COM "
 print(email.strip().lower())
-
-
-# %% [markdown]
-# **Exercise 3: predict, then check**
 
 
 # %%
@@ -79,19 +65,9 @@ print(bool("False"))
 print("3" * 3)
 
 
-# %% [markdown]
-# ## Chapter 2: Data structures
-#
-# **Exercise 1: unique lowercase words**
-
-
 # %%
 words = ["Data", "science", "IS", "fun", "data"]
 print({w.lower() for w in words})
-
-
-# %% [markdown]
-# **Exercise 2: fizz dictionary**
 
 
 # %%
@@ -99,20 +75,10 @@ fizz = {n: "fizz" if n % 3 == 0 else n for n in range(1, 11)}
 print(fizz)
 
 
-# %% [markdown]
-# **Exercise 3: a mutable list inside an immutable tuple**
-
-
 # %%
 t = ([1, 2], 3)
 t[0].append(9)
 print(t)
-
-
-# %% [markdown]
-# ## Chapter 3: Control flow
-#
-# **Exercise 1: FizzBuzz**
 
 
 # %%
@@ -129,20 +95,12 @@ for n in range(1, 31):
 print(" ".join(out))
 
 
-# %% [markdown]
-# **Exercise 2: dot product with zip**
-
-
 # %%
 a, b = [1, 2, 3], [4, 5, 6]
 total = 0
 for x, y in zip(a, b):
     total += x * y
 print(total)
-
-
-# %% [markdown]
-# **Exercise 3: halving until below 0.01**
 
 
 # %%
@@ -153,12 +111,6 @@ while lr >= 0.01:
 print(halvings, lr)
 
 
-# %% [markdown]
-# ## Chapter 4: Functions
-#
-# **Exercise 1: describe()**
-
-
 # %%
 def describe(values):
     """Return basic summary statistics of a list of numbers."""
@@ -166,10 +118,6 @@ def describe(values):
             "min": min(values), "max": max(values)}
 
 print(describe([4, 8, 15, 16, 23, 42]))
-
-
-# %% [markdown]
-# **Exercise 2: a call-counting decorator**
 
 
 # %%
@@ -192,10 +140,6 @@ def greet(name):
 greet("Ada"); greet("Alan")
 
 
-# %% [markdown]
-# **Exercise 3: running mean generator**
-
-
 # %%
 def running_mean(xs):
     total = 0
@@ -204,12 +148,6 @@ def running_mean(xs):
         yield total / i
 
 print(list(running_mean([2, 4, 6, 8])))
-
-
-# %% [markdown]
-# ## Chapter 5: Classes and objects
-#
-# **Exercise 1: a Counter class**
 
 
 # %%
@@ -226,10 +164,6 @@ c = Counter().add("a").add("b").add("a")
 print(c.most_common(), c.counts)
 
 
-# %% [markdown]
-# **Exercise 2: __len__ for Dataset**
-
-
 # %%
 class Dataset:
     def __init__(self, name, values):
@@ -239,10 +173,6 @@ class Dataset:
 
 ds = Dataset("heights", [1.6, 1.7, 1.8])
 print(len(ds))
-
-
-# %% [markdown]
-# **Exercise 3: MedianRegressor**
 
 
 # %%
@@ -264,12 +194,6 @@ m = MedianRegressor().fit([[0]] * 5, [1, 2, 3, 100, 4])
 print(m.predict([[0], [0]]), m.fitted)
 
 
-# %% [markdown]
-# ## Chapter 6: Errors, files and modules
-#
-# **Exercise 1: read_numbers() skipping bad lines**
-
-
 # %%
 from pathlib import Path
 Path("nums.txt").write_text("1.5\n2\nn/a\n\n3.25\n")
@@ -287,20 +211,12 @@ def read_numbers(path):
 print(read_numbers("nums.txt"))
 
 
-# %% [markdown]
-# **Exercise 2: save and load a config**
-
-
 # %%
 import json
 cfg = {"lr": 0.001, "epochs": 50, "layers": [64, 32]}
 Path("config.json").write_text(json.dumps(cfg, indent=2))
 loaded = json.loads(Path("config.json").read_text())
 print(loaded == cfg, loaded["layers"])
-
-
-# %% [markdown]
-# **Exercise 3: count CSV files recursively**
 
 
 # %%
@@ -311,20 +227,10 @@ for f in ["tree/x.csv", "tree/a/y.csv", "tree/b/c/z.csv", "tree/b/notes.txt"]:
 print(len(list(Path("tree").glob("**/*.csv"))))
 
 
-# %% [markdown]
-# ## Chapter 7: The Pythonic toolkit
-#
-# **Exercise 1: the most common words**
-
-
 # %%
 from collections import Counter
 text = "the model learns the data and the data teaches the model"
 print(Counter(text.lower().split()).most_common(3))
-
-
-# %% [markdown]
-# **Exercise 2: all 12 combinations**
 
 
 # %%
@@ -333,20 +239,10 @@ combos = list(product([0.1, 1, 10], ["linear", "rbf", "poly", "sigmoid"]))
 print(len(combos), combos[:4])
 
 
-# %% [markdown]
-# **Exercise 3: extract e-mail addresses**
-
-
 # %%
 import re
 s = "Contact ada@lab.org or alan.t@uni.ac.uk; not me@ or @bad.com"
 print(re.findall(r"[\w.+-]+@[\w-]+(?:\.[\w-]+)+", s))
-
-
-# %% [markdown]
-# ## Chapter 8: NumPy arrays
-#
-# **Exercise 1: the centre 3x3 block**
 
 
 # %%
@@ -355,30 +251,16 @@ A = np.arange(1, 26).reshape(5, 5)
 print(A[1:4, 1:4])
 
 
-# %% [markdown]
-# **Exercise 2: fraction beyond 2 standard deviations**
-
-
 # %%
 x = np.random.default_rng(0).normal(size=1000)
 z = (x - x.mean()) / x.std()
 print((np.abs(z) > 2).mean())
 
 
-# %% [markdown]
-# **Exercise 3: sums along each axis of a 3-D array**
-
-
 # %%
 B = np.arange(24).reshape(2, 3, 4)
 for ax in range(3):
     print(ax, B.sum(axis=ax).shape)
-
-
-# %% [markdown]
-# ## Chapter 9: Computing with NumPy
-#
-# **Exercise 1: min-max scaling with broadcasting**
 
 
 # %%
@@ -388,30 +270,16 @@ scaled = (M - M.min(axis=0)) / (M.max(axis=0) - M.min(axis=0))
 print(scaled.min(axis=0), scaled.max(axis=0))
 
 
-# %% [markdown]
-# **Exercise 2: class proportions**
-
-
 # %%
 labels = rng.choice([0, 1], 500, p=[.8, .2])
 vals, counts = np.unique(labels, return_counts=True)
 print(dict(zip(vals.tolist(), (counts / counts.sum()).round(3).tolist())))
 
 
-# %% [markdown]
-# **Exercise 3: a linear system**
-
-
 # %%
 A = np.array([[3, 2], [1, -1]])
 b = np.array([7, -1])
 print(np.linalg.solve(A, b))
-
-
-# %% [markdown]
-# ## Chapter 10: Machine learning from scratch
-#
-# **Exercise 1: L2-regularised gradient descent**
 
 
 # %%
@@ -432,10 +300,6 @@ for alpha in [0, 0.1, 1, 10]:
     print(alpha, gd_ridge(alpha).round(3))
 
 
-# %% [markdown]
-# **Exercise 2: overlapping classes**
-
-
 # %%
 def sigmoid(z):
     return 1 / (1 + np.exp(-z))
@@ -448,10 +312,6 @@ for centre in [1.5, 0.5]:
     for _ in range(1000):
         w -= 0.5 * Xcb.T @ (sigmoid(Xcb @ w) - yc) / 300
     print(f"centres ±{centre}: accuracy = {np.mean((sigmoid(Xcb @ w) >= 0.5) == yc):.3f}")
-
-
-# %% [markdown]
-# **Exercise 3: multiclass kNN with bincount**
 
 
 # %%
@@ -468,12 +328,6 @@ tr, te = perm[:120], perm[120:]
 print("accuracy:", np.mean(knn_predict(Xi[tr], yi[tr], Xi[te], k=5) == yi[te]))
 
 
-# %% [markdown]
-# ## Chapter 11: pandas foundations
-#
-# **Exercises 1-3**
-
-
 # %%
 import pandas as pd
 df = pd.read_csv("insurance.csv")
@@ -486,12 +340,6 @@ q3 = df[df["children"] == 4].nsmallest(5, "age").sort_values("charges")
 print("Exercise 3:\n", q3[["age", "children", "charges"]])
 
 
-# %% [markdown]
-# ## Chapter 12: Cleaning data
-#
-# **Exercise 1: group-wise median imputation**
-
-
 # %%
 df = pd.read_csv("insurance.csv")
 print("missing before:", df["bmi"].isna().sum())
@@ -499,19 +347,11 @@ df["bmi"] = df["bmi"].fillna(df.groupby(["sex", "smoker"])["bmi"].transform("med
 print("missing after:", df["bmi"].isna().sum())
 
 
-# %% [markdown]
-# **Exercise 2: IQR outliers in charges**
-
-
 # %%
 q1, q3 = df["charges"].quantile([0.25, 0.75])
 iqr = q3 - q1
 out = df[(df["charges"] < q1 - 1.5 * iqr) | (df["charges"] > q3 + 1.5 * iqr)]
 print(len(out), "outliers;", out["smoker"].value_counts().to_dict())
-
-
-# %% [markdown]
-# **Exercise 3: a validation function**
 
 
 # %%
@@ -530,12 +370,6 @@ except ValueError as e:
     print("caught:", e)
 
 
-# %% [markdown]
-# ## Chapter 13: Grouping, reshaping, joining
-#
-# **Exercise 1: smoking share and median charges by region**
-
-
 # %%
 smoke_share = df.groupby("region")["smoker"].apply(lambda s: (s == "yes").mean()).rename("smoker_share")
 med = df.pivot_table(values="charges", index="region", columns="smoker", aggfunc="median")
@@ -543,17 +377,9 @@ med.columns = ["median_nonsmoker", "median_smoker"]
 print(pd.concat([smoke_share, med], axis=1).round(2))
 
 
-# %% [markdown]
-# **Exercise 2: melt, then group**
-
-
 # %%
 long = df.melt(value_vars=["age", "bmi", "charges"], var_name="variable", value_name="value")
 print(long.groupby("variable")["value"].mean().round(2))
-
-
-# %% [markdown]
-# **Exercise 3: weekly resampling**
 
 
 # %%
@@ -567,21 +393,11 @@ ax.set_ylabel("units per week")
 plt.show()
 
 
-# %% [markdown]
-# ## Chapter 14: Matplotlib and Seaborn basics
-#
-# **Exercise 1: charges vs log(charges)**
-
-
 # %%
 fig, axes = plt.subplots(1, 2, figsize=(10, 3.4))
 axes[0].hist(df["charges"], bins=40); axes[0].set_title("charges")
 axes[1].hist(np.log(df["charges"]), bins=40, color="#e0245e"); axes[1].set_title("log(charges)")
 plt.tight_layout(); plt.show()
-
-
-# %% [markdown]
-# **Exercises 2 and 3: region pair plot and bars with CIs**
 
 
 # %%
@@ -591,12 +407,6 @@ plt.show()
 fig, ax = plt.subplots(figsize=(6, 3.4))
 sns.barplot(data=df, x="children", y="charges", ax=ax)
 plt.show()
-
-
-# %% [markdown]
-# ## Chapter 15: The Matplotlib gallery
-#
-# **Exercise 1: grouped bars of mean charges**
 
 
 # %%
@@ -609,20 +419,12 @@ ax.set(xticks=x, xticklabels=m.index, ylabel="mean charges")
 ax.legend(); plt.show()
 
 
-# %% [markdown]
-# **Exercise 2: ECDF of BMI by sex**
-
-
 # %%
 fig, ax = plt.subplots(figsize=(7, 3.2))
 for sex in ["female", "male"]:
     ax.ecdf(df.loc[df["sex"] == sex, "bmi"].dropna(), label=sex)
 ax.axhline(0.5, ls=":", color="grey"); ax.legend(); plt.show()
 print(df.groupby("sex")["bmi"].median())
-
-
-# %% [markdown]
-# **Exercise 3: 600-dpi PNG vs PDF**
 
 
 # %%
@@ -633,28 +435,14 @@ fig.savefig("ex600.png", dpi=600); fig.savefig("ex600.pdf"); plt.close(fig)
 print({f: Path(f).stat().st_size // 1024 for f in ["ex600.png", "ex600.pdf"]})
 
 
-# %% [markdown]
-# ## Chapter 16: The Seaborn gallery
-#
-# **Exercise 1: violins by children and smoker**
-
-
 # %%
 g = sns.catplot(data=df, x="children", y="charges", col="smoker", kind="violin", height=3, aspect=1.3)
 plt.show()
 
 
-# %% [markdown]
-# **Exercise 2: jointplot with a regression line**
-
-
 # %%
 g = sns.jointplot(data=df, x="bmi", y="charges", kind="reg", height=4, scatter_kws={"s": 8, "alpha": 0.4})
 plt.show()
-
-
-# %% [markdown]
-# **Exercise 3: clustermap with smokers marked**
 
 
 # %%
@@ -663,12 +451,6 @@ num = sub[["age", "bmi", "children", "charges"]]
 g = sns.clustermap(num, standard_scale=1, row_colors=sub["smoker"].map({"yes": "#ff6a00", "no": "#1f4fff"}),
                    cmap="mako", figsize=(5.5, 5.5), yticklabels=False)
 plt.show()
-
-
-# %% [markdown]
-# ## Chapter 17: Interactive charts with Plotly
-#
-# **Exercises 1 and 2: animated bars and a three-level sunburst**
 
 
 # %%
@@ -683,21 +465,11 @@ fig2 = px.sunburst(px.data.tips(), path=["day", "time", "sex"], values="tip", wi
 fig2.show()
 
 
-# %% [markdown]
-# **Exercise 3: a 7-inch, 300-dpi-equivalent PNG**
-
-
 # %%
 fig2.write_image("sunburst.png", width=700, height=600, scale=3)
 from PIL import Image
 with Image.open("sunburst.png") as im:
     print(im.size, "->", im.size[0] / 300, "inches wide at 300 dpi")
-
-
-# %% [markdown]
-# ## Chapter 18: Figures for papers
-#
-# **Exercises 1-3: final-size export and checking pixels**
 
 
 # %%

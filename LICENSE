@@ -2,10 +2,11 @@ MIT License
 
 Copyright (c) 2026 Mahir Absar Khan
 
-This license applies to the source code in this repository: the Jupyter
-notebooks' code cells, the Python scripts, the solutions and the tools. It does
-not apply to the book text, exercise wording, figures or cover art; see
-LICENSE-CONTENT.md.
+This license applies to the source code in this repository: the code cells of
+the notebooks, the Python scripts, the solutions, the tools and the build system
+in book-source/ (build.py, makepdf.py, covers.py, template.html and the other
+.py files). It does not apply to the book text, figures, PDF, web edition or
+cover art; see LICENSE-CONTENT.md.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

@@ -1,7 +1,8 @@
 """The Annotated ML Handbook, Chapter 31: Reproducibility, leakage checklists and writing it up
 
-Companion script by Mahir Absar Khan. Cells are marked with "# %%" so you can run them one
-at a time in VS Code, PyCharm or Spyder, or run the whole file: python 31-research-reporting.py
+By Mahir Absar Khan. The code of the chapter only; the full text with line-by-line
+explanations is in notebooks/part-7-ml-for-research/31-research-reporting.ipynb.
+Cells are marked "# %%" so you can run them one at a time in VS Code, PyCharm or Spyder.
 """
 
 # %%
@@ -51,14 +52,6 @@ except ImportError:
     pass
 
 
-# %% [markdown]
-# ## 31.1 A project layout that scales · *Beginner*
-#
-# ## 31.2 A configuration-driven experiment script · *Intermediate*
-#
-# **run_experiment.py in miniature**
-
-
 # %%
 import json, time, platform
 from pathlib import Path
@@ -103,12 +96,6 @@ result = main(CONFIG)
 print(json.dumps(result["results"], indent=2))
 
 
-# %% [markdown]
-# ## 31.3 Reproducibility checklist · *Beginner*
-#
-# **Fingerprint your data files**
-
-
 # %%
 import hashlib
 Path("data.csv").write_text("a,b\n1,2\n3,4\n")
@@ -121,12 +108,6 @@ def sha256(path, chunk=1 << 20):
 print("data.csv sha256:", sha256("data.csv")[:16], "...")
 
 
-# %% [markdown]
-# ## 31.4 The data-leakage checklist · *Beginner*
-#
-# **The label-permutation sanity check**
-
-
 # %%
 from sklearn.model_selection import permutation_test_score
 X, y = load_breast_cancer(return_X_y=True)
@@ -134,19 +115,3 @@ score, perm_scores, pvalue = permutation_test_score(
     make_pipeline(StandardScaler(), LogisticRegression(max_iter=5000)), X, y,
     scoring="roc_auc", cv=5, n_permutations=100, random_state=0, n_jobs=-1)
 print(f"real AUC={score:.3f} | shuffled-label AUCs: mean={perm_scores.mean():.3f}, max={perm_scores.max():.3f} | p={pvalue:.3f}")
-
-
-# %% [markdown]
-# ## 31.5 What to report · *Beginner*
-#
-# ## 31.6 A Methods-section template · *Beginner*
-#
-# ## 31.7 Ethics and responsible use · *Intermediate*
-#
-# ## Try it yourself
-#
-# 1. Turn the Chapter 29 case study into a `run_experiment.py` with a config dictionary, and save its outputs to `results/`.
-# 2. Run `permutation_test_score` on the insurance regression pipeline with `scoring="r2"`.
-# 3. Fill in the Methods template for your own project, marking every item you cannot yet fill: those are your to-do list.
-#
-# Worked solutions: [solutions-parts-5-8.ipynb](../../solutions/solutions-parts-5-8.ipynb), section *Chapter 31*.

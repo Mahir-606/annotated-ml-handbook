@@ -1,7 +1,8 @@
 """The Annotated ML Handbook, Chapter 5: Classes and objects
 
-Companion script by Mahir Absar Khan. Cells are marked with "# %%" so you can run them one
-at a time in VS Code, PyCharm or Spyder, or run the whole file: python 05-python-oop.py
+By Mahir Absar Khan. The code of the chapter only; the full text with line-by-line
+explanations is in notebooks/part-1-python/05-python-oop.ipynb.
+Cells are marked "# %%" so you can run them one at a time in VS Code, PyCharm or Spyder.
 """
 
 # %%
@@ -51,12 +52,6 @@ except ImportError:
     pass
 
 
-# %% [markdown]
-# ## 5.1 Your first class · *Beginner*
-#
-# **A class that stores and summarises measurements**
-
-
 # %%
 class Dataset:
     """A tiny container for numeric samples."""
@@ -77,12 +72,6 @@ print(ds.name, ds.values)
 print(round(ds.mean(), 3))
 ds.add(1.70).add(1.68)
 print(len(ds.values), round(ds.mean(), 3))
-
-
-# %% [markdown]
-# ## 5.2 Special ("dunder") methods · *Intermediate*
-#
-# **Making objects print, measure and compare nicely**
 
 
 # %%
@@ -107,12 +96,6 @@ class Vector2:
 
 v, w = Vector2(3, 4), Vector2(1, 1)
 print(v + w, v * 2, abs(v), v == Vector2(3, 4))
-
-
-# %% [markdown]
-# ## 5.3 Inheritance · *Intermediate*
-#
-# **A base model and two subclasses**
 
 
 # %%
@@ -151,12 +134,6 @@ print(clf.predict([[0], [0]]))
 print(isinstance(reg, Model), isinstance(reg, MajorityClassifier))
 
 
-# %% [markdown]
-# ## 5.4 Properties, class attributes and static methods · *Advanced*
-#
-# **Controlled attributes**
-
-
 # %%
 class Experiment:
     count = 0
@@ -192,12 +169,6 @@ except ValueError as err:
     print("Rejected:", err)
 
 
-# %% [markdown]
-# ## 5.5 Dataclasses: classes without boilerplate · *Intermediate*
-#
-# **A configuration object**
-
-
 # %%
 from dataclasses import dataclass, field, asdict
 
@@ -212,13 +183,3 @@ cfg = TrainConfig("cnn", epochs=50)
 print(cfg)
 print(asdict(cfg))
 print(cfg == TrainConfig("cnn", epochs=50))
-
-
-# %% [markdown]
-# ## Try it yourself
-#
-# 1. Write a class `Counter` with methods `add(item)` and `most_common()`.
-# 2. Give `Dataset` a `__len__` method so that `len(ds)` works.
-# 3. Subclass `Model` as `MedianRegressor`.
-#
-# Worked solutions: [solutions-parts-1-4.ipynb](../../solutions/solutions-parts-1-4.ipynb), section *Chapter 5*.

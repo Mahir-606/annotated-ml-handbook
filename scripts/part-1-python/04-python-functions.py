@@ -1,7 +1,8 @@
 """The Annotated ML Handbook, Chapter 4: Functions: reusable, testable logic
 
-Companion script by Mahir Absar Khan. Cells are marked with "# %%" so you can run them one
-at a time in VS Code, PyCharm or Spyder, or run the whole file: python 04-python-functions.py
+By Mahir Absar Khan. The code of the chapter only; the full text with line-by-line
+explanations is in notebooks/part-1-python/04-python-functions.ipynb.
+Cells are marked "# %%" so you can run them one at a time in VS Code, PyCharm or Spyder.
 """
 
 # %%
@@ -51,12 +52,6 @@ except ImportError:
     pass
 
 
-# %% [markdown]
-# ## 4.1 Defining and calling functions · *Beginner*
-#
-# **Anatomy of a function**
-
-
 # %%
 def bmi(weight_kg, height_m):
     """Return body-mass index (kg / m^2)."""
@@ -68,10 +63,6 @@ print(bmi(height_m=1.6, weight_kg=55))
 print(bmi.__doc__)
 
 
-# %% [markdown]
-# **Returning several values**
-
-
 # %%
 def mean_and_std(values):
     n = len(values)
@@ -81,12 +72,6 @@ def mean_and_std(values):
 
 m, s = mean_and_std([2, 4, 4, 4, 5, 5, 7, 9])
 print(f"mean={m:.3f}, sd={s:.3f}")
-
-
-# %% [markdown]
-# ## 4.2 Default values, *args and **kwargs · *Intermediate*
-#
-# **Flexible signatures**
 
 
 # %%
@@ -106,10 +91,6 @@ cfg = {"unit": "kg"}
 summarize(*nums, **cfg)
 
 
-# %% [markdown]
-# **Why def f(x, history=[]) is a bug**
-
-
 # %%
 def add_bad(item, history=[]):
     history.append(item)
@@ -127,12 +108,6 @@ def add_good(item, history=None):
 print(add_good("a"), add_good("b"))
 
 
-# %% [markdown]
-# ## 4.3 Scope: where names live · *Intermediate*
-#
-# **Local vs global names**
-
-
 # %%
 threshold = 0.5
 
@@ -147,12 +122,6 @@ def bump():
 print(classify(0.7), bump(), threshold)
 
 
-# %% [markdown]
-# ## 4.4 Lambda functions and functions as values · *Intermediate*
-#
-# **Passing functions around**
-
-
 # %%
 square = lambda x: x ** 2
 print(square(7))
@@ -164,12 +133,6 @@ print(list(filter(lambda x: x > 1, [0, 1, 2, 3])))
 def apply_twice(f, x):
     return f(f(x))
 print(apply_twice(square, 3))
-
-
-# %% [markdown]
-# ## 4.5 Closures and decorators · *Advanced*
-#
-# **A timing decorator**
 
 
 # %%
@@ -194,10 +157,6 @@ total = slow_sum(200_000)
 print(total)
 
 
-# %% [markdown]
-# **Caching expensive results**
-
-
 # %%
 from functools import lru_cache
 
@@ -209,12 +168,6 @@ print(fib(80))
 print(fib.cache_info())
 
 
-# %% [markdown]
-# ## 4.6 Generators: producing values lazily · *Intermediate*
-#
-# **A mini-batch generator**
-
-
 # %%
 def batches(data, batch_size):
     for start in range(0, len(data), batch_size):
@@ -224,12 +177,6 @@ for b in batches(list(range(10)), 4):
     print(b)
 squares = (x * x for x in range(5))
 print(sum(squares))
-
-
-# %% [markdown]
-# ## 4.7 Type hints and docstrings · *Intermediate*
-#
-# **A well-documented function**
 
 
 # %%
@@ -252,13 +199,3 @@ def normalize(values: list[float], eps: float = 1e-12) -> list[float]:
 
 print(normalize([10.0, 15.0, 20.0]))
 print(normalize.__annotations__)
-
-
-# %% [markdown]
-# ## Try it yourself
-#
-# 1. Write `def describe(values)` that returns a dict with `n`, `mean`, `min` and `max`.
-# 2. Write a decorator `@count_calls` that prints how many times a function has been called.
-# 3. Write a generator `def running_mean(xs)` that yields the mean of the items seen so far.
-#
-# Worked solutions: [solutions-parts-1-4.ipynb](../../solutions/solutions-parts-1-4.ipynb), section *Chapter 4*.

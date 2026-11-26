@@ -1,7 +1,8 @@
 """The Annotated ML Handbook, Chapter 26: TensorFlow fundamentals: tensors, gradients and data pipelines
 
-Companion script by Mahir Absar Khan. Cells are marked with "# %%" so you can run them one
-at a time in VS Code, PyCharm or Spyder, or run the whole file: python 26-tf-basics.py
+By Mahir Absar Khan. The code of the chapter only; the full text with line-by-line
+explanations is in notebooks/part-6-tensorflow-keras/26-tf-basics.ipynb.
+Cells are marked "# %%" so you can run them one at a time in VS Code, PyCharm or Spyder.
 """
 
 # %%
@@ -51,12 +52,6 @@ except ImportError:
     pass
 
 
-# %% [markdown]
-# ## 26.1 Tensors · *Beginner*
-#
-# **Creating and inspecting tensors**
-
-
 # %%
 import os
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "2"
@@ -73,12 +68,6 @@ x = tf.constant(np.arange(6).reshape(2, 3))
 print(x.dtype, tf.cast(x, tf.float32).dtype)
 
 
-# %% [markdown]
-# ## 26.2 Operations · *Beginner*
-#
-# **Maths, reductions, reshaping, indexing**
-
-
 # %%
 m = tf.constant([[1.0, 2.0, 3.0], [4.0, 5.0, 6.0]])
 print(m + 10, m * m, sep="\n")
@@ -87,12 +76,6 @@ print(tf.reduce_sum(m), tf.reduce_mean(m, axis=0).numpy())
 print(tf.reshape(m, (3, 2)).shape, tf.expand_dims(m, 0).shape)
 print(m[:, 1].numpy(), tf.argmax(m, axis=1).numpy())
 print(tf.nn.softmax(tf.constant([2.0, 1.0, 0.1])).numpy().round(3))
-
-
-# %% [markdown]
-# ## 26.3 Variables and automatic differentiation · *Intermediate*
-#
-# **Gradients with GradientTape**
 
 
 # %%
@@ -107,12 +90,6 @@ with tf.GradientTape() as tape:
     tape.watch(x)
     y = tf.reduce_sum(tf.sin(x))
 print(tape.gradient(y, x).numpy().round(4), np.cos([1, 2, 3]).round(4))
-
-
-# %% [markdown]
-# ### 26.3.1 Training a model by hand · *Intermediate*
-#
-# **Linear regression with a manual training loop**
 
 
 # %%
@@ -140,12 +117,6 @@ ax.set(xlabel="training step", ylabel="value", title="Parameters during gradient
 plt.show()
 
 
-# %% [markdown]
-# ## 26.4 Speed: tf.function · *Advanced*
-#
-# **Graph compilation**
-
-
 # %%
 @tf.function
 def train_step(X, y):
@@ -156,12 +127,6 @@ def train_step(X, y):
     return loss
 
 print(float(train_step(X, y)))
-
-
-# %% [markdown]
-# ## 26.5 Input pipelines with tf.data · *Intermediate*
-#
-# **Building a dataset pipeline**
 
 
 # %%
@@ -177,24 +142,8 @@ for xb, tb in ds.take(1):
 print("batches per epoch:", len(list(ds)))
 
 
-# %% [markdown]
-# ## 26.6 Reproducibility · *Beginner*
-#
-# **One call seeds Python, NumPy and TensorFlow**
-
-
 # %%
 tf.keras.utils.set_random_seed(42)
 print(tf.random.uniform((3,)).numpy().round(4))
 tf.keras.utils.set_random_seed(42)
 print(tf.random.uniform((3,)).numpy().round(4))
-
-
-# %% [markdown]
-# ## Try it yourself
-#
-# 1. Use `GradientTape` to find the minimum of f(x) = (x − 4)² + 1 by gradient descent, starting from x = 0.
-# 2. Extend the manual training loop to two input features.
-# 3. Build a `tf.data` pipeline from the breast-cancer data (`load_breast_cancer`) with batches of 64.
-#
-# Worked solutions: [solutions-parts-5-8.ipynb](../../solutions/solutions-parts-5-8.ipynb), section *Chapter 26*.

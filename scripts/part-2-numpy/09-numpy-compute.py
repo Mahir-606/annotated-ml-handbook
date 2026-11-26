@@ -1,7 +1,8 @@
 """The Annotated ML Handbook, Chapter 9: Computing with NumPy: vectorization, broadcasting, statistics, linear algebra
 
-Companion script by Mahir Absar Khan. Cells are marked with "# %%" so you can run them one
-at a time in VS Code, PyCharm or Spyder, or run the whole file: python 09-numpy-compute.py
+By Mahir Absar Khan. The code of the chapter only; the full text with line-by-line
+explanations is in notebooks/part-2-numpy/09-numpy-compute.ipynb.
+Cells are marked "# %%" so you can run them one at a time in VS Code, PyCharm or Spyder.
 """
 
 # %%
@@ -51,12 +52,6 @@ except ImportError:
     pass
 
 
-# %% [markdown]
-# ## 9.1 Universal functions (ufuncs) · *Beginner*
-#
-# **Element-wise maths**
-
-
 # %%
 import numpy as np
 x = np.array([1.0, 4.0, 9.0, 16.0])
@@ -67,12 +62,6 @@ a, b = np.array([1, 5, 3]), np.array([4, 2, 3])
 print(a + b, a * b, a > b, np.maximum(a, b))
 print(np.clip(np.array([-2, 0.5, 3]), 0, 1))
 print(np.abs([-3, 3]), np.sign([-3, 0, 3]))
-
-
-# %% [markdown]
-# ## 9.2 Broadcasting · *Intermediate*
-#
-# **Broadcasting in action**
 
 
 # %%
@@ -114,12 +103,6 @@ for ax, other, label in [(axes[0], np.array([[10, 20, 30]]), "(2,3) + (3,)"), (a
 plt.tight_layout(); plt.show()
 
 
-# %% [markdown]
-# **Incompatible shapes**
-#
-# ⚠️ *This cell raises an error **on purpose**, so you can see the real message. The book explains the cause and the fix.*
-
-
 # %%
 # This example raises an error ON PURPOSE (the book explains the cause and the fix).
 # It runs inside exec() so the script prints the error and carries on.
@@ -134,23 +117,11 @@ except Exception as _e:
     print(f"[expected error] {type(_e).__name__}: {_e}")
 
 
-# %% [markdown]
-# ### 9.2.1 Broadcasting power move: pairwise distances · *Advanced*
-#
-# **All pairwise Euclidean distances, no loops**
-
-
 # %%
 P = np.array([[0, 0], [3, 4], [6, 8]])
 diff = P[:, None, :] - P[None, :, :]
 D = np.sqrt((diff ** 2).sum(axis=-1))
 print(D)
-
-
-# %% [markdown]
-# ## 9.3 Statistics and aggregation · *Beginner*
-#
-# **Descriptive statistics**
 
 
 # %%
@@ -164,12 +135,6 @@ y = 2 * x + rng.normal(0, 5, size=1000)
 print("corr matrix:\n", np.corrcoef(x, y).round(3))
 
 
-# %% [markdown]
-# ## 9.4 Sorting, searching, unique values · *Beginner*
-#
-# **Order and counts**
-
-
 # %%
 a = np.array([3, 1, 4, 1, 5, 9, 2, 6])
 print(np.sort(a))
@@ -179,12 +144,6 @@ vals, counts = np.unique(a, return_counts=True)
 print(vals, counts)
 print(np.searchsorted([10, 20, 30], 25))
 print(np.argmax(a), np.argmin(a))
-
-
-# %% [markdown]
-# ## 9.5 Missing values: NaN · *Intermediate*
-#
-# **Detecting and handling NaN**
 
 
 # %%
@@ -197,12 +156,6 @@ print(np.nan_to_num(d, nan=0.0))
 print(np.nan == np.nan)
 
 
-# %% [markdown]
-# ## 9.6 Random numbers · *Beginner*
-#
-# **The Generator API (use this, not np.random.seed)**
-
-
 # %%
 rng = np.random.default_rng(42)
 print(rng.random(3))
@@ -211,12 +164,6 @@ print(rng.normal(0, 1, size=(2, 3)).round(2))
 print(rng.choice(["A", "B", "C"], size=5, p=[0.6, 0.3, 0.1]))
 idx = rng.permutation(10)
 print(idx)
-
-
-# %% [markdown]
-# ## 9.7 Linear algebra · *Intermediate*
-#
-# **Matrix operations ML is built on**
 
 
 # %%
@@ -235,12 +182,6 @@ U, S, Vt = np.linalg.svd(np.arange(6).reshape(2, 3).astype(float))
 print(S.round(4))
 
 
-# %% [markdown]
-# **Inner dimensions must agree**
-#
-# ⚠️ *This cell raises an error **on purpose**, so you can see the real message. The book explains the cause and the fix.*
-
-
 # %%
 # This example raises an error ON PURPOSE (the book explains the cause and the fix).
 # It runs inside exec() so the script prints the error and carries on.
@@ -253,13 +194,3 @@ try:
     exec(_example)
 except Exception as _e:
     print(f"[expected error] {type(_e).__name__}: {_e}")
-
-
-# %% [markdown]
-# ## Try it yourself
-#
-# 1. Min-max scale each column of a random `(100, 4)` matrix to [0, 1] using broadcasting.
-# 2. Using `np.unique(..., return_counts=True)`, report the class proportions of `rng.choice([0, 1], 500, p=[.8, .2])`.
-# 3. Solve the system 3x + 2y = 7, x − y = −1 with `np.linalg.solve`.
-#
-# Worked solutions: [solutions-parts-1-4.ipynb](../../solutions/solutions-parts-1-4.ipynb), section *Chapter 9*.

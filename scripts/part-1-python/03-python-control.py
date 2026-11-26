@@ -1,7 +1,8 @@
 """The Annotated ML Handbook, Chapter 3: Control flow: decisions and loops
 
-Companion script by Mahir Absar Khan. Cells are marked with "# %%" so you can run them one
-at a time in VS Code, PyCharm or Spyder, or run the whole file: python 03-python-control.py
+By Mahir Absar Khan. The code of the chapter only; the full text with line-by-line
+explanations is in notebooks/part-1-python/03-python-control.ipynb.
+Cells are marked "# %%" so you can run them one at a time in VS Code, PyCharm or Spyder.
 """
 
 # %%
@@ -51,12 +52,6 @@ except ImportError:
     pass
 
 
-# %% [markdown]
-# ## 3.1 if, elif, else · *Beginner*
-#
-# **Choosing a branch**
-
-
 # %%
 p_value = 0.032
 if p_value < 0.01:
@@ -68,12 +63,6 @@ else:
 print(verdict)
 label = "pass" if p_value < 0.05 else "fail"
 print(label)
-
-
-# %% [markdown]
-# ## 3.2 for loops · *Beginner*
-#
-# **Looping patterns you will use daily**
 
 
 # %%
@@ -89,12 +78,6 @@ for fruit, price in zip(fruits, prices):
     print(f"{fruit}: ${price:.2f}")
 
 
-# %% [markdown]
-# ## 3.3 while loops, break and continue · *Beginner*
-#
-# **Iterate until convergence**
-
-
 # %%
 x = 10.0
 steps = 0
@@ -102,10 +85,6 @@ while abs(x * x - 2) > 1e-10:
     x = (x + 2 / x) / 2
     steps += 1
 print(f"sqrt(2) ~ {x:.10f} after {steps} steps")
-
-
-# %% [markdown]
-# **break, continue and loop-else**
 
 
 # %%
@@ -121,12 +100,6 @@ for n in [2, 4, 6]:
         break
 else:
     print("all numbers were even")
-
-
-# %% [markdown]
-# ## 3.4 match: structural pattern matching · *Intermediate*
-#
-# **Dispatching on a value**
 
 
 # %%
@@ -145,12 +118,6 @@ print(describe({"type": "clustering", "k": 4}))
 print(describe("translation"))
 
 
-# %% [markdown]
-# ## 3.5 Iterables, iterators and why loops are lazy · *Advanced*
-#
-# **Lazy objects**
-
-
 # %%
 r = range(10**12)
 print(r[5], len(r))
@@ -158,13 +125,3 @@ z = zip([1, 2], ["a", "b"])
 print(z)
 print(list(z))
 print(list(z))
-
-
-# %% [markdown]
-# ## Try it yourself
-#
-# 1. Loop over `range(1, 31)` and print "Fizz" for multiples of 3, "Buzz" for multiples of 5, "FizzBuzz" for both, else the number.
-# 2. Use `zip` to compute the dot product of `[1, 2, 3]` and `[4, 5, 6]` in a loop. (Answer: 32.)
-# 3. Write a `while` loop that halves `lr = 1.0` until it is below `0.01` and counts how many halvings it took.
-#
-# Worked solutions: [solutions-parts-1-4.ipynb](../../solutions/solutions-parts-1-4.ipynb), section *Chapter 3*.

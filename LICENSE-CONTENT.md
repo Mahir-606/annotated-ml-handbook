@@ -1,18 +1,24 @@
-# Book content: all rights reserved
+# Book content: free to read, all rights reserved
 
-© 2026 Mahir Absar Khan. All rights reserved.
+© 2026 Mahir Absar Khan.
 
-*The Annotated ML Handbook* is a separately published book. The following material in this
-repository is part of the book and is **not** covered by the MIT License:
+*The Annotated ML Handbook* is published here so that anyone can learn from it for free.
 
-- the wording of the exercises (in `exercises/` and in the "Try it yourself" cells of the notebooks),
-- chapter and section titles as a whole, and the book's structure,
-- the figures in `figures/`,
-- the cover and preview images in `assets/`.
+**You may**, without asking:
 
-You may view this material on GitHub and use it for your own personal study. Please do not
-republish, sell or redistribute it without written permission from the author.
+- read the book online (GitHub, the web edition) and download the PDF,
+- use it for your own study, and in classes and study groups by linking to this repository,
+- quote short passages with credit, for example in reviews, posts and academic work.
 
-The **code** in this repository is MIT-licensed (see [LICENSE](LICENSE)): you can use, change
-and share it freely, including in commercial and research work. Brief quotations for reviews
-and scholarly citation are always welcome.
+**Please do not**, without written permission from the author:
+
+- republish, mirror or redistribute the text, figures, cover art or PDF elsewhere,
+- sell the book or any part of it, or include it in a paid product or course.
+
+This covers the prose, definitions, explanations, exercise wording, figures (`figures/`, `docs/img/`),
+the PDF and web edition (`docs/`), the chapter sources (`book-source/chapters/`), and the images in
+`assets/`.
+
+The **code** is different: every code cell, script, solution, tool and the build system are released
+under the MIT License (see [LICENSE](LICENSE)), so you can use, change and share the code freely,
+including in commercial and research work.

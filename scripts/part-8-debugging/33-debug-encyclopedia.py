@@ -1,7 +1,8 @@
 """The Annotated ML Handbook, Chapter 33: The error encyclopedia
 
-Companion script by Mahir Absar Khan. Cells are marked with "# %%" so you can run them one
-at a time in VS Code, PyCharm or Spyder, or run the whole file: python 33-debug-encyclopedia.py
+By Mahir Absar Khan. The code of the chapter only; the full text with line-by-line
+explanations is in notebooks/part-8-debugging/33-debug-encyclopedia.ipynb.
+Cells are marked "# %%" so you can run them one at a time in VS Code, PyCharm or Spyder.
 """
 
 # %%
@@ -51,16 +52,6 @@ except ImportError:
     pass
 
 
-# %% [markdown]
-# ## 33.1 Python errors · *Beginner*
-#
-# ### 33.1.1 `SyntaxError` and `IndentationError`
-#
-# **Missing colon**
-#
-# ⚠️ *This cell raises an error **on purpose**, so you can see the real message. The book explains the cause and the fix.*
-
-
 # %%
 # This example raises an error ON PURPOSE (the book explains the cause and the fix).
 # It runs inside exec() so the script prints the error and carries on.
@@ -72,14 +63,6 @@ try:
     exec(_example)
 except Exception as _e:
     print(f"[expected error] {type(_e).__name__}: {_e}")
-
-
-# %% [markdown]
-# ### 33.1.2 `NameError: name '…' is not defined`
-#
-# **Typo or never defined**
-#
-# ⚠️ *This cell raises an error **on purpose**, so you can see the real message. The book explains the cause and the fix.*
 
 
 # %%
@@ -95,14 +78,6 @@ except Exception as _e:
     print(f"[expected error] {type(_e).__name__}: {_e}")
 
 
-# %% [markdown]
-# ### 33.1.3 `TypeError: unsupported operand type(s)` / `can only concatenate str`
-#
-# **Mixing types**
-#
-# ⚠️ *This cell raises an error **on purpose**, so you can see the real message. The book explains the cause and the fix.*
-
-
 # %%
 # This example raises an error ON PURPOSE (the book explains the cause and the fix).
 # It runs inside exec() so the script prints the error and carries on.
@@ -113,14 +88,6 @@ try:
     exec(_example)
 except Exception as _e:
     print(f"[expected error] {type(_e).__name__}: {_e}")
-
-
-# %% [markdown]
-# ### 33.1.4 `TypeError: 'X' object is not callable`
-#
-# **A built-in shadowed by a variable**
-#
-# ⚠️ *This cell raises an error **on purpose**, so you can see the real message. The book explains the cause and the fix.*
 
 
 # %%
@@ -134,14 +101,6 @@ try:
     exec(_example)
 except Exception as _e:
     print(f"[expected error] {type(_e).__name__}: {_e}")
-
-
-# %% [markdown]
-# ### 33.1.5 `TypeError: … takes N positional arguments but M were given`
-#
-# **Forgot self, or passed too many arguments**
-#
-# ⚠️ *This cell raises an error **on purpose**, so you can see the real message. The book explains the cause and the fix.*
 
 
 # %%
@@ -159,14 +118,6 @@ except Exception as _e:
     print(f"[expected error] {type(_e).__name__}: {_e}")
 
 
-# %% [markdown]
-# ### 33.1.6 `IndexError: list index out of range`
-#
-# **Index past the end**
-#
-# ⚠️ *This cell raises an error **on purpose**, so you can see the real message. The book explains the cause and the fix.*
-
-
 # %%
 # This example raises an error ON PURPOSE (the book explains the cause and the fix).
 # It runs inside exec() so the script prints the error and carries on.
@@ -180,14 +131,6 @@ except Exception as _e:
     print(f"[expected error] {type(_e).__name__}: {_e}")
 
 
-# %% [markdown]
-# ### 33.1.7 `KeyError`
-#
-# **Missing dictionary key**
-#
-# ⚠️ *This cell raises an error **on purpose**, so you can see the real message. The book explains the cause and the fix.*
-
-
 # %%
 # This example raises an error ON PURPOSE (the book explains the cause and the fix).
 # It runs inside exec() so the script prints the error and carries on.
@@ -199,14 +142,6 @@ try:
     exec(_example)
 except Exception as _e:
     print(f"[expected error] {type(_e).__name__}: {_e}")
-
-
-# %% [markdown]
-# ### 33.1.8 `AttributeError: '…' object has no attribute '…'`
-#
-# **Method on the wrong type, or on None**
-#
-# ⚠️ *This cell raises an error **on purpose**, so you can see the real message. The book explains the cause and the fix.*
 
 
 # %%
@@ -223,14 +158,6 @@ except Exception as _e:
     print(f"[expected error] {type(_e).__name__}: {_e}")
 
 
-# %% [markdown]
-# ### 33.1.9 `ValueError: invalid literal for int() with base 10`
-#
-# **Converting a non-numeric string**
-#
-# ⚠️ *This cell raises an error **on purpose**, so you can see the real message. The book explains the cause and the fix.*
-
-
 # %%
 # This example raises an error ON PURPOSE (the book explains the cause and the fix).
 # It runs inside exec() so the script prints the error and carries on.
@@ -241,14 +168,6 @@ try:
     exec(_example)
 except Exception as _e:
     print(f"[expected error] {type(_e).__name__}: {_e}")
-
-
-# %% [markdown]
-# ### 33.1.10 `ZeroDivisionError`
-#
-# **Division by zero**
-#
-# ⚠️ *This cell raises an error **on purpose**, so you can see the real message. The book explains the cause and the fix.*
 
 
 # %%
@@ -264,14 +183,6 @@ except Exception as _e:
     print(f"[expected error] {type(_e).__name__}: {_e}")
 
 
-# %% [markdown]
-# ### 33.1.11 `ModuleNotFoundError: No module named '…'`
-#
-# **Library not installed in this environment**
-#
-# ⚠️ *This cell raises an error **on purpose**, so you can see the real message. The book explains the cause and the fix.*
-
-
 # %%
 # This example raises an error ON PURPOSE (the book explains the cause and the fix).
 # It runs inside exec() so the script prints the error and carries on.
@@ -282,14 +193,6 @@ try:
     exec(_example)
 except Exception as _e:
     print(f"[expected error] {type(_e).__name__}: {_e}")
-
-
-# %% [markdown]
-# ### 33.1.12 `FileNotFoundError: [Errno 2] No such file or directory`
-#
-# **Wrong path or working directory**
-#
-# ⚠️ *This cell raises an error **on purpose**, so you can see the real message. The book explains the cause and the fix.*
 
 
 # %%
@@ -304,14 +207,6 @@ except Exception as _e:
     print(f"[expected error] {type(_e).__name__}: {_e}")
 
 
-# %% [markdown]
-# ### 33.1.13 `RecursionError: maximum recursion depth exceeded`
-#
-# **Recursion without a base case**
-#
-# ⚠️ *This cell raises an error **on purpose**, so you can see the real message. The book explains the cause and the fix.*
-
-
 # %%
 # This example raises an error ON PURPOSE (the book explains the cause and the fix).
 # It runs inside exec() so the script prints the error and carries on.
@@ -324,16 +219,6 @@ try:
     exec(_example)
 except Exception as _e:
     print(f"[expected error] {type(_e).__name__}: {_e}")
-
-
-# %% [markdown]
-# ## 33.2 NumPy errors · *Beginner*
-#
-# ### 33.2.1 `ValueError: operands could not be broadcast together with shapes`
-#
-# **Incompatible shapes**
-#
-# ⚠️ *This cell raises an error **on purpose**, so you can see the real message. The book explains the cause and the fix.*
 
 
 # %%
@@ -351,14 +236,6 @@ except Exception as _e:
     print(f"[expected error] {type(_e).__name__}: {_e}")
 
 
-# %% [markdown]
-# ### 33.2.2 `ValueError: matmul: Input operand 1 has a mismatch in its core dimension`
-#
-# **Matrix product with incompatible inner dimensions**
-#
-# ⚠️ *This cell raises an error **on purpose**, so you can see the real message. The book explains the cause and the fix.*
-
-
 # %%
 # This example raises an error ON PURPOSE (the book explains the cause and the fix).
 # It runs inside exec() so the script prints the error and carries on.
@@ -373,14 +250,6 @@ except Exception as _e:
     print(f"[expected error] {type(_e).__name__}: {_e}")
 
 
-# %% [markdown]
-# ### 33.2.3 `ValueError: cannot reshape array of size N into shape …`
-#
-# **Total size mismatch**
-#
-# ⚠️ *This cell raises an error **on purpose**, so you can see the real message. The book explains the cause and the fix.*
-
-
 # %%
 # This example raises an error ON PURPOSE (the book explains the cause and the fix).
 # It runs inside exec() so the script prints the error and carries on.
@@ -391,14 +260,6 @@ try:
     exec(_example)
 except Exception as _e:
     print(f"[expected error] {type(_e).__name__}: {_e}")
-
-
-# %% [markdown]
-# ### 33.2.4 `ValueError: The truth value of an array with more than one element is ambiguous`
-#
-# **Using `if` or `and` with an array**
-#
-# ⚠️ *This cell raises an error **on purpose**, so you can see the real message. The book explains the cause and the fix.*
 
 
 # %%
@@ -415,14 +276,6 @@ except Exception as _e:
     print(f"[expected error] {type(_e).__name__}: {_e}")
 
 
-# %% [markdown]
-# ### 33.2.5 `IndexError: too many indices for array`
-#
-# **Indexing a 1-D array as if it were 2-D**
-#
-# ⚠️ *This cell raises an error **on purpose**, so you can see the real message. The book explains the cause and the fix.*
-
-
 # %%
 # This example raises an error ON PURPOSE (the book explains the cause and the fix).
 # It runs inside exec() so the script prints the error and carries on.
@@ -436,14 +289,6 @@ except Exception as _e:
     print(f"[expected error] {type(_e).__name__}: {_e}")
 
 
-# %% [markdown]
-# ### 33.2.6 `numpy.exceptions.AxisError: axis 1 is out of bounds`
-#
-# **Axis beyond ndim**
-#
-# ⚠️ *This cell raises an error **on purpose**, so you can see the real message. The book explains the cause and the fix.*
-
-
 # %%
 # This example raises an error ON PURPOSE (the book explains the cause and the fix).
 # It runs inside exec() so the script prints the error and carries on.
@@ -454,16 +299,6 @@ try:
     exec(_example)
 except Exception as _e:
     print(f"[expected error] {type(_e).__name__}: {_e}")
-
-
-# %% [markdown]
-# ## 33.3 pandas errors · *Beginner*
-#
-# ### 33.3.1 `KeyError` on a column
-#
-# **Column name mismatch**
-#
-# ⚠️ *This cell raises an error **on purpose**, so you can see the real message. The book explains the cause and the fix.*
 
 
 # %%
@@ -480,14 +315,6 @@ except Exception as _e:
     print(f"[expected error] {type(_e).__name__}: {_e}")
 
 
-# %% [markdown]
-# ### 33.3.2 `ValueError: Length of values does not match length of index`
-#
-# **Assigning a list of the wrong length**
-#
-# ⚠️ *This cell raises an error **on purpose**, so you can see the real message. The book explains the cause and the fix.*
-
-
 # %%
 # This example raises an error ON PURPOSE (the book explains the cause and the fix).
 # It runs inside exec() so the script prints the error and carries on.
@@ -501,24 +328,10 @@ except Exception as _e:
     print(f"[expected error] {type(_e).__name__}: {_e}")
 
 
-# %% [markdown]
-# ### 33.3.3 `ChainedAssignmentError` warning: the assignment has no effect
-#
-# **Chained indexing with assignment**
-
-
 # %%
 df = pd.DataFrame({"a": [1, 2, 3], "b": [0, 0, 0]})
 df[df["a"] > 1]["b"] = 99
 print(df)
-
-
-# %% [markdown]
-# ### 33.3.4 `TypeError: Cannot perform reduction 'mean' with string dtype`
-#
-# **Numbers stored as text**
-#
-# ⚠️ *This cell raises an error **on purpose**, so you can see the real message. The book explains the cause and the fix.*
 
 
 # %%
@@ -532,14 +345,6 @@ try:
     exec(_example)
 except Exception as _e:
     print(f"[expected error] {type(_e).__name__}: {_e}")
-
-
-# %% [markdown]
-# ### 33.3.5 `MergeError` / unexpected row counts after `merge`
-#
-# **validate catches a many-to-many join**
-#
-# ⚠️ *This cell raises an error **on purpose**, so you can see the real message. The book explains the cause and the fix.*
 
 
 # %%
@@ -556,14 +361,6 @@ except Exception as _e:
     print(f"[expected error] {type(_e).__name__}: {_e}")
 
 
-# %% [markdown]
-# ### 33.3.6 `ValueError: Index contains duplicate entries, cannot reshape`
-#
-# **pivot with duplicates**
-#
-# ⚠️ *This cell raises an error **on purpose**, so you can see the real message. The book explains the cause and the fix.*
-
-
 # %%
 # This example raises an error ON PURPOSE (the book explains the cause and the fix).
 # It runs inside exec() so the script prints the error and carries on.
@@ -575,14 +372,6 @@ try:
     exec(_example)
 except Exception as _e:
     print(f"[expected error] {type(_e).__name__}: {_e}")
-
-
-# %% [markdown]
-# ### 33.3.7 `UnicodeDecodeError` when reading a CSV
-#
-# **Wrong text encoding**
-#
-# ⚠️ *This cell raises an error **on purpose**, so you can see the real message. The book explains the cause and the fix.*
 
 
 # %%
@@ -599,16 +388,6 @@ except Exception as _e:
     print(f"[expected error] {type(_e).__name__}: {_e}")
 
 
-# %% [markdown]
-# ## 33.4 scikit-learn errors · *Intermediate*
-#
-# ### 33.4.1 `ValueError: Expected a 2-dimensional container but got <class 'pandas.Series'> instead`
-#
-# **One feature passed as a Series**
-#
-# ⚠️ *This cell raises an error **on purpose**, so you can see the real message. The book explains the cause and the fix.*
-
-
 # %%
 # This example raises an error ON PURPOSE (the book explains the cause and the fix).
 # It runs inside exec() so the script prints the error and carries on.
@@ -621,14 +400,6 @@ try:
     exec(_example)
 except Exception as _e:
     print(f"[expected error] {type(_e).__name__}: {_e}")
-
-
-# %% [markdown]
-# ### 33.4.2 `ValueError: Input X contains NaN`
-#
-# **Missing values reach an estimator that can't handle them**
-#
-# ⚠️ *This cell raises an error **on purpose**, so you can see the real message. The book explains the cause and the fix.*
 
 
 # %%
@@ -645,14 +416,6 @@ except Exception as _e:
     print(f"[expected error] {type(_e).__name__}: {_e}")
 
 
-# %% [markdown]
-# ### 33.4.3 `ValueError: could not convert string to float`
-#
-# **Text categories passed to a numeric model**
-#
-# ⚠️ *This cell raises an error **on purpose**, so you can see the real message. The book explains the cause and the fix.*
-
-
 # %%
 # This example raises an error ON PURPOSE (the book explains the cause and the fix).
 # It runs inside exec() so the script prints the error and carries on.
@@ -664,14 +427,6 @@ try:
     exec(_example)
 except Exception as _e:
     print(f"[expected error] {type(_e).__name__}: {_e}")
-
-
-# %% [markdown]
-# ### 33.4.4 `ValueError: Found input variables with inconsistent numbers of samples`
-#
-# **X and y lengths differ**
-#
-# ⚠️ *This cell raises an error **on purpose**, so you can see the real message. The book explains the cause and the fix.*
 
 
 # %%
@@ -688,14 +443,6 @@ except Exception as _e:
     print(f"[expected error] {type(_e).__name__}: {_e}")
 
 
-# %% [markdown]
-# ### 33.4.5 `NotFittedError: This … instance is not fitted yet`
-#
-# **predict before fit**
-#
-# ⚠️ *This cell raises an error **on purpose**, so you can see the real message. The book explains the cause and the fix.*
-
-
 # %%
 # This example raises an error ON PURPOSE (the book explains the cause and the fix).
 # It runs inside exec() so the script prints the error and carries on.
@@ -707,14 +454,6 @@ try:
     exec(_example)
 except Exception as _e:
     print(f"[expected error] {type(_e).__name__}: {_e}")
-
-
-# %% [markdown]
-# ### 33.4.6 `ValueError: Found unknown categories … during transform`
-#
-# **A category in the test data that training never saw**
-#
-# ⚠️ *This cell raises an error **on purpose**, so you can see the real message. The book explains the cause and the fix.*
 
 
 # %%
@@ -731,14 +470,6 @@ except Exception as _e:
     print(f"[expected error] {type(_e).__name__}: {_e}")
 
 
-# %% [markdown]
-# ### 33.4.7 `ValueError: The feature names should match those that were passed during fit`
-#
-# **Columns renamed or reordered after fitting**
-#
-# ⚠️ *This cell raises an error **on purpose**, so you can see the real message. The book explains the cause and the fix.*
-
-
 # %%
 # This example raises an error ON PURPOSE (the book explains the cause and the fix).
 # It runs inside exec() so the script prints the error and carries on.
@@ -750,14 +481,6 @@ try:
     exec(_example)
 except Exception as _e:
     print(f"[expected error] {type(_e).__name__}: {_e}")
-
-
-# %% [markdown]
-# ### 33.4.8 `ValueError: Invalid parameter … for estimator`
-#
-# **Wrong parameter name in a grid search**
-#
-# ⚠️ *This cell raises an error **on purpose**, so you can see the real message. The book explains the cause and the fix.*
 
 
 # %%
@@ -775,14 +498,6 @@ except Exception as _e:
     print(f"[expected error] {type(_e).__name__}: {_e}")
 
 
-# %% [markdown]
-# ### 33.4.9 `ValueError: Target is multiclass but average='binary'`
-#
-# **Binary metric on a multiclass problem**
-#
-# ⚠️ *This cell raises an error **on purpose**, so you can see the real message. The book explains the cause and the fix.*
-
-
 # %%
 # This example raises an error ON PURPOSE (the book explains the cause and the fix).
 # It runs inside exec() so the script prints the error and carries on.
@@ -794,14 +509,6 @@ try:
     exec(_example)
 except Exception as _e:
     print(f"[expected error] {type(_e).__name__}: {_e}")
-
-
-# %% [markdown]
-# ### 33.4.10 `ValueError: The least populated classes in y have only 1 member`
-#
-# **Stratifying with a class that has a single example**
-#
-# ⚠️ *This cell raises an error **on purpose**, so you can see the real message. The book explains the cause and the fix.*
 
 
 # %%
@@ -817,26 +524,10 @@ except Exception as _e:
     print(f"[expected error] {type(_e).__name__}: {_e}")
 
 
-# %% [markdown]
-# ### 33.4.11 `ConvergenceWarning: lbfgs failed to converge`
-#
-# **The optimiser hit max_iter**
-
-
 # %%
 from sklearn.datasets import load_breast_cancer
 Xb, yb = load_breast_cancer(return_X_y=True)
 LogisticRegression(max_iter=20).fit(Xb, yb)
-
-
-# %% [markdown]
-# ## 33.5 TensorFlow / Keras errors · *Intermediate*
-#
-# ### 33.5.1 `Input 0 … is incompatible with the layer: expected axis -1 of input shape to have value …`
-#
-# **Data has a different number of features than the model expects**
-#
-# ⚠️ *This cell raises an error **on purpose**, so you can see the real message. The book explains the cause and the fix.*
 
 
 # %%
@@ -858,14 +549,6 @@ except Exception as _e:
     print(f"[expected error] {type(_e).__name__}: {_e}")
 
 
-# %% [markdown]
-# ### 33.5.2 `ValueError: Arguments target and output must have the same rank`: labels don't match the loss
-#
-# **One-hot loss with integer labels**
-#
-# ⚠️ *This cell raises an error **on purpose**, so you can see the real message. The book explains the cause and the fix.*
-
-
 # %%
 # This example raises an error ON PURPOSE (the book explains the cause and the fix).
 # It runs inside exec() so the script prints the error and carries on.
@@ -878,14 +561,6 @@ try:
     exec(_example)
 except Exception as _e:
     print(f"[expected error] {type(_e).__name__}: {_e}")
-
-
-# %% [markdown]
-# ### 33.5.3 `InvalidArgumentError: … expected to be a float tensor but is a double tensor`
-#
-# **Mixing NumPy float64 with float32 tensors**
-#
-# ⚠️ *This cell raises an error **on purpose**, so you can see the real message. The book explains the cause and the fix.*
 
 
 # %%
@@ -902,12 +577,6 @@ except Exception as _e:
     print(f"[expected error] {type(_e).__name__}: {_e}")
 
 
-# %% [markdown]
-# ### 33.5.4 Loss becomes `nan`
-#
-# **Detecting NaN during training**
-
-
 # %%
 bad_X = np.array([[1.0], [np.nan], [3.0]], dtype="float32")
 m = keras.Sequential([keras.Input(shape=(1,)), layers.Dense(1)])
@@ -915,15 +584,3 @@ m.compile(optimizer="adam", loss="mse")
 h = m.fit(bad_X, np.array([1.0, 2.0, 3.0]), epochs=2, verbose=0,
           callbacks=[keras.callbacks.TerminateOnNaN()])
 print("losses:", h.history["loss"])
-
-
-# %% [markdown]
-# ### 33.5.5 Out of memory (`ResourceExhaustedError: OOM when allocating tensor`)
-#
-# ## 33.6 Notebook and environment gotchas · *Beginner*
-#
-# ## Try it yourself
-#
-# Pick any three errors from this chapter, reproduce them in your own environment, then fix each one. Being able to *cause* an error on purpose is the fastest way to recognise it in the wild.
-#
-# Worked solutions: [solutions-parts-5-8.ipynb](../../solutions/solutions-parts-5-8.ipynb), section *Chapter 33*.

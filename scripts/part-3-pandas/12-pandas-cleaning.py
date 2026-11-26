@@ -1,7 +1,8 @@
 """The Annotated ML Handbook, Chapter 12: Cleaning data with pandas
 
-Companion script by Mahir Absar Khan. Cells are marked with "# %%" so you can run them one
-at a time in VS Code, PyCharm or Spyder, or run the whole file: python 12-pandas-cleaning.py
+By Mahir Absar Khan. The code of the chapter only; the full text with line-by-line
+explanations is in notebooks/part-3-pandas/12-pandas-cleaning.ipynb.
+Cells are marked "# %%" so you can run them one at a time in VS Code, PyCharm or Spyder.
 """
 
 # %%
@@ -51,12 +52,6 @@ except ImportError:
     pass
 
 
-# %% [markdown]
-# ## 12.1 A deliberately messy dataset · *Beginner*
-#
-# **Read messy CSV text directly**
-
-
 # %%
 import io
 import numpy as np
@@ -76,21 +71,9 @@ print(df)
 print(df.dtypes)
 
 
-# %% [markdown]
-# ## 12.2 Step 1: tidy column names · *Beginner*
-#
-# **Normalise headers**
-
-
 # %%
 df.columns = df.columns.str.strip().str.lower().str.replace(" ", "_")
 print(df.columns.tolist())
-
-
-# %% [markdown]
-# ## 12.3 Step 2: duplicates · *Beginner*
-#
-# **Find and drop duplicate rows**
 
 
 # %%
@@ -100,12 +83,6 @@ df = df.drop_duplicates().reset_index(drop=True)
 print(df["id"].is_unique, len(df))
 
 
-# %% [markdown]
-# ## 12.4 Step 3: fix types · *Beginner*
-#
-# **Text to numbers**
-
-
 # %%
 df["income"] = pd.to_numeric(df["income"].str.replace(",", ""), errors="coerce")
 print(df["income"].tolist(), df["income"].dtype)
@@ -113,17 +90,9 @@ df["score"] = df["score"].replace(-1, np.nan)
 print(df["score"].tolist())
 
 
-# %% [markdown]
-# **Mixed date formats: the tempting shortcut is wrong**
-
-
 # %%
 guess = pd.to_datetime(df["signup_date"], format="mixed", dayfirst=True)
 print(guess.dt.strftime("%Y-%m-%d").tolist())
-
-
-# %% [markdown]
-# **Parse each known format explicitly**
 
 
 # %%
@@ -137,12 +106,6 @@ print(df["signup_date"].dt.strftime("%Y-%m-%d").tolist())
 print(df["signup_date"].dt.month.tolist(), df["signup_date"].dt.day_name().tolist()[:3])
 
 
-# %% [markdown]
-# ## 12.5 Step 4: clean text and categories · *Beginner*
-#
-# **The .str accessor**
-
-
 # %%
 df["name"] = df["name"].str.strip().str.title()
 df["city"] = df["city"].str.strip().str.title()
@@ -152,10 +115,6 @@ print(df["name"].str.contains("a", case=False).tolist())
 print(df["name"].str.len().tolist(), df["name"].str[0].tolist())
 
 
-# %% [markdown]
-# **Recoding values**
-
-
 # %%
 s = pd.Series(["M", "male", "F", "female", "f", "unknown"])
 mapping = {"m": "male", "male": "male", "f": "female", "female": "female"}
@@ -163,20 +122,10 @@ print(s.str.lower().map(mapping).tolist())
 print(s.replace({"M": "male", "F": "female"}).tolist())
 
 
-# %% [markdown]
-# ## 12.6 Step 5: missing values · *Beginner*
-#
-# **Measure missingness**
-
-
 # %%
 print(df.isna().sum())
 print(df.isna().mean().round(2))
 print(df[df.isna().any(axis=1)])
-
-
-# %% [markdown]
-# **Drop or fill**
 
 
 # %%
@@ -190,20 +139,10 @@ filled["score"] = filled["score"].fillna(filled["score"].mean())
 print(filled[["age", "income", "score", "score_missing"]])
 
 
-# %% [markdown]
-# **Ordered data: forward fill and interpolation**
-
-
 # %%
 ts = pd.Series([1.0, np.nan, np.nan, 4.0, np.nan, 6.0])
 print(ts.ffill().tolist())
 print(ts.interpolate().tolist())
-
-
-# %% [markdown]
-# ## 12.7 Step 6: outliers and impossible values · *Intermediate*
-#
-# **Domain rules and the IQR rule**
 
 
 # %%
@@ -215,12 +154,6 @@ iqr = q3 - q1
 lo, hi = q1 - 1.5 * iqr, q3 + 1.5 * iqr
 print(f"bounds=({lo}, {hi}) outliers={x[(x < lo) | (x > hi)].tolist()}")
 print(x.clip(lower=lo, upper=hi).tolist())
-
-
-# %% [markdown]
-# ## 12.8 Transforming columns with map, apply and vectorized ops · *Intermediate*
-#
-# **Fastest to slowest**
 
 
 # %%
@@ -236,12 +169,6 @@ print(ins[["bmi", "obese", "smoker", "risk", "region_code", "desc"]].head())
 print(ins["risk"].value_counts())
 
 
-# %% [markdown]
-# ## 12.9 Categorical dtype · *Intermediate*
-#
-# **Memory-efficient, ordered categories**
-
-
 # %%
 ins["region"] = ins["region"].astype("category")
 print(ins["region"].cat.categories.tolist(), ins["region"].cat.codes[:5].tolist())
@@ -249,12 +176,6 @@ size = pd.Categorical(["M", "S", "L", "M"], categories=["S", "M", "L"], ordered=
 print(size.sort_values().tolist(), (size > "S").tolist())
 dummies = pd.get_dummies(ins["region"], prefix="reg", dtype=int)
 print(dummies.head(3))
-
-
-# %% [markdown]
-# ## 12.10 A reusable cleaning function · *Intermediate*
-#
-# **clean_customers()**
 
 
 # %%
@@ -282,13 +203,3 @@ def clean_customers(raw: pd.DataFrame) -> pd.DataFrame:
 clean = clean_customers(pd.read_csv(io.StringIO(raw), na_values=["?"]))
 print(clean)
 print(clean.dtypes)
-
-
-# %% [markdown]
-# ## Try it yourself
-#
-# 1. In `insurance.csv`, fill missing BMI with the median BMI of the same sex and smoker group (`groupby(...).transform("median")`).
-# 2. Count how many charges are outliers by the IQR rule. Are they mostly smokers?
-# 3. Write a check function that raises an error if any age is outside 18–64 or any charge is negative.
-#
-# Worked solutions: [solutions-parts-1-4.ipynb](../../solutions/solutions-parts-1-4.ipynb), section *Chapter 12*.

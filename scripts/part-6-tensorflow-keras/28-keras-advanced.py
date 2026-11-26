@@ -1,7 +1,8 @@
 """The Annotated ML Handbook, Chapter 28: Deep learning architectures: CNNs, sequence models and custom training
 
-Companion script by Mahir Absar Khan. Cells are marked with "# %%" so you can run them one
-at a time in VS Code, PyCharm or Spyder, or run the whole file: python 28-keras-advanced.py
+By Mahir Absar Khan. The code of the chapter only; the full text with line-by-line
+explanations is in notebooks/part-6-tensorflow-keras/28-keras-advanced.ipynb.
+Cells are marked "# %%" so you can run them one at a time in VS Code, PyCharm or Spyder.
 """
 
 # %%
@@ -51,12 +52,6 @@ except ImportError:
     pass
 
 
-# %% [markdown]
-# ## 28.1 Convolutional neural networks · *Intermediate*
-#
-# **Prepare 8×8 digit images**
-
-
 # %%
 import os
 os.environ["TF_CPP_MIN_LOG_LEVEL"] = "2"
@@ -83,10 +78,6 @@ for ax, img, lab in zip(axes.ravel(), X_tr[:16], y_tr[:16]):
 plt.tight_layout(); plt.show()
 
 
-# %% [markdown]
-# **Build and train a small CNN**
-
-
 # %%
 keras.utils.set_random_seed(0)
 cnn = keras.Sequential([
@@ -107,10 +98,6 @@ hist = cnn.fit(X_tr, y_tr, validation_split=0.15, epochs=40, batch_size=64, verb
 print("epochs run:", len(hist.history["loss"]), "| test accuracy:", round(cnn.evaluate(X_te, y_te, verbose=0)[1], 4))
 
 
-# %% [markdown]
-# **Where does it go wrong?**
-
-
 # %%
 from sklearn.metrics import ConfusionMatrixDisplay
 pred = cnn.predict(X_te, verbose=0).argmax(axis=1)
@@ -127,12 +114,6 @@ plt.tight_layout()
 plt.show()
 
 
-# %% [markdown]
-# ### 28.1.1 Data augmentation · *Intermediate*
-#
-# **Augmentation as layers inside the model**
-
-
 # %%
 augment = keras.Sequential([
     layers.RandomRotation(0.05),
@@ -141,36 +122,6 @@ augment = keras.Sequential([
 ], name="augment")
 sample = augment(X_tr[:1].repeat(5, axis=0), training=True)
 print(sample.shape)
-
-
-# %% [markdown]
-# ## 28.2 Transfer learning · *Advanced*
-#
-# **Fine-tuning a pretrained image model (downloads weights on first use)**
-#
-# *Shown for reference, not run automatically (it waits for input, needs your own files, or would change your system). Copy it into a cell to try it.*
-#
-# ```python
-# base = keras.applications.EfficientNetB0(include_top=False, weights="imagenet",
-#                                          input_shape=(224, 224, 3))
-# base.trainable = False
-# inputs = keras.Input(shape=(224, 224, 3))
-# x = augment(inputs)
-# x = base(x, training=False)
-# x = layers.GlobalAveragePooling2D()(x)
-# x = layers.Dropout(0.3)(x)
-# outputs = layers.Dense(n_classes, activation="softmax")(x)
-# model = keras.Model(inputs, outputs)
-# model.compile(optimizer=keras.optimizers.Adam(1e-3), loss="sparse_categorical_crossentropy", metrics=["accuracy"])
-# model.fit(train_ds, validation_data=val_ds, epochs=10)
-# base.trainable = True
-# model.compile(optimizer=keras.optimizers.Adam(1e-5), loss="sparse_categorical_crossentropy", metrics=["accuracy"])
-# model.fit(train_ds, validation_data=val_ds, epochs=5)
-# ```
-#
-# ## 28.3 Sequence models: forecasting a time series · *Intermediate*
-#
-# **Windowed data from a noisy seasonal series**
 
 
 # %%
@@ -192,10 +143,6 @@ train_ds = make_ds(s[:split], shuffle=True)
 test_ds = make_ds(s[split - window:], shuffle=False)
 xb, yb = next(iter(train_ds))
 print(xb.shape, yb.shape)
-
-
-# %% [markdown]
-# **LSTM vs 1-D CNN vs a naive baseline**
 
 
 # %%
@@ -221,10 +168,6 @@ p_conv = conv.predict(test_ds, verbose=0).ravel()
 print(f"test RMSE  naive={rmse(naive):.3f}  LSTM={rmse(p_lstm):.3f}  Conv1D={rmse(p_conv):.3f}")
 
 
-# %% [markdown]
-# **Forecasts against the truth**
-
-
 # %%
 fig, ax = plt.subplots(figsize=(10, 3.6))
 ax.plot(y_test * std + mean, color="black", lw=1, label="actual")
@@ -233,12 +176,6 @@ ax.plot(p_conv * std + mean, label="Conv1D", alpha=0.8)
 ax.set(xlabel="test time step", ylabel="value", title="One-step-ahead forecasts")
 ax.legend(ncol=3)
 plt.show()
-
-
-# %% [markdown]
-# ## 28.4 Custom training loops · *Advanced*
-#
-# **A complete custom loop**
 
 
 # %%
@@ -267,15 +204,3 @@ for epoch in range(5):
     print(f"epoch {epoch + 1}: loss={float(loss):.4f}  train acc={float(train_acc.result()):.4f}")
 test_logits = model(X_te, training=False)
 print("test accuracy:", round(float(np.mean(np.argmax(test_logits, axis=1) == y_te)), 4))
-
-
-# %% [markdown]
-# ## 28.5 Other architectures in one table · *Intermediate*
-#
-# ## Try it yourself
-#
-# 1. Add the `augment` block as the first layer of the CNN and compare test accuracy.
-# 2. Replace `LSTM(32)` with `GRU(32)`, and try `window = 10` and `window = 80`.
-# 3. Turn the forecaster into a 5-step-ahead model by changing the targets and using `Dense(5)`.
-#
-# Worked solutions: [solutions-parts-5-8.ipynb](../../solutions/solutions-parts-5-8.ipynb), section *Chapter 28*.

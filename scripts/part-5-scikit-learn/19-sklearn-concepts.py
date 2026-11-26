@@ -1,7 +1,8 @@
 """The Annotated ML Handbook, Chapter 19: Machine-learning concepts and the scikit-learn API
 
-Companion script by Mahir Absar Khan. Cells are marked with "# %%" so you can run them one
-at a time in VS Code, PyCharm or Spyder, or run the whole file: python 19-sklearn-concepts.py
+By Mahir Absar Khan. The code of the chapter only; the full text with line-by-line
+explanations is in notebooks/part-5-scikit-learn/19-sklearn-concepts.ipynb.
+Cells are marked "# %%" so you can run them one at a time in VS Code, PyCharm or Spyder.
 """
 
 # %%
@@ -51,12 +52,6 @@ except ImportError:
     pass
 
 
-# %% [markdown]
-# ## 19.1 The kinds of machine learning · *Beginner*
-#
-# ## 19.2 The workflow at a glance · *Beginner*
-
-
 # %%
 import matplotlib.pyplot as plt
 from matplotlib.patches import FancyBboxPatch
@@ -71,12 +66,6 @@ for i, (txt, c) in enumerate(steps):
 ax.annotate("", xy=(3.5, -0.05), xytext=(5.5, -0.05), arrowprops=dict(arrowstyle="-|>", color="#0f9b62", lw=1.6, connectionstyle="arc3,rad=-0.35"))
 ax.text(4.5, -0.72, "iterate on training data only", ha="center", color="#0f9b62", fontsize=9.5, fontweight="bold")
 plt.show()
-
-
-# %% [markdown]
-# ## 19.3 The estimator API: fit, predict, transform · *Beginner*
-#
-# **Your first model, end to end**
 
 
 # %%
@@ -100,10 +89,6 @@ print("same via .score:", model.score(X_test, y_test))
 print(model.predict_proba(X_test.iloc[:3]).round(2))
 
 
-# %% [markdown]
-# **Five classifiers, one loop**
-
-
 # %%
 from sklearn.linear_model import LogisticRegression
 from sklearn.tree import DecisionTreeClassifier
@@ -123,12 +108,6 @@ for name, m in models.items():
     print(f"{name:<20} test accuracy = {m.score(X_test, y_test):.3f}")
 
 
-# %% [markdown]
-# ## 19.4 Baselines: is the model actually learning anything? · *Beginner*
-#
-# **DummyClassifier and DummyRegressor**
-
-
 # %%
 from sklearn.dummy import DummyClassifier, DummyRegressor
 from sklearn.datasets import load_diabetes
@@ -139,12 +118,6 @@ print("baseline accuracy:", round(base.score(X_test, y_test), 3))
 Xd, yd = load_diabetes(return_X_y=True)
 Xd_tr, Xd_te, yd_tr, yd_te = train_test_split(Xd, yd, random_state=0)
 print("mean-predictor R2:", round(DummyRegressor(strategy="mean").fit(Xd_tr, yd_tr).score(Xd_te, yd_te), 3))
-
-
-# %% [markdown]
-# ## 19.5 Overfitting, underfitting and the bias–variance trade-off · *Beginner*
-#
-# **Polynomial degree controls flexibility**
 
 
 # %%
@@ -184,10 +157,6 @@ plt.tight_layout()
 plt.show()
 
 
-# %% [markdown]
-# ## 19.6 Why the test set is sacred · *Beginner*
-
-
 # %%
 fig, ax = plt.subplots(figsize=(10, 2.6)); ax.set_xlim(0, 10); ax.set_ylim(0, 4.2); ax.axis("off")
 ax.add_patch(plt.Rectangle((0, 3), 8, 0.8, color="#0f9b62")); ax.text(4, 3.4, "training data (80%)", ha="center", va="center", color="white", fontweight="bold")
@@ -200,15 +169,3 @@ for k in range(5):
     ax.text(8.2, y0 + 0.2, f"fold {k + 1}", va="center", fontsize=9)
 ax.text(9.0, 1.0, "orange = validation\ngreen = fit", fontsize=9, color="#444", va="center")
 plt.show()
-
-
-# %% [markdown]
-# ## 19.7 Reproducibility knobs · *Beginner*
-#
-# ## Try it yourself
-#
-# 1. Load `load_wine()` and compare `DummyClassifier`, `KNeighborsClassifier` and `RandomForestClassifier` on a stratified split.
-# 2. In the polynomial demo, replace `LinearRegression` with `Ridge(alpha=1e-3)` for degree 15. What happens to the wiggles?
-# 3. Re-run the iris example with five different `random_state` values. How much does test accuracy vary? (This is why we cross-validate.)
-#
-# Worked solutions: [solutions-parts-5-8.ipynb](../../solutions/solutions-parts-5-8.ipynb), section *Chapter 19*.

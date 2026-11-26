@@ -1,7 +1,8 @@
 """The Annotated ML Handbook, Chapter 2: Data structures: lists, tuples, dictionaries, sets
 
-Companion script by Mahir Absar Khan. Cells are marked with "# %%" so you can run them one
-at a time in VS Code, PyCharm or Spyder, or run the whole file: python 02-python-collections.py
+By Mahir Absar Khan. The code of the chapter only; the full text with line-by-line
+explanations is in notebooks/part-1-python/02-python-collections.ipynb.
+Cells are marked "# %%" so you can run them one at a time in VS Code, PyCharm or Spyder.
 """
 
 # %%
@@ -51,12 +52,6 @@ except ImportError:
     pass
 
 
-# %% [markdown]
-# ## 2.1 Lists · *Beginner*
-#
-# **Creating, indexing and modifying a list**
-
-
 # %%
 scores = [88, 92, 79, 95]
 print(scores[0], scores[-1])
@@ -71,12 +66,6 @@ print(last, scores)
 print(len(scores), sum(scores), max(scores), 95 in scores)
 
 
-# %% [markdown]
-# ### 2.1.1 Slicing · *Beginner*
-#
-# **Slices**
-
-
 # %%
 nums = list(range(10))
 print(nums[2:5])
@@ -87,12 +76,6 @@ nums[1:3] = [10, 20]
 print(nums)
 
 
-# %% [markdown]
-# ### 2.1.2 Sorting · *Beginner*
-#
-# **sorted() vs .sort()**
-
-
 # %%
 names = ["mia", "Ola", "zed", "ben"]
 print(sorted(names))
@@ -100,12 +83,6 @@ print(sorted(names, key=str.lower))
 print(sorted(names, key=len, reverse=True))
 names.sort()
 print(names)
-
-
-# %% [markdown]
-# ## 2.2 Tuples · *Beginner*
-#
-# **Tuples and unpacking**
 
 
 # %%
@@ -121,12 +98,6 @@ first, *rest = [10, 20, 30, 40]
 print(first, rest)
 
 
-# %% [markdown]
-# **Tuples cannot be changed**
-#
-# ⚠️ *This cell raises an error **on purpose**, so you can see the real message. The book explains the cause and the fix.*
-
-
 # %%
 # This example raises an error ON PURPOSE (the book explains the cause and the fix).
 # It runs inside exec() so the script prints the error and carries on.
@@ -138,12 +109,6 @@ try:
     exec(_example)
 except Exception as _e:
     print(f"[expected error] {type(_e).__name__}: {_e}")
-
-
-# %% [markdown]
-# ## 2.3 Dictionaries · *Beginner*
-#
-# **Building and querying a dictionary**
 
 
 # %%
@@ -160,12 +125,6 @@ for key, value in params.items():
 print(list(params.keys()), list(params.values()))
 
 
-# %% [markdown]
-# **The KeyError**
-#
-# ⚠️ *This cell raises an error **on purpose**, so you can see the real message. The book explains the cause and the fix.*
-
-
 # %%
 # This example raises an error ON PURPOSE (the book explains the cause and the fix).
 # It runs inside exec() so the script prints the error and carries on.
@@ -177,12 +136,6 @@ try:
     exec(_example)
 except Exception as _e:
     print(f"[expected error] {type(_e).__name__}: {_e}")
-
-
-# %% [markdown]
-# ### 2.3.1 Nested structures · *Intermediate*
-#
-# **A nested record**
 
 
 # %%
@@ -199,12 +152,6 @@ print(merged)
 print(experiment["metrics"] | {"acc": 0.93})
 
 
-# %% [markdown]
-# ## 2.4 Sets · *Beginner*
-#
-# **Uniqueness and set algebra**
-
-
 # %%
 labels = ["cat", "dog", "cat", "bird", "dog"]
 unique = set(labels)
@@ -215,12 +162,6 @@ print(a | b, a & b, a - b, a ^ b)
 print(3 in a)
 train_ids, test_ids = {1, 2, 3}, {3, 4}
 print("Overlap:", train_ids & test_ids)
-
-
-# %% [markdown]
-# ## 2.5 Comprehensions · *Beginner*
-#
-# **List, dict and set comprehensions**
 
 
 # %%
@@ -237,12 +178,6 @@ pairs = [(i, j) for i in range(3) for j in range(2)]
 print(pairs)
 
 
-# %% [markdown]
-# ## 2.6 Mutability, references and copies · *Intermediate*
-#
-# **Two names, one list**
-
-
 # %%
 a = [1, 2, 3]
 b = a
@@ -252,10 +187,6 @@ print(a is b)
 c = a.copy()
 c.append(5)
 print(a, c, a is c)
-
-
-# %% [markdown]
-# **Shallow vs deep copies of nested data**
 
 
 # %%
@@ -271,13 +202,3 @@ print(bad)
 good = [[0] * 2 for _ in range(2)]
 good[0][0] = 1
 print(good)
-
-
-# %% [markdown]
-# ## Try it yourself
-#
-# 1. From `words = ["Data", "science", "IS", "fun", "data"]`, build the set of lowercase unique words.
-# 2. Build a dict mapping each number 1–10 to `"fizz"` if divisible by 3, else the number itself.
-# 3. Explain why `t = ([1, 2], 3); t[0].append(9)` works even though tuples are immutable.
-#
-# Worked solutions: [solutions-parts-1-4.ipynb](../../solutions/solutions-parts-1-4.ipynb), section *Chapter 2*.

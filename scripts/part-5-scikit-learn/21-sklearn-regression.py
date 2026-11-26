@@ -1,7 +1,8 @@
 """The Annotated ML Handbook, Chapter 21: Regression: predicting numbers
 
-Companion script by Mahir Absar Khan. Cells are marked with "# %%" so you can run them one
-at a time in VS Code, PyCharm or Spyder, or run the whole file: python 21-sklearn-regression.py
+By Mahir Absar Khan. The code of the chapter only; the full text with line-by-line
+explanations is in notebooks/part-5-scikit-learn/21-sklearn-regression.ipynb.
+Cells are marked "# %%" so you can run them one at a time in VS Code, PyCharm or Spyder.
 """
 
 # %%
@@ -51,12 +52,6 @@ except ImportError:
     pass
 
 
-# %% [markdown]
-# ## 21.1 Set-up: one preprocessor, many models · *Beginner*
-#
-# **Shared data and preprocessing**
-
-
 # %%
 import numpy as np
 import pandas as pd
@@ -79,12 +74,6 @@ pre = ColumnTransformer([
 print(X_tr.shape, X_te.shape)
 
 
-# %% [markdown]
-# ## 21.2 Regression metrics · *Beginner*
-#
-# **A helper to evaluate any regressor**
-
-
 # %%
 from sklearn.metrics import mean_absolute_error, root_mean_squared_error, r2_score, mean_absolute_percentage_error
 
@@ -96,12 +85,6 @@ def evaluate(model, name):
             "RMSE": root_mean_squared_error(y_te, pred),
             "R2": r2_score(y_te, pred),
             "MAPE%": 100 * mean_absolute_percentage_error(y_te, pred)}
-
-
-# %% [markdown]
-# ## 21.3 Linear models · *Beginner*
-#
-# **Ordinary, Ridge, Lasso and ElasticNet**
 
 
 # %%
@@ -118,24 +101,12 @@ results = [
 print(pd.DataFrame(results).round(3).to_string(index=False))
 
 
-# %% [markdown]
-# ### 21.3.1 Reading coefficients · *Intermediate*
-#
-# **Which features push predictions up or down?**
-
-
 # %%
 lin = Pipeline([("pre", pre), ("m", LinearRegression())]).fit(X_tr, y_tr)
 coefs = pd.Series(lin.named_steps["m"].coef_,
                   index=lin.named_steps["pre"].get_feature_names_out()).sort_values()
 print(coefs.round(0))
 print("intercept:", round(lin.named_steps["m"].intercept_, 0))
-
-
-# %% [markdown]
-# ### 21.3.2 The regularisation path · *Intermediate*
-#
-# **Lasso drives coefficients to zero as alpha grows**
 
 
 # %%
@@ -150,12 +121,6 @@ for j, name in enumerate(names):
 ax.set(xscale="log", xlabel="alpha (penalty strength)", ylabel="coefficient", title="Lasso regularisation path")
 ax.legend(fontsize=8, ncol=2, loc="upper right")
 plt.show()
-
-
-# %% [markdown]
-# ## 21.4 Non-linear models · *Intermediate*
-#
-# **kNN, decision tree, random forest, gradient boosting**
 
 
 # %%
@@ -176,10 +141,6 @@ table = pd.DataFrame(results).sort_values("RMSE").round(3)
 print(table.to_string(index=False))
 
 
-# %% [markdown]
-# **Compare models visually**
-
-
 # %%
 fig, ax = plt.subplots(figsize=(8, 4))
 t = table.sort_values("RMSE", ascending=False)
@@ -191,22 +152,10 @@ ax.grid(axis="y", visible=False)
 plt.show()
 
 
-# %% [markdown]
-# ### 21.4.1 How trees and ensembles work · *Intermediate*
-#
-# **Peek inside a shallow tree**
-
-
 # %%
 from sklearn.tree import export_text
 tree = Pipeline([("pre", pre), ("m", DecisionTreeRegressor(max_depth=2, random_state=0))]).fit(X_tr, y_tr)
 print(export_text(tree.named_steps["m"], feature_names=list(pre.get_feature_names_out())))
-
-
-# %% [markdown]
-# ## 21.5 Diagnostic plots: how is the model wrong? · *Intermediate*
-#
-# **Predicted vs actual, and residuals**
 
 
 # %%
@@ -225,12 +174,6 @@ plt.tight_layout()
 plt.show()
 
 
-# %% [markdown]
-# ## 21.6 Quantifying uncertainty in a test score · *Advanced*
-#
-# **Bootstrap 95% confidence interval for test RMSE**
-
-
 # %%
 rng = np.random.default_rng(0)
 y_true_arr, pred_arr = y_te.to_numpy(), pred
@@ -240,13 +183,3 @@ for _ in range(2000):
     boot.append(root_mean_squared_error(y_true_arr[idx], pred_arr[idx]))
 lo, hi = np.percentile(boot, [2.5, 97.5])
 print(f"RMSE = {root_mean_squared_error(y_true_arr, pred_arr):.0f}  (95% CI {lo:.0f} to {hi:.0f})")
-
-
-# %% [markdown]
-# ## Try it yourself
-#
-# 1. Wrap the Ridge pipeline in `TransformedTargetRegressor` with a log transform and compare test RMSE.
-# 2. Add an interaction feature `smoker × bmi` (hint: `PolynomialFeatures(interaction_only=True)` or a custom column) to the linear model. Does it close the gap to the random forest?
-# 3. Plot test RMSE against `max_depth` from 1 to 15 for a single decision tree. Where does overfitting start?
-#
-# Worked solutions: [solutions-parts-5-8.ipynb](../../solutions/solutions-parts-5-8.ipynb), section *Chapter 21*.

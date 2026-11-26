@@ -1,7 +1,8 @@
 """The Annotated ML Handbook, Chapter 7: The Pythonic toolkit
 
-Companion script by Mahir Absar Khan. Cells are marked with "# %%" so you can run them one
-at a time in VS Code, PyCharm or Spyder, or run the whole file: python 07-python-toolkit.py
+By Mahir Absar Khan. The code of the chapter only; the full text with line-by-line
+explanations is in notebooks/part-1-python/07-python-toolkit.ipynb.
+Cells are marked "# %%" so you can run them one at a time in VS Code, PyCharm or Spyder.
 """
 
 # %%
@@ -51,12 +52,6 @@ except ImportError:
     pass
 
 
-# %% [markdown]
-# ## 7.1 collections: smarter containers · *Intermediate*
-#
-# **Counter, defaultdict, namedtuple, deque**
-
-
 # %%
 from collections import Counter, defaultdict, namedtuple, deque
 
@@ -80,12 +75,6 @@ for loss in [0.9, 0.7, 0.6, 0.55, 0.54]:
 print(list(window), sum(window) / len(window))
 
 
-# %% [markdown]
-# ## 7.2 itertools: loops without the loops · *Intermediate*
-#
-# **Grids, combinations and chunks**
-
-
 # %%
 from itertools import product, combinations, permutations, chain, islice, accumulate
 
@@ -99,12 +88,6 @@ print(list(islice(range(100), 5, 10)))
 print(list(accumulate([1, 2, 3, 4])))
 
 
-# %% [markdown]
-# ## 7.3 functools: partial and reduce · *Advanced*
-#
-# **Pre-filling arguments**
-
-
 # %%
 from functools import partial, reduce
 
@@ -114,12 +97,6 @@ def scale(x, factor, offset=0):
 to_percent = partial(scale, factor=100)
 print(to_percent(0.257), to_percent(0.5, offset=1))
 print(reduce(lambda a, b: a * b, [1, 2, 3, 4, 5]))
-
-
-# %% [markdown]
-# ## 7.4 Context managers · *Intermediate*
-#
-# **A timer you can wrap around any code**
 
 
 # %%
@@ -138,12 +115,6 @@ with timer("sum of squares"):
     total = sum(i * i for i in range(300_000))
 
 
-# %% [markdown]
-# ## 7.5 Randomness and reproducibility · *Beginner*
-#
-# **Seeded random numbers**
-
-
 # %%
 import random
 
@@ -156,12 +127,6 @@ random.seed(42)
 print(random.random())
 
 
-# %% [markdown]
-# ## 7.6 Dates and times · *Beginner*
-#
-# **datetime basics**
-
-
 # %%
 from datetime import datetime, timedelta, date
 
@@ -170,12 +135,6 @@ print(d.isoformat(), d.strftime("%d %b %Y"))
 print(d + timedelta(days=30))
 parsed = datetime.strptime("2026-01-05", "%Y-%m-%d")
 print((d - parsed).days, date(2026, 3, 14).weekday())
-
-
-# %% [markdown]
-# ## 7.7 Regular expressions · *Intermediate*
-#
-# **Extracting structured values from messy text**
 
 
 # %%
@@ -189,25 +148,9 @@ print(ids, [float(x) for x in doses], date_m.groups())
 print(re.sub(r"\s+", " ", "too    many   spaces"))
 
 
-# %% [markdown]
-# ## 7.8 Measuring speed · *Intermediate*
-#
-# **Timing small snippets**
-
-
 # %%
 import timeit
 
 loop_time = timeit.timeit("s = 0\nfor i in range(1000): s += i", number=2000)
 builtin_time = timeit.timeit("sum(range(1000))", number=2000)
 print(f"loop {loop_time:.3f}s vs sum() {builtin_time:.3f}s -> {loop_time / builtin_time:.1f}x faster")
-
-
-# %% [markdown]
-# ## Try it yourself
-#
-# 1. Use `Counter` to find the three most common words in a paragraph (lowercase it and split on whitespace first).
-# 2. Use `itertools.product` to list all 12 combinations of `C in [0.1, 1, 10]` and `kernel in ["linear", "rbf", "poly", "sigmoid"]`.
-# 3. Write a regex that extracts all e-mail addresses from a string.
-#
-# Worked solutions: [solutions-parts-1-4.ipynb](../../solutions/solutions-parts-1-4.ipynb), section *Chapter 7*.

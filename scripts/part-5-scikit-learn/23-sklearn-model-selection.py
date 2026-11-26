@@ -1,7 +1,8 @@
 """The Annotated ML Handbook, Chapter 23: Model selection: cross-validation and hyperparameter tuning
 
-Companion script by Mahir Absar Khan. Cells are marked with "# %%" so you can run them one
-at a time in VS Code, PyCharm or Spyder, or run the whole file: python 23-sklearn-model-selection.py
+By Mahir Absar Khan. The code of the chapter only; the full text with line-by-line
+explanations is in notebooks/part-5-scikit-learn/23-sklearn-model-selection.ipynb.
+Cells are marked "# %%" so you can run them one at a time in VS Code, PyCharm or Spyder.
 """
 
 # %%
@@ -51,12 +52,6 @@ except ImportError:
     pass
 
 
-# %% [markdown]
-# ## 23.1 k-fold cross-validation · *Beginner*
-#
-# **cross_val_score and cross_validate**
-
-
 # %%
 import numpy as np
 import pandas as pd
@@ -82,20 +77,10 @@ res = cross_validate(model, X_tr, y_tr, cv=cv,
 print(pd.DataFrame(res).mean().round(4))
 
 
-# %% [markdown]
-# **Repeated CV for more stable estimates**
-
-
 # %%
 rcv = RepeatedStratifiedKFold(n_splits=5, n_repeats=10, random_state=0)
 s = cross_val_score(model, X_tr, y_tr, cv=rcv, scoring="roc_auc")
 print(f"{len(s)} scores: mean={s.mean():.4f}, 2.5–97.5 percentile = {np.percentile(s, 2.5):.4f}–{np.percentile(s, 97.5):.4f}")
-
-
-# %% [markdown]
-# ## 23.2 Choosing the right splitter · *Intermediate*
-#
-# **Visualising splitters**
 
 
 # %%
@@ -122,12 +107,6 @@ plt.tight_layout()
 plt.show()
 
 
-# %% [markdown]
-# ### 23.2.1 Grouped data: the leakage you don't see · *Intermediate*
-#
-# **Repeated measurements: KFold is optimistic, GroupKFold is honest**
-
-
 # %%
 from sklearn.ensemble import RandomForestClassifier
 rng = np.random.default_rng(0)
@@ -143,22 +122,10 @@ print(f"KFold accuracy:      {naive:.2f}  <- the model recognises subjects it ha
 print(f"GroupKFold accuracy: {grouped:.2f}  <- honest: near chance")
 
 
-# %% [markdown]
-# ### 23.2.2 Time series · *Intermediate*
-#
-# **Forward-chaining validation**
-
-
 # %%
 tscv = TimeSeriesSplit(n_splits=4, test_size=10)
 for i, (tr, va) in enumerate(tscv.split(np.arange(60))):
     print(f"fold {i}: train {tr.min()}–{tr.max()}  validate {va.min()}–{va.max()}")
-
-
-# %% [markdown]
-# ## 23.3 Hyperparameter tuning with GridSearchCV · *Intermediate*
-#
-# **Tuning an SVM inside a pipeline**
 
 
 # %%
@@ -182,10 +149,6 @@ print(cvres[["param_svc__C", "param_svc__gamma", "mean_test_score", "std_test_sc
       .sort_values("rank_test_score").head(5).round(4).to_string(index=False))
 
 
-# %% [markdown]
-# **See the landscape**
-
-
 # %%
 pivot = cvres.pivot_table(index="param_svc__gamma", columns="param_svc__C", values="mean_test_score")
 pivot.index = pivot.index.astype(str)
@@ -200,12 +163,6 @@ fig.colorbar(im)
 plt.show()
 
 
-# %% [markdown]
-# ### 23.3.1 Searching over models and preprocessing too · *Advanced*
-#
-# **One search, several model families**
-
-
 # %%
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.pipeline import Pipeline
@@ -217,12 +174,6 @@ grid = [
 ]
 gs = GridSearchCV(pipe, grid, cv=5, scoring="roc_auc", n_jobs=-1).fit(X_tr, y_tr)
 print(gs.best_params_["clf"], round(gs.best_score_, 4))
-
-
-# %% [markdown]
-# ## 23.4 RandomizedSearchCV and successive halving · *Intermediate*
-#
-# **Random search over a gradient-boosting model**
 
 
 # %%
@@ -244,12 +195,6 @@ print({k: round(float(v), 4) if isinstance(v, float) else int(v) for k, v in rs.
 print("best CV ROC AUC:", round(rs.best_score_, 4))
 
 
-# %% [markdown]
-# ## 23.5 Learning curves and validation curves · *Intermediate*
-#
-# **Diagnose bias vs variance**
-
-
 # %%
 from sklearn.model_selection import LearningCurveDisplay, ValidationCurveDisplay
 
@@ -266,12 +211,6 @@ plt.tight_layout()
 plt.show()
 
 
-# %% [markdown]
-# ## 23.6 Nested cross-validation: an unbiased estimate after tuning · *Advanced*
-#
-# **Inner loop tunes, outer loop evaluates**
-
-
 # %%
 inner = StratifiedKFold(5, shuffle=True, random_state=1)
 outer = StratifiedKFold(5, shuffle=True, random_state=2)
@@ -282,13 +221,3 @@ nested = cross_val_score(tuned_svc, X, y, cv=outer, scoring="roc_auc")
 tuned_svc.fit(X, y)
 print(f"non-nested best_score_: {tuned_svc.best_score_:.4f}")
 print(f"nested CV estimate:     {nested.mean():.4f} ± {nested.std():.4f}")
-
-
-# %% [markdown]
-# ## Try it yourself
-#
-# 1. Tune `n_neighbors` (1–30) and `weights` (`"uniform"`, `"distance"`) for kNN on the breast-cancer data with `GridSearchCV`.
-# 2. Use `cross_validate(..., return_estimator=True)` to inspect how much logistic-regression coefficients vary across folds.
-# 3. Compare 5-fold and 10-fold CV estimates and their standard deviations for the same model.
-#
-# Worked solutions: [solutions-parts-5-8.ipynb](../../solutions/solutions-parts-5-8.ipynb), section *Chapter 23*.

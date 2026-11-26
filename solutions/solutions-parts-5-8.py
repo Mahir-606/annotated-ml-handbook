@@ -1,4 +1,4 @@
-"""The Annotated ML Handbook: Solutions: Parts V–VIII. Companion script by Mahir Absar Khan."""
+"""The Annotated ML Handbook: Solutions: Parts V–VIII. By Mahir Absar Khan."""
 
 # %%
 # Repository setup (not part of the book's examples): run this cell first.
@@ -47,12 +47,6 @@ except ImportError:
     pass
 
 
-# %% [markdown]
-# ## Shared set-up · *Beginner*
-#
-# **Imports used throughout this appendix**
-
-
 # %%
 import numpy as np
 import pandas as pd
@@ -74,22 +68,12 @@ ins = pd.read_csv("insurance.csv")
 print("ready", ins.shape)
 
 
-# %% [markdown]
-# ## Chapter 19: ML concepts and the scikit-learn API
-#
-# **Exercise 1: three models on the wine data**
-
-
 # %%
 Xw, yw = load_wine(return_X_y=True)
 Xtr, Xte, ytr, yte = train_test_split(Xw, yw, stratify=yw, random_state=0)
 for name, m in [("Dummy", DummyClassifier()), ("kNN", make_pipeline(StandardScaler(), KNeighborsClassifier())),
                 ("RandomForest", RandomForestClassifier(random_state=0))]:
     print(f"{name:<13}", round(m.fit(Xtr, ytr).score(Xte, yte), 3))
-
-
-# %% [markdown]
-# **Exercise 2: Ridge tames a degree-15 polynomial**
 
 
 # %%
@@ -106,21 +90,11 @@ for name, reg in [("LinearRegression", LinearRegression()), ("Ridge(alpha=1e-3)"
 ax.set_ylim(-2, 2); ax.legend(fontsize=8); plt.show()
 
 
-# %% [markdown]
-# **Exercise 3: accuracy depends on the split**
-
-
 # %%
 Xi, yi = load_iris(return_X_y=True)
 accs = [KNeighborsClassifier().fit(a, c).score(b, d)
         for a, b, c, d in (train_test_split(Xi, yi, test_size=0.25, stratify=yi, random_state=s) for s in range(5))]
 print(np.round(accs, 3), "range:", round(max(accs) - min(accs), 3))
-
-
-# %% [markdown]
-# ## Chapter 20: Preprocessing and pipelines
-#
-# **Exercises 1 and 2: log target and polynomial features**
 
 
 # %%
@@ -139,10 +113,6 @@ for name, m in [("plain", base), ("log target", logt), ("poly numeric", poly)]:
 print("features with poly:", poly.named_steps["pre"].get_feature_names_out().size)
 
 
-# %% [markdown]
-# **Exercise 3: the fake score grows with k**
-
-
 # %%
 from sklearn.feature_selection import SelectKBest, f_classif
 rng = np.random.default_rng(0)
@@ -151,12 +121,6 @@ for k in [5, 20, 200]:
     wrong = cross_val_score(LogisticRegression(max_iter=2000), SelectKBest(f_classif, k=k).fit_transform(Xn, yn), yn, cv=5).mean()
     right = cross_val_score(make_pipeline(SelectKBest(f_classif, k=k), LogisticRegression(max_iter=2000)), Xn, yn, cv=5).mean()
     print(f"k={k:<4} leaky={wrong:.2f} honest={right:.2f}")
-
-
-# %% [markdown]
-# ## Chapter 21: Regression
-#
-# **Exercise 2: the smoker x BMI interaction**
 
 
 # %%
@@ -172,10 +136,6 @@ for extra in [[], ["smoker_bmi", "obese_smoker"]]:
     pre = ColumnTransformer([("num", StandardScaler(), num), ("cat", OneHotEncoder(drop="if_binary"), cat)])
     m = Pipeline([("pre", pre), ("m", Ridge(alpha=1.0))]).fit(Xtr[num + cat], ytr)
     print("extra features:", extra or "none", "-> RMSE", round(root_mean_squared_error(yte, m.predict(Xte[num + cat]))))
-
-
-# %% [markdown]
-# **Exercises 1 and 3: log-target Ridge, and tree depth vs error**
 
 
 # %%
@@ -196,12 +156,6 @@ ax.set(xlabel="max_depth", ylabel="RMSE", title="Decision tree: depth vs error")
 print("best test depth:", list(depths)[int(np.argmin(te_e))])
 
 
-# %% [markdown]
-# ## Chapter 22: Classification
-#
-# **Exercise 1: a 98%-recall threshold from cross-validated probabilities**
-
-
 # %%
 bc = load_breast_cancer()
 Xb, yb = bc.data, 1 - bc.target
@@ -215,20 +169,12 @@ p = (clf.fit(Xtr, ytr).predict_proba(Xte)[:, 1] >= t98).astype(int)
 print(f"threshold={t98:.2f}  test recall={recall_score(yte, p):.3f}  test precision={precision_score(yte, p):.3f}")
 
 
-# %% [markdown]
-# **Exercise 2: boosting with class weights**
-
-
 # %%
 Xi, yi = make_classification(n_samples=4000, n_features=20, n_informative=5, weights=[0.97, 0.03], flip_y=0.01, random_state=1)
 Xtr, Xte, ytr, yte = train_test_split(Xi, yi, stratify=yi, test_size=0.3, random_state=1)
 for cw in [None, "balanced"]:
     pr = HistGradientBoostingClassifier(class_weight=cw, random_state=0).fit(Xtr, ytr).predict(Xte)
     print(f"class_weight={cw}: recall={recall_score(yte, pr):.3f} precision={precision_score(yte, pr, zero_division=0):.3f} bal_acc={balanced_accuracy_score(yte, pr):.3f}")
-
-
-# %% [markdown]
-# **Exercise 3: three ROC curves on one axes**
 
 
 # %%
@@ -240,12 +186,6 @@ for name, m in [("LogReg", make_pipeline(StandardScaler(), LogisticRegression(ma
                 ("RandomForest", RandomForestClassifier(random_state=0))]:
     RocCurveDisplay.from_estimator(m.fit(Xtr, ytr), Xte, yte, name=name, ax=ax)
 ax.plot([0, 1], [0, 1], ls=":", color="grey"); plt.show()
-
-
-# %% [markdown]
-# ## Chapter 23: Model selection
-#
-# **Exercises 1-3: tune kNN, coefficient stability, 5- vs 10-fold**
 
 
 # %%
@@ -262,12 +202,6 @@ for k in [5, 10]:
     print(f"Ex 3: {k}-fold mean={s.mean():.4f} sd={s.std():.4f}")
 
 
-# %% [markdown]
-# ## Chapter 24: Unsupervised learning
-#
-# **Exercise 1: customer segments**
-
-
 # %%
 from sklearn.cluster import KMeans
 d = ins.dropna()[["age", "bmi", "charges"]]
@@ -276,10 +210,6 @@ prof = d.groupby(labels).mean().round(1)
 prof["n"] = np.bincount(labels)
 prof["smoker_share"] = ins.dropna().groupby(labels)["smoker"].apply(lambda s: (s == "yes").mean()).round(2)
 print(prof)
-
-
-# %% [markdown]
-# **Exercises 2 and 3: PCA of wines; t-SNE perplexity**
 
 
 # %%
@@ -293,12 +223,6 @@ for ax, perp in zip(axes[1:], [5, 30, 100]):
     emb = TSNE(perplexity=perp, init="pca", random_state=0).fit_transform(dg.data[:800])
     ax.scatter(emb[:, 0], emb[:, 1], c=dg.target[:800], cmap="tab10", s=4); ax.set(title=f"t-SNE perplexity {perp}", xticks=[], yticks=[])
 plt.tight_layout(); plt.show()
-
-
-# %% [markdown]
-# ## Chapter 25: Interpreting and saving models
-#
-# **Exercises 1-3: MAE-based importance, ICE for children, save and reload**
 
 
 # %%
@@ -319,12 +243,6 @@ joblib.dump(rf, "rf.joblib")
 reloaded = joblib.load("rf.joblib")
 new = pd.DataFrame([{"age": 33.0, "sex": "male", "bmi": 27.5, "children": 1.0, "smoker": "no", "region": "northwest"}])
 print("Ex 3 prediction:", reloaded.predict(new).round(0))
-
-
-# %% [markdown]
-# ## Chapter 26: TensorFlow fundamentals
-#
-# **Exercises 1-3: minimise a function, two features, a tf.data pipeline**
 
 
 # %%
@@ -352,12 +270,6 @@ ds = tf.data.Dataset.from_tensor_slices((Xb32, load_breast_cancer().target)).shu
 print("Ex 3:", [tuple(xb.shape) for xb, _ in ds.take(2)], "batches:", len(list(ds)))
 
 
-# %% [markdown]
-# ## Chapter 27: Neural networks with Keras
-#
-# **Exercises 1-3: width, batch normalisation, five seeds**
-
-
 # %%
 from tensorflow import keras
 from tensorflow.keras import layers
@@ -381,12 +293,6 @@ accs = [mlp([32, 16], seed=s) for s in range(5)]
 print(f"Ex 3: {np.mean(accs):.4f} ± {np.std(accs):.4f}")
 
 
-# %% [markdown]
-# ## Chapter 28: CNNs and sequence models
-#
-# **Exercise 1: augmentation in the CNN**
-
-
 # %%
 dg = load_digits()
 Xd = (dg.images / 16.0).astype("float32")[..., None]
@@ -403,10 +309,6 @@ def cnn(augment):
           callbacks=[keras.callbacks.EarlyStopping(patience=5, restore_best_weights=True)])
     return m.evaluate(Xte, yte, verbose=0)[1]
 print("without augmentation:", round(cnn(False), 4), "| with:", round(cnn(True), 4))
-
-
-# %% [markdown]
-# **Exercises 2 and 3: GRU, window length, multi-step forecasts**
 
 
 # %%
@@ -426,12 +328,6 @@ for w, h, cell in [(10, 1, "GRU"), (40, 1, "GRU"), (80, 1, "GRU"), (40, 5, "GRU"
     print(f"{cell} window={w:<3} horizon={h}: test RMSE per step = {rmse.round(3)}")
 
 
-# %% [markdown]
-# ## Chapter 29: The research protocol
-#
-# **Exercises 1 and 2: boosting as the primary model; nested CV instead of a test set**
-
-
 # %%
 bc = load_breast_cancer(); Xb, yb = bc.data, 1 - bc.target
 outer = StratifiedKFold(5, shuffle=True, random_state=2026)
@@ -443,12 +339,6 @@ lr = GridSearchCV(make_pipeline(StandardScaler(), LogisticRegression(max_iter=50
 for name, est in [("HistGB", hgb), ("LogReg", lr)]:
     sc_ = cross_val_score(est, Xb, yb, cv=outer, scoring="roc_auc")
     print(f"{name}: nested CV ROC AUC = {sc_.mean():.4f} ± {sc_.std():.4f}")
-
-
-# %% [markdown]
-# ## Chapter 30: Comparing models
-#
-# **Exercises 1-3: corrected t-test on wines, bootstrap PR AUC, false-positive simulation**
 
 
 # %%
@@ -481,12 +371,6 @@ for rep in range(200):
 print(f"Ex 3: naive test 'significant' in {hits / 2:.1f}% of 200 null comparisons")
 
 
-# %% [markdown]
-# ## Chapter 31: Reproducibility and reporting
-#
-# **Exercise 2: permutation test for the insurance regression**
-
-
 # %%
 from sklearn.model_selection import permutation_test_score
 d = ins.dropna()
@@ -494,14 +378,6 @@ pre = ColumnTransformer([("num", StandardScaler(), ["age", "bmi", "children"]), 
 score, perm, p = permutation_test_score(Pipeline([("pre", pre), ("m", Ridge())]), d.drop(columns="charges"), d["charges"],
                                         scoring="r2", cv=5, n_permutations=50, random_state=0, n_jobs=-1)
 print(f"real R2={score:.3f} | shuffled R2 mean={perm.mean():.3f} | p={p:.3f}")
-
-
-# %% [markdown]
-# ## Chapter 32: How to debug
-#
-# ## Chapter 33: The error encyclopedia
-#
-# **Three errors caused on purpose, then fixed**
 
 
 # %%
@@ -522,12 +398,6 @@ try:
 except KeyError as e:
     print("caused: KeyError", e)
 print("fixed :", {"lr": 0.01}.get("batch_size", 32))
-
-
-# %% [markdown]
-# ## Chapter 34: When the model is wrong
-#
-# **Exercises 1 and 2: breaking the sanity check; a deliberate leak**
 
 
 # %%

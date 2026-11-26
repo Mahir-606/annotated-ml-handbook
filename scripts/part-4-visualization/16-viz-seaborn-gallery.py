@@ -1,7 +1,8 @@
 """The Annotated ML Handbook, Chapter 16: The Seaborn chart gallery
 
-Companion script by Mahir Absar Khan. Cells are marked with "# %%" so you can run them one
-at a time in VS Code, PyCharm or Spyder, or run the whole file: python 16-viz-seaborn-gallery.py
+By Mahir Absar Khan. The code of the chapter only; the full text with line-by-line
+explanations is in notebooks/part-4-visualization/16-viz-seaborn-gallery.ipynb.
+Cells are marked "# %%" so you can run them one at a time in VS Code, PyCharm or Spyder.
 """
 
 # %%
@@ -51,12 +52,6 @@ except ImportError:
     pass
 
 
-# %% [markdown]
-# ## 16.1 Set-up · *Beginner*
-#
-# **Imports, theme and data**
-
-
 # %%
 import numpy as np
 import pandas as pd
@@ -70,14 +65,6 @@ iris["species"] = iris["target"].map(dict(enumerate(load_iris().target_names)))
 print(ins.shape, iris.shape)
 
 
-# %% [markdown]
-# ## 16.2 Distribution plots · *Beginner*
-#
-# ### 16.2.1 histplot and kdeplot
-#
-# **Histogram with KDE, and overlaid KDEs**
-
-
 # %%
 fig, axes = plt.subplots(1, 2, figsize=(11, 3.8))
 sns.histplot(data=ins, x="bmi", bins=30, kde=True, ax=axes[0])
@@ -88,12 +75,6 @@ plt.tight_layout()
 plt.show()
 
 
-# %% [markdown]
-# ### 16.2.2 ecdfplot and rugplot
-#
-# **ECDF with a rug**
-
-
 # %%
 fig, ax = plt.subplots(figsize=(7, 3.6))
 sns.ecdfplot(data=ins, x="age", hue="smoker", ax=ax)
@@ -102,25 +83,11 @@ ax.set_title("ecdfplot + rugplot")
 plt.show()
 
 
-# %% [markdown]
-# ### 16.2.3 displot: small multiples of distributions
-#
-# **One histogram per region and smoker status**
-
-
 # %%
 g = sns.displot(data=ins, x="charges", col="smoker", row="sex", bins=25,
                 height=2.6, aspect=1.6, color="#0f9b62")
 g.set_titles("{row_name} | smoker = {col_name}")
 plt.show()
-
-
-# %% [markdown]
-# ## 16.3 Relationship plots · *Beginner*
-#
-# ### 16.3.1 scatterplot and lineplot
-#
-# **Scatter with four encodings; line with a confidence band**
 
 
 # %%
@@ -135,24 +102,10 @@ plt.tight_layout()
 plt.show()
 
 
-# %% [markdown]
-# ### 16.3.2 relplot: faceted relationships
-#
-# **Relationship split by region**
-
-
 # %%
 g = sns.relplot(data=ins, x="bmi", y="charges", hue="smoker", col="region", col_wrap=2,
                 height=2.6, aspect=1.4, s=12, alpha=0.6)
 plt.show()
-
-
-# %% [markdown]
-# ## 16.4 Regression plots · *Intermediate*
-#
-# ### 16.4.1 regplot, residplot and lmplot
-#
-# **A fit and its residuals**
 
 
 # %%
@@ -167,22 +120,10 @@ plt.tight_layout()
 plt.show()
 
 
-# %% [markdown]
-# **lmplot: one regression per group**
-
-
 # %%
 g = sns.lmplot(data=iris, x="sepal length (cm)", y="sepal width (cm)", hue="species",
                height=3.6, aspect=1.5, scatter_kws={"s": 14})
 plt.show()
-
-
-# %% [markdown]
-# ## 16.5 Categorical plots · *Beginner*
-#
-# ### 16.5.1 strip, swarm, box, violin and boxen
-#
-# **Five ways to show a numeric variable across categories**
 
 
 # %%
@@ -198,12 +139,6 @@ plt.tight_layout()
 plt.show()
 
 
-# %% [markdown]
-# ### 16.5.2 barplot, pointplot and countplot
-#
-# **Means, interactions and counts**
-
-
 # %%
 fig, axes = plt.subplots(1, 3, figsize=(14, 3.8))
 sns.barplot(data=ins, x="region", y="charges", hue="smoker", ax=axes[0])
@@ -216,24 +151,10 @@ plt.tight_layout()
 plt.show()
 
 
-# %% [markdown]
-# ### 16.5.3 catplot: faceted categorical plots
-#
-# **Any categorical plot as a grid**
-
-
 # %%
 g = sns.catplot(data=ins, x="smoker", y="bmi", col="sex", kind="box",
                 height=3.2, aspect=1.1)
 plt.show()
-
-
-# %% [markdown]
-# ## 16.6 Matrix plots · *Intermediate*
-#
-# ### 16.6.1 heatmap and clustermap
-#
-# **Correlation heatmap**
 
 
 # %%
@@ -245,10 +166,6 @@ ax.set_title("heatmap")
 plt.show()
 
 
-# %% [markdown]
-# **Clustermap groups similar rows and columns**
-
-
 # %%
 sub = iris.sample(60, random_state=1)
 lut = dict(zip(sub["species"].unique(), ["#1f4fff", "#e0245e", "#0f9b62"]))
@@ -258,22 +175,10 @@ g = sns.clustermap(sub.drop(columns=["target", "species"]), standard_scale=1,
 plt.show()
 
 
-# %% [markdown]
-# ## 16.7 Multi-variable plots · *Intermediate*
-#
-# ### 16.7.1 pairplot and jointplot
-#
-# **pairplot**
-
-
 # %%
 g = sns.pairplot(iris.drop(columns="target"), hue="species", corner=True, height=1.9,
                  plot_kws={"s": 12, "alpha": 0.7})
 plt.show()
-
-
-# %% [markdown]
-# **jointplot with three kinds**
 
 
 # %%
@@ -282,12 +187,6 @@ for kind in ["scatter", "hex", "kde"]:
                       color="#7b3ff2")
     g.figure.suptitle(f"jointplot(kind='{kind}')", y=1.02)
 plt.show()
-
-
-# %% [markdown]
-# ## 16.8 Styling Seaborn · *Intermediate*
-#
-# **Themes, contexts and palettes**
 
 
 # %%
@@ -302,12 +201,6 @@ plt.show()
 print(sns.color_palette("colorblind").as_hex()[:4])
 
 
-# %% [markdown]
-# ## 16.9 Saving Seaborn figures · *Beginner*
-#
-# **Saving both kinds**
-
-
 # %%
 fig, ax = plt.subplots(figsize=(4, 3))
 sns.histplot(data=ins, x="bmi", ax=ax)
@@ -317,13 +210,3 @@ g = sns.relplot(data=ins, x="age", y="charges", hue="smoker", height=3)
 g.savefig("age_charges.pdf")
 plt.close(g.figure)
 print("saved bmi_hist.png and age_charges.pdf")
-
-
-# %% [markdown]
-# ## Try it yourself
-#
-# 1. Use `catplot(kind="violin")` to show `charges` by `children`, split into columns by `smoker`.
-# 2. Make a `jointplot` of `bmi` vs `charges` with `kind="reg"`. What does the fitted line suggest?
-# 3. Draw a `clustermap` of the insurance numeric columns (scaled) for 80 random customers, with smokers marked in the row colours.
-#
-# Worked solutions: [solutions-parts-1-4.ipynb](../../solutions/solutions-parts-1-4.ipynb), section *Chapter 16*.

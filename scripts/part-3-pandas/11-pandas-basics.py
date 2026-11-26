@@ -1,7 +1,8 @@
 """The Annotated ML Handbook, Chapter 11: pandas foundations: Series, DataFrames and selection
 
-Companion script by Mahir Absar Khan. Cells are marked with "# %%" so you can run them one
-at a time in VS Code, PyCharm or Spyder, or run the whole file: python 11-pandas-basics.py
+By Mahir Absar Khan. The code of the chapter only; the full text with line-by-line
+explanations is in notebooks/part-3-pandas/11-pandas-basics.ipynb.
+Cells are marked "# %%" so you can run them one at a time in VS Code, PyCharm or Spyder.
 """
 
 # %%
@@ -51,12 +52,6 @@ except ImportError:
     pass
 
 
-# %% [markdown]
-# ## 11.1 Series and DataFrame · *Beginner*
-#
-# **Building both by hand**
-
-
 # %%
 import numpy as np
 import pandas as pd
@@ -73,12 +68,6 @@ df = pd.DataFrame({
 })
 print(df)
 print(df.shape, list(df.columns), df.index)
-
-
-# %% [markdown]
-# ## 11.2 The practice dataset · *Beginner*
-#
-# **Create and save the practice dataset**
 
 
 # %%
@@ -100,21 +89,9 @@ ins.to_csv("insurance.csv", index=False)
 print("saved", ins.shape)
 
 
-# %% [markdown]
-# ## 11.3 Reading and writing data · *Beginner*
-#
-# **read_csv and friends**
-
-
 # %%
 df = pd.read_csv("insurance.csv")
 print(df.head())
-
-
-# %% [markdown]
-# ## 11.4 Inspecting a DataFrame · *Beginner*
-#
-# **First look**
 
 
 # %%
@@ -122,17 +99,9 @@ print(df.shape)
 df.info()
 
 
-# %% [markdown]
-# **Summary statistics**
-
-
 # %%
 print(df.describe().round(2))
 print(df.describe(include="str"))
-
-
-# %% [markdown]
-# **Counts and missing values**
 
 
 # %%
@@ -140,14 +109,6 @@ print(df["region"].value_counts())
 print(df["smoker"].value_counts(normalize=True))
 print(df.isna().sum())
 print(df.nunique())
-
-
-# %% [markdown]
-# ## 11.5 Selecting data · *Beginner*
-#
-# ### 11.5.1 Columns
-#
-# **One column, several columns**
 
 
 # %%
@@ -158,23 +119,11 @@ print(type(sub).__name__, sub.shape)
 print(df.age.mean())
 
 
-# %% [markdown]
-# ### 11.5.2 Rows: `.loc` (labels) and `.iloc` (positions)
-#
-# **loc vs iloc**
-
-
 # %%
 print(df.loc[0, "charges"])
 print(df.loc[0:2, ["age", "smoker"]])
 print(df.iloc[0:2, 0:3])
 print(df.iloc[-1])
-
-
-# %% [markdown]
-# ### 11.5.3 Filtering with conditions
-#
-# **Boolean filtering**
 
 
 # %%
@@ -190,12 +139,6 @@ limit = 40
 print(df.query("bmi > @limit").shape)
 
 
-# %% [markdown]
-# ## 11.6 Adding, changing and removing columns · *Beginner*
-#
-# **Creating new columns**
-
-
 # %%
 df = pd.read_csv("insurance.csv")
 df["charges_k"] = df["charges"] / 1000
@@ -209,22 +152,10 @@ df = df.drop(columns=["big_family"])
 print(df.head(3))
 
 
-# %% [markdown]
-# ### 11.6.1 Sorting
-#
-# **sort_values and nlargest**
-
-
 # %%
 print(df.sort_values("charges", ascending=False).head(3)[["age", "smoker", "charges"]])
 print(df.sort_values(["smoker", "age"], ascending=[True, False]).head(3)[["smoker", "age"]])
 print(df.nlargest(3, "BMI")[["BMI", "age"]])
-
-
-# %% [markdown]
-# ## 11.7 Copy-on-Write and the "chained assignment" trap · *Intermediate*
-#
-# **This does NOT change df**
 
 
 # %%
@@ -233,22 +164,12 @@ df[df["age"] > 60]["bmi"] = 0
 print((df["bmi"] == 0).sum())
 
 
-# %% [markdown]
-# **The correct way: one .loc call**
-
-
 # %%
 df.loc[df["age"] > 60, "bmi"] = 0
 print((df["bmi"] == 0).sum())
 df = pd.read_csv("insurance.csv")
 young = df[df["age"] < 30].copy()
 young["bmi"] = young["bmi"].round()
-
-
-# %% [markdown]
-# ## 11.8 The index · *Intermediate*
-#
-# **Setting and resetting the index**
 
 
 # %%
@@ -260,25 +181,9 @@ print(r.index[:5].tolist())
 print(r.reset_index(drop=True).index[:5].tolist())
 
 
-# %% [markdown]
-# ## 11.9 From pandas to NumPy and back · *Beginner*
-#
-# **Getting arrays out for modelling**
-
-
 # %%
 X = df[["age", "bmi", "children"]].to_numpy()
 y = df["charges"].to_numpy()
 print(X.shape, X.dtype, y[:3])
 back = pd.DataFrame(X[:2], columns=["age", "bmi", "children"])
 print(back)
-
-
-# %% [markdown]
-# ## Try it yourself
-#
-# 1. How many female smokers in the southeast are over 40?
-# 2. Add a column `bmi_class` with "under" (< 18.5), "normal" (< 25), "over" (< 30), "obese" (≥ 30) using `pd.cut`.
-# 3. Show the 5 youngest customers with 4 children, sorted by charges.
-#
-# Worked solutions: [solutions-parts-1-4.ipynb](../../solutions/solutions-parts-1-4.ipynb), section *Chapter 11*.

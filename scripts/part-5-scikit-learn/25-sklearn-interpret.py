@@ -1,7 +1,8 @@
 """The Annotated ML Handbook, Chapter 25: Interpreting, explaining and saving models
 
-Companion script by Mahir Absar Khan. Cells are marked with "# %%" so you can run them one
-at a time in VS Code, PyCharm or Spyder, or run the whole file: python 25-sklearn-interpret.py
+By Mahir Absar Khan. The code of the chapter only; the full text with line-by-line
+explanations is in notebooks/part-5-scikit-learn/25-sklearn-interpret.ipynb.
+Cells are marked "# %%" so you can run them one at a time in VS Code, PyCharm or Spyder.
 """
 
 # %%
@@ -51,12 +52,6 @@ except ImportError:
     pass
 
 
-# %% [markdown]
-# ## 25.1 Set-up · *Beginner*
-#
-# **A random forest on the insurance data**
-
-
 # %%
 import numpy as np
 import pandas as pd
@@ -83,22 +78,10 @@ rf.fit(X_tr, y_tr)
 print("test R2:", round(rf.score(X_te, y_te), 3))
 
 
-# %% [markdown]
-# ## 25.2 Impurity-based feature importance · *Intermediate*
-#
-# **feature_importances_**
-
-
 # %%
 names = rf.named_steps["pre"].get_feature_names_out()
 imp = pd.Series(rf.named_steps["m"].feature_importances_, index=names).sort_values(ascending=False)
 print(imp.round(4))
-
-
-# %% [markdown]
-# ## 25.3 Permutation importance · *Intermediate*
-#
-# **Permutation importance on the test set**
 
 
 # %%
@@ -114,12 +97,6 @@ ax.grid(axis="y", visible=False)
 plt.show()
 
 
-# %% [markdown]
-# ## 25.4 Partial dependence and ICE plots · *Intermediate*
-#
-# **How do age and BMI affect predicted charges?**
-
-
 # %%
 from sklearn.inspection import PartialDependenceDisplay
 
@@ -131,37 +108,10 @@ plt.tight_layout()
 plt.show()
 
 
-# %% [markdown]
-# **Two-way partial dependence**
-
-
 # %%
 fig, ax = plt.subplots(figsize=(6, 4.4))
 PartialDependenceDisplay.from_estimator(rf, X_te, features=[("age", "bmi")], grid_resolution=25, ax=ax)
 plt.show()
-
-
-# %% [markdown]
-# ## 25.5 SHAP values · *Advanced*
-#
-# **SHAP for a tree model (requires the shap package)**
-#
-# *Shown for reference, not run automatically (it waits for input, needs your own files, or would change your system). Copy it into a cell to try it.*
-#
-# ```python
-# import shap
-#
-# pre_fitted, model = rf.named_steps["pre"], rf.named_steps["m"]
-# X_te_t = pd.DataFrame(pre_fitted.transform(X_te), columns=pre_fitted.get_feature_names_out())
-# explainer = shap.TreeExplainer(model)
-# sv = explainer(X_te_t)
-# shap.plots.beeswarm(sv)
-# shap.plots.waterfall(sv[0])
-# ```
-#
-# ## 25.6 Saving and loading models · *Beginner*
-#
-# **joblib: the standard way**
 
 
 # %%
@@ -175,13 +125,3 @@ meta = {"sklearn": sklearn.__version__, "python": platform.python_version(),
 with open("insurance_rf.meta.json", "w") as f:
     json.dump(meta, f, indent=2)
 print(meta)
-
-
-# %% [markdown]
-# ## Try it yourself
-#
-# 1. Compute permutation importance with `scoring="neg_mean_absolute_error"`. Does the ranking change?
-# 2. Draw ICE plots for `children`. Is the effect the same for everyone?
-# 3. Save a fitted pipeline, restart Python, load it, and predict for a brand-new customer DataFrame.
-#
-# Worked solutions: [solutions-parts-5-8.ipynb](../../solutions/solutions-parts-5-8.ipynb), section *Chapter 25*.
