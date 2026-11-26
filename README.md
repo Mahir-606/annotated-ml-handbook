@@ -204,4 +204,4 @@ If this material helps your research, please cite it. GitHub's **Cite this repos
 ## License
 
 - **Code** (notebooks, scripts, solutions, tools): [MIT License](LICENSE). Use it freely in your own programs, coursework and research.
-- **Book text, exercise wording, figures and cover art**: © 2026 Mahir Absar Khan, all rights reserved. See [LICENSE-CONTENT.md](LICENSE-CONTENT.md).
+- **Book text, exercise wording, figures, cover art and preview image**: © 2026 Mahir Absar Khan, all rights reserved. See [LICENSE-CONTENT.md](LICENSE-CONTENT.md).
