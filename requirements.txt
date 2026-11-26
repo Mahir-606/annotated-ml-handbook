@@ -1,0 +1,21 @@
+# Versions used to run every example in The Annotated ML Handbook (Python 3.13).
+numpy==2.5.3
+pandas==3.0.5
+scipy==1.18.1
+scikit-learn==1.9.1
+matplotlib==3.11.2
+seaborn==0.13.2
+plotly==7.2.0
+kaleido==1.5.2          # Plotly static export (PNG/PDF/SVG)
+tensorflow==2.21.0
+joblib==1.6.0
+openpyxl==3.1.5         # pandas Excel files
+pillow
+cycler
+
+# Running the notebooks
+jupyterlab
+ipykernel
+nbclient
+nbformat
+matplotlib-inline

@@ -1,0 +1,17 @@
+name: Erratum (mistake in the book)
+description: A typo, a wrong statement or an unclear explanation in the book.
+labels: [erratum]
+body:
+  - type: input
+    id: where
+    attributes:
+      label: Page or section
+      placeholder: "p. 214, section 19.4"
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What is wrong, and what should it say?
+    validations:
+      required: true

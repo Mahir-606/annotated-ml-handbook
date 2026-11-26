@@ -1,0 +1,26 @@
+cff-version: 1.2.0
+message: "If you use this code or the book in your work, please cite it as below."
+title: "The Annotated ML Handbook: companion code"
+type: software
+authors:
+  - family-names: Khan
+    given-names: Mahir Absar
+license: MIT
+repository-code: "https://github.com/Mahir-606/annotated-ml-handbook"
+keywords:
+  - machine learning
+  - python
+  - numpy
+  - pandas
+  - scikit-learn
+  - tensorflow
+  - data visualization
+  - research methods
+preferred-citation:
+  type: book
+  title: "The Annotated ML Handbook: Python, NumPy, Pandas, Matplotlib, Seaborn, Plotly, scikit-learn and TensorFlow"
+  authors:
+    - family-names: Khan
+      given-names: Mahir Absar
+  year: 2026
+  edition: "First"

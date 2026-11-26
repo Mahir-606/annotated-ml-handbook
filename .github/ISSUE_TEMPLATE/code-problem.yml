@@ -1,0 +1,29 @@
+name: Code problem
+description: A notebook or script fails, or gives a clearly different result.
+labels: [code]
+body:
+  - type: input
+    id: where
+    attributes:
+      label: Chapter and cell
+      placeholder: "Chapter 21, cell under 21.3 'Ridge and Lasso'"
+    validations:
+      required: true
+  - type: textarea
+    id: error
+    attributes:
+      label: Full error message or the output you got
+      render: text
+    validations:
+      required: true
+  - type: textarea
+    id: versions
+    attributes:
+      label: Versions
+      description: Output of the command in CONTRIBUTING.md, and your operating system.
+      render: text
+  - type: dropdown
+    id: env
+    attributes:
+      label: Where did you run it?
+      options: [Google Colab, Jupyter on my computer, VS Code / PyCharm, Other]

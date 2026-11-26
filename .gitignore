@@ -1,0 +1,16 @@
+# Files the examples create when you run them
+outputs/
+*.keras
+*.h5
+# Python / Jupyter
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+.venv/
+venv/
+.env
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
