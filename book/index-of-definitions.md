@@ -1,6 +1,6 @@
 # Index of definitions
 
-All 272 terms defined in the *Definitions* boxes, alphabetically, with the chapter that defines them. The [glossary](glossary.md) gives one-line meanings.
+Every term defined in the *Definitions* boxes, alphabetically, with the chapter that defines them. The [glossary](glossary.md) gives one-line meanings.
 
 
 ## 0–9

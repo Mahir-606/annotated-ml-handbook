@@ -14,9 +14,9 @@
 [![Run all notebooks](https://github.com/Mahir-606/annotated-ml-handbook/actions/workflows/run-notebooks.yml/badge.svg)](https://github.com/Mahir-606/annotated-ml-handbook/actions/workflows/run-notebooks.yml)
 ![Python 3.13](https://img.shields.io/badge/python-3.13-1f4fff?style=flat-square)
 ![Chapters](https://img.shields.io/badge/chapters-34-7b3ff2?style=flat-square)
-![Examples](https://img.shields.io/badge/code_examples-439-e0245e?style=flat-square)
+![Examples](https://img.shields.io/badge/code_examples-441-e0245e?style=flat-square)
 ![Figures](https://img.shields.io/badge/figures-121-0091b3?style=flat-square)
-![Definitions](https://img.shields.io/badge/terms_defined-272-0f9b62?style=flat-square)
+![Definitions](https://img.shields.io/badge/terms_defined-273-0f9b62?style=flat-square)
 [![Code license: MIT](https://img.shields.io/badge/code_license-MIT-ff6a00?style=flat-square)](LICENSE)
 
 </div>
@@ -43,7 +43,7 @@ Learn here without downloading anything: open a chapter below and read it on Git
 
 Every chapter notebook contains the complete text of the chapter, in order:
 
-- **📖 Definitions** boxes for each new term (272 terms in total, all listed in the [index of definitions](book/index-of-definitions.md))
+- **📖 Definitions** boxes for each new term (273 terms in total, all listed in the [index of definitions](book/index-of-definitions.md))
 - **Code you can run**, each cell followed by a **"What each line does"** table
 - The **real output** and **figures**, produced by running the code
 - **💡 Tips, ⚠️ Pitfalls, 🐞 Bug hunts, 🔬 Research practice** and **🔑 Key ideas**
